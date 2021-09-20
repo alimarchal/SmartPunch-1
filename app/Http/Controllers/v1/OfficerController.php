@@ -39,11 +39,12 @@ class OfficerController extends Controller
     {
         $validated = $request->validate([
             'business_id' => 'required',
-            'office_name' => 'required',
-            'office_address' => 'required',
-            'office_city' => 'required',
-            'office_coordinates' => 'required',
-            'office_tel' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'coordinates' => 'required',
+            'phone' => 'required',
             'office_email' => 'required',
         ]);
         $office = Office::create($request->all());
