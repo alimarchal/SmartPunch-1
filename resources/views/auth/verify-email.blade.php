@@ -8,7 +8,7 @@
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{url('Horizontal/dist/assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{url('logo.png')}}">
 
     <!-- Bootstrap Css -->
     <link href="{{url('Horizontal/dist/assets/css/bootstrap-dark.min.css')}}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />

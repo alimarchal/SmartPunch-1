@@ -77,6 +77,9 @@
                         <span class="logo-lg">
                             <img src="{{url('logo.png')}}" alt="" height="44">
                         </span>
+                        <span class="logo-sm">
+                    <img src="{{url('logo.png')}}" alt="" height="44">
+                </span>
                     </a>
                 </div>
 
@@ -101,7 +104,7 @@
                 <div class="row">
                     <div class="col-xl-6 mx-auto">
                         <div class="text-center">
-                            <a href="{{route('login')}}" class="logo">
+                            <a class="logo">
                                 <img src="{{url('logo.png')}}" alt="" height="64" class="logo-light mx-auto">
                             </a>
                             <p class="mt-2 mb-4 font-italic" style="font-size: 25px; color: #76ABDC;">{{__('register.SmartPunch')}}</p>
@@ -110,45 +113,66 @@
 
                             <h4 class="header-title mt-0 mb-3 text-center">{{__('portal.Enter Business Details to proceed')}}</h4>
 
-                            <form action="#">
+                            <form action="{{route('businessCreate')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
                                 <div class="form-group">
                                     <label for="userName">{{__('portal.Company Name')}} *</label>
-                                    <input type="text" name="company_name" parsley-trigger="change" placeholder="Enter user name" class="form-control" id="userName" required>
+                                    <input type="text" name="company_name" parsley-trigger="change" placeholder="{{__('register.Enter company name')}}" class="form-control @error('company_name') parsley-error @enderror" id="userName" value="{{old('company_name')}}" required>
 
+                                    @error('company_name')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('company_name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass1">{{__('portal.Country Name')}} *</label>
 
                                     <select class="custom-select" name="country_name">
-                                        <option selected>{{__('portal.Select')}}</option>
-                                        <option value="1">Saudi Arabia</option>
+                                        <option value="" selected>{{__('portal.Select')}}</option>
+                                        <option {{old('country_name') == 1 ? 'selected' : ''}} value="1">Saudi Arabia</option>
                                     </select>
+
+                                    @error('country_name')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('country_name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass1">{{__('portal.City Name')}} *</label>
 
                                     <select class="custom-select" name="city_name" required>
-                                        <option selected>{{__('portal.Select')}}</option>
-                                        <option value="1">Riyadh</option>
+                                        <option value="" selected>{{__('portal.Select')}}</option>
+                                        <option {{old('city_name') == 1 ? 'selected' : ''}} value="1">Riyadh</option>
                                     </select>
+
+                                    @error('city_name')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('city_name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass1">{{__('portal.Country Code')}} *</label>
-                                    <input id="pass1" type="text" name="country_code" placeholder="Enter country code" class="form-control" required>
+                                    <input id="pass1" type="text" name="country_code" placeholder="{{__('register.Enter country code')}}" class="form-control @error('country_code') parsley-error @enderror" value="{{old('country_code')}}" required>
+
+                                    @error('country_code')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('country_code') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="company_logo">{{__('portal.Company Logo')}}</label>
+                                    <label for="logo">{{__('portal.Company Logo')}}</label>
 
-                                    <input type="file" name="company_logo" class="form-control" required>
+                                    <input type="file" name="logo" class="form-control @error('company_logo') parsley-error @enderror" required>
+
+                                    @error('company_logo')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('company_logo') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="passWord2">{{__('portal.IBR')}} *</label>
-                                    <input type="text" name="ibr" placeholder="{{__('portal.Enter IBR (if any)')}}" class="form-control" id="passWord2" required>
+                                    <label for="passWord2">{{__('portal.IBR')}}</label>
+                                    <input type="text" name="ibr" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="passWord2">
                                 </div>
 
                                 <div class="form-group text-right mb-0">
@@ -171,13 +195,13 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                        2016 - 2020 &copy; Adminto theme by <a href="">Coderthemes</a>
+                        <?php echo date("Y");?> &copy; <a class="text-blue">{{__('portal.SmartPunch')}}</a>
                     </div>
                     <div class="col-md-6">
                         <div class="text-md-right footer-links d-none d-sm-block">
-                            <a href="javascript:void(0);">About Us</a>
-                            <a href="javascript:void(0);">Help</a>
-                            <a href="javascript:void(0);">Contact Us</a>
+                            <a href="javascript:void(0);">{{__('portal.About Us')}}</a>
+                            <a href="javascript:void(0);">{{__('portal.Help')}}</a>
+                            <a href="javascript:void(0);">{{__('portal.Contact Us')}}</a>
                         </div>
                     </div>
                 </div>
