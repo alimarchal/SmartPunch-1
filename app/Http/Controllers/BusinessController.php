@@ -3,83 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $business = Business::where('user_id', auth()->id())->first();
+
+        return view('business.index', compact('business'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('business.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
-    }
+        Validator::make($request->all(), [
+            'company_name' => ['required', 'string', 'max:255'],
+            'country_name' => ['required'],
+            'city_name' => ['required'],
+            'country_code' => ['required'],
+            'logo' => ['required','mimes:jpg,bmp,png'],
+        ])->validate();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Business $business)
-    {
-        //
-    }
+        $path = $request->file('logo')->store('', 'public');
+        $request->merge(['company_logo' => $path]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Business $business)
-    {
-        //
-    }
+        $data = [
+            'user_id' => auth()->id(),
+            'company_name' => $request->company_name,
+            'country_name' => $request->country_name,
+            'city_name' => $request->city_name,
+            'country_code' => $request->country_code,
+            'company_logo' => $request->company_logo,
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Business $business)
-    {
-        //
-    }
+        $business = Business::create($data);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Business $business)
-    {
-        //
+        User::where('id', auth()->id())->update(['business_id' => $business->id]);
+
+        return redirect()->route('dashboard')->with('success', 'Business details added successfully!');
     }
 }
