@@ -16,12 +16,12 @@ class CreateOfficesTable extends Migration
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('office_name')->nullable();
-            $table->string('office_address')->nullable();
-            $table->string('office_city')->nullable();
-            $table->string('office_coordinates')->nullable();
-            $table->string('office_tel')->nullable();
-            $table->string('office_email')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('coordinates')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

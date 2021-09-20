@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -24,13 +26,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var string[]
      */
     protected $fillable = [
+        'office_id',
+        'business_id',
+        'employee_business_id',
         'name',
         'email',
         'password',
-        'business_id',
-        'office_id',
         'phone',
-        'mac_address'
+        'mac_address',
+        'device_name',
     ];
 
     /**
@@ -62,4 +66,20 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function business(): HasOne
+    {
+        return $this->hasOne(Business::class, 'id','business_id');
+    }
+
+    public function office(): HasOne
+    {
+        return $this->hasOne(Office::class, 'id','office_id');
+    }
+
+    public function punchTable(): HasMany
+    {
+        return $this->hasMany(PunchTable::class);
+    }
+
 }
