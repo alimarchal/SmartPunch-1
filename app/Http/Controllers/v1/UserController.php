@@ -49,7 +49,8 @@ class UserController extends Controller
             ]);
         }
 
-        return $user->createToken($request->device_name)->plainTextToken;
+        return response(['token' => $user->createToken($request->device_name)->plainTextToken, 'permission' => $user->getAllPermissions()], 200);
+
     }
 
     /**
