@@ -17,7 +17,7 @@ class BusinessCreateCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->business()->exists())
+        if (auth()->user()->business()->exists() || !auth()->user()->hasPermissionTo('view business'))
         {
             return redirect()->back();
         }

@@ -124,19 +124,14 @@
                     <!-- item-->
                     <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
-                        <span>My Business</span>
+                        <span>{{__('navbar.Business')}}</span>
                     </a>
 
                     <!-- item-->
+{{--                    <a href="{{route('profile.show')}}" class="dropdown-item notify-item">--}}
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="fe-settings"></i>
                         <span>Settings</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-lock"></i>
-                        <span>Lock Screen</span>
                     </a>
 
                     <div class="dropdown-divider"></div>
@@ -150,7 +145,7 @@
                            onclick="event.preventDefault();
                                                 this.closest('form').submit();" class="dropdown-item notify-item">
                             <i class="fe-log-out"></i>
-                            <span>Logout</span>
+                            <span>{{__('navBar.Logout')}}</span>
                         </a>
                     </form>
 
@@ -183,59 +178,73 @@
             <ul class="navigation-menu">
 
                 <li class="has-submenu">
-                    <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>Dashboard</a>
+                    <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
-                <li class="has-submenu">
-                    <a href="javascript:void(0)"> <i class="fa fa-building"></i>Offices
-                        <div class="arrow-down"></div>
-                    </a>
-                    <ul class="submenu megamenu">
-                        <li>
-                            <ul>
+                @can('view office')
+                    <li class="has-submenu">
+                        <a href="javascript:void(0)"> <i class="fa fa-building"></i>{{__('navBar.Offices')}}
+                            <div class="arrow-down"></div>
+                        </a>
+                        <ul class="submenu megamenu">
+                            <li>
+                                <ul>
+                                    @can('create office')
+                                        <li>
+                                            <a href="{{route('officeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
+                                        </li>
+                                    @endcan
+                                    <li>
+                                        <a href="{{route('officeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('view employee')
+                    <li class="has-submenu">
+                        <a href="javascript:void(0)"> <i class="mdi mdi-account-multiple"></i>{{__('navBar.Employees')}}
+                            <div class="arrow-down"></div>
+                        </a>
+                        <ul class="submenu">
+                            @can('create employee')
                                 <li>
-                                    <a href="{{route('officeCreate')}}"><i class="fa fa-plus-circle"></i> Add</a>
+                                    <a href="{{route('employeeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
+                            @endcan
+                            <li>
+                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('view schedule')
+                    <li class="has-submenu">
+                        <a href="javascript:void(0)"> <i class="mdi mdi-calendar-clock"></i>{{__('navBar.Schedules')}}
+                            <div class="arrow-down"></div>
+                        </a>
+                        <ul class="submenu">
+                            @can('create schedule')
                                 <li>
-                                    <a href="{{route('officeIndex')}}"><i class="fa fa-eye"></i> View</a>
+                                    <a href="javascript:void(0)"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
+                            @endcan
+                            <li>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="has-submenu">
-                    <a href="javascript:void(0)"> <i class="mdi mdi-account-multiple"></i>Employees
-                        <div class="arrow-down"></div>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="{{route('employeeCreate')}}"><i class="fa fa-plus-circle"></i> Add</a>
-                        </li>
-                        <li>
-                            <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> View</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="has-submenu">
-                    <a href="javascript:void(0)"> <i class="mdi mdi-calendar-clock"></i>Schedules
-                        <div class="arrow-down"></div>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="javascript:void(0)"><i class="fa fa-plus-circle"></i> Add</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i> View</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="has-submenu">
-                    <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>Reports</a>
-                </li>
+                @can('view reports')
+                    <li class="has-submenu">
+                        <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
+                    </li>
+                @endcan
 
             </ul>
             <!-- End navigation menu -->

@@ -14,6 +14,6 @@ class Office extends Model
 
     public function business(): HasOne
     {
-        return $this->hasOne(Business::class);
+        return $this->hasOne(Business::class, 'id', 'business_id');
     }
 }

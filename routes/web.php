@@ -34,8 +34,11 @@ Route::middleware(['auth:sanctum', 'verified',])->group(function () {
         /* Office Routes End */
 
         /* Employee Routes Start */
-        Route::get('employees', [EmployeeController::class, 'index'])->name('employeeIndex');
-        Route::get('employee-create', [EmployeeController::class, 'create'])->name('employeeCreate');
+        Route::middleware('permission:view employee')->group(function () {
+            Route::get('employees', [EmployeeController::class, 'index'])->name('employeeIndex');
+            Route::get('employee-create', [EmployeeController::class, 'create'])->name('employeeCreate');
+            Route::post('employee-create', [EmployeeController::class, 'store']);
+        });
         /* Employee Routes End */
     });
 
