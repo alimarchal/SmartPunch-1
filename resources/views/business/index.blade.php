@@ -14,35 +14,38 @@
                 <h5>{{__('portal.Company Name')}} </h5>
                 <input type="text" class="form-control" maxlength="25" value="{{$business->company_name}}" disabled/>
             </div>
-        </div><!-- end col -->
+        </div>
 
         <div class="col-md-3">
             <div class="p-2">
                 <h5>{{{__('portal.Country Name')}}}</h5>
                 <input type="text" class="form-control" maxlength="25" value="Saudi Arabia" disabled/>
             </div>
-        </div><!-- end col -->
+        </div>
 
         <div class="col-md-3">
             <div class="p-2">
                 <h5>{{__('portal.City Name')}}</h5>
                 <input type="text" class="form-control" maxlength="25" value="Riyadh" disabled/>
             </div>
-        </div><!-- end col -->
+        </div>
 
         <div class="col-md-3">
             <div class="p-2">
                 <h5>{{__('portal.Country Code')}}</h5>
                 <input type="text" class="form-control" maxlength="25" value="{{$business->country_code}}" disabled/>
             </div>
-        </div><!-- end col -->
+        </div>
 
-        <div class="col-md-3">
-            <div class="p-2">
-                <h5>{{__('portal.IBR')}}</h5>
-                <input type="text" class="form-control" maxlength="25" value="{{$business->ibr}}" disabled/>
+        @if(isset($business->ibr))
+            <div class="col-md-3">
+                <div class="p-2">
+                    <h5>{{__('portal.IBR')}}</h5>
+                    <input type="text" class="form-control" maxlength="25" value="{{$business->ibr}}" disabled/>
+                </div>
             </div>
-        </div><!-- end col -->
+        @endif
+
     </div>
 
 @endsection

@@ -12,9 +12,14 @@ class BusinessController extends Controller
 {
     public function index()
     {
-        $business = Business::where('user_id', auth()->id())->first();
+        if (auth()->user()->hasPermissionTo('view business'))
+        {
+            $business = Business::where('user_id', auth()->id())->first();
 
-        return view('business.index', compact('business'));
+            return view('business.index', compact('business'));
+        }
+
+        return redirect()->back();
     }
 
     public function create()

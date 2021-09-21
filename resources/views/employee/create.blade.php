@@ -42,11 +42,29 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="userName">{{__('portal.Name')}} *</label>
+                        <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}">
+
+                        @error('name')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="userName">{{__('portal.Email')}} *</label>
-                        <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter email')}}" class="form-control @error('email') parsley-error @enderror" id="userName" value="{{old('email')}}" required>
+                        <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter employee email')}}" class="form-control @error('email') parsley-error @enderror" id="userName" value="{{old('email')}}" required>
 
                         @error('email')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('email') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userName">{{__('portal.Employee ID')}}</label>
+                        <input type="text" name="employee_business_id" parsley-trigger="change" placeholder="{{__('portal.Enter Employee ID (if any)')}}" class="form-control @error('employee_business_id') parsley-error @enderror" value="{{old('employee_business_id')}}">
+
+                        @error('employee_business_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('employee_business_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
                     </div>
 

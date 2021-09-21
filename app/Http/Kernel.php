@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'businessCheck' => \App\Http\Middleware\BusinessCheck::class,
         'businessCreateCheck' => \App\Http\Middleware\BusinessCreateCheck::class,
+        'permission' => PermissionMiddleware::class,
     ];
 }
