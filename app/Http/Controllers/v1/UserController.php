@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -20,12 +21,18 @@ class UserController extends Controller
             'device_name' => 'required',
         ]);
 
+        $adminRole = Role::with('permissions')->where('name', 'admin')->first();
+
+        $permissions = $adminRole->permissions->pluck('name');
+
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'mac_address' => $request->mac_address
-        ]);
+            'mac_address' => $request->mac_address,
+             'user_role' => $adminRole->id,
+        ])->syncPermissions($permissions);
 
         return $user->createToken($request->device_name)->plainTextToken;
     }
