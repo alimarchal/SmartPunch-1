@@ -15,6 +15,7 @@
                         <th>{{__('portal.Address')}}</th>
                         <th>{{__('portal.City Name')}}</th>
                         <th>{{__('portal.Phone')}}</th>
+                        <th>{{__('portal.Edit')}} </th>
                     </tr>
                     </thead>
 
@@ -27,6 +28,7 @@
                             <td>{{$office->address}}</td>
                             <td>{{$office->city}}</td>
                             <td>{{$office->phone}}</td>
+                            <td><a href="{{route('officeEdit', encrypt($office->id))}}"><i class="fa fa-pencil-alt text-primary"></i></a> </td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -32,6 +32,9 @@
 <script src="{{url('Horizontal/dist/assets/libs/pdfmake/vfs_fonts.js')}}"></script>
 <!-- third party js ends -->
 
+{{-- Select2 --}}
+<script src="{{url('Horizontal/dist/assets/libs/select2/select2.min.js')}}"></script>
+
 <!-- Datatables init -->
 <script src="{{url('Horizontal/dist/assets/js/pages/datatables.init.js')}}"></script>
 

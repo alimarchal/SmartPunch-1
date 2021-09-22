@@ -159,6 +159,8 @@
             <a href="{{route('dashboard')}}" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="{{url('logo.png')}}" alt="" height="44">
+                    @php $role = \Spatie\Permission\Models\Role::where('id', auth()->user()->user_role)->pluck('name')->first(); @endphp
+                    <span class="ml-1 text-white">{{ucfirst($role)}}</span>
                 </span>
                 <span class="logo-sm">
                     <img src="{{url('logo.png')}}" alt="" height="44">
