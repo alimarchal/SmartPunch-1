@@ -10,7 +10,8 @@
 
     <!-- Notification css (Toastr) -->
     <link href="{{url('Horizontal/dist/assets/libs/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
-
+    {{-- Select2 --}}
+    <link href="{{url('Horizontal/dist/assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- third party css -->
     <link href="{{url('Horizontal/dist/assets/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('Horizontal/dist/assets/libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />

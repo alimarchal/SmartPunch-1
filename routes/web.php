@@ -21,6 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::get('employee-verification/{verificationCode}', [EmployeeController::class, 'verify'])->name('employeeVerify');
+
 Route::middleware(['auth:sanctum', 'verified',])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
@@ -29,16 +31,23 @@ Route::middleware(['auth:sanctum', 'verified',])->group(function () {
         Route::get('business', [BusinessController::class, 'index'])->name('businessIndex');
 
         /* Office Routes Start */
-        Route::get('offices', [OfficeController::class, 'index'])->name('officeIndex');
-        Route::get('office-create', [OfficeController::class, 'create'])->name('officeCreate');
-        Route::post('office-create', [OfficeController::class, 'store']);
+        Route::prefix('office')->group(function () {
+            Route::get('/', [OfficeController::class, 'index'])->name('officeIndex');
+            Route::get('create', [OfficeController::class, 'create'])->name('officeCreate');
+            Route::post('create', [OfficeController::class, 'store']);
+            Route::get('edit/{officeID}', [OfficeController::class, 'edit'])->name('officeEdit');
+            Route::post('edit/{officeID}', [OfficeController::class, 'update']);
+        });
         /* Office Routes End */
 
         /* Employee Routes Start */
-        Route::middleware('permission:view employee')->group(function () {
-            Route::get('employees', [EmployeeController::class, 'index'])->name('employeeIndex');
-            Route::get('employee-create', [EmployeeController::class, 'create'])->name('employeeCreate');
-            Route::post('employee-create', [EmployeeController::class, 'store']);
+        Route::prefix('employee')->middleware('permission:view employee')->group(function () {
+            Route::get('/', [EmployeeController::class, 'index'])->name('employeeIndex');
+            Route::get('create', [EmployeeController::class, 'create'])->name('employeeCreate');
+            Route::post('create', [EmployeeController::class, 'store']);
+            Route::get('edit/{userID}', [EmployeeController::class, 'edit'])->name('employeeEdit');
+            Route::post('edit/{userID}', [EmployeeController::class, 'update']);
+            Route::post('permissions-search', [EmployeeController::class, 'permissions'])->name('permissionsSearch');
         });
         /* Employee Routes End */
     });

@@ -43,5 +43,13 @@ return [
     'Enter Employee ID (if any)' => 'Enter Employee ID (if any)',
     'Enter employee name' => 'Enter employee name',
     'Enter employee email' => 'Enter employee email',
+    'Employee type' => 'Employee type',
+    'Permissions' => 'Permissions',
+    'Password' => 'Password',
+    'Enter password' => 'Enter password',
+    'Enter employee phone' => 'Enter employee phone',
+    'Edit' => 'Edit',
+    'Update Office Details' => 'Update Office Details',
+    'Update' => 'Update',
 
 ];
