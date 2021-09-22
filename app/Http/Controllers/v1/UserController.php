@@ -22,7 +22,6 @@ class UserController extends Controller
         ]);
 
         $adminRole = Role::with('permissions')->where('name', 'admin')->first();
-
         $permissions = $adminRole->permissions->pluck('name');
 
 
@@ -31,10 +30,15 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'mac_address' => $request->mac_address,
-             'user_role' => $adminRole->id,
+            'user_role' => $adminRole->id,
         ])->syncPermissions($permissions);
 
-        return $user->createToken($request->device_name)->plainTextToken;
+
+
+        return response(['token' => $user->createToken($request->device_name)->plainTextToken,
+            'permission' => $user->getAllPermissions(), 'role' => $adminRole], 200);
+
+
     }
 
     /**
@@ -56,7 +60,11 @@ class UserController extends Controller
             ]);
         }
 
-        return response(['token' => $user->createToken($request->device_name)->plainTextToken, 'permission' => $user->getAllPermissions()], 200);
+        return response([
+            'token' => $user->createToken($request->device_name)->plainTextToken,
+            'permission' => $user->getAllPermissions(), 'user' => $user,
+            'user_role' => Role::findById($user->user_role)
+        ], 200);
 
     }
 
