@@ -11,7 +11,7 @@ class OfficeController extends Controller
 {
     public function index()
     {
-        $offices = Office::all();
+        $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
         return view('office.index', compact('offices'));
     }
 
@@ -28,7 +28,6 @@ class OfficeController extends Controller
             'address' => ['required', 'max:254'],
             'city' => ['required'],
             'phone' => ['required'],
-            'coordinates' => ['required'],
         ])->validate();
 
         $data = [
@@ -38,6 +37,7 @@ class OfficeController extends Controller
             'address' => $request->address,
             'city' => $request->city,
             'phone' => $request->phone,
+            'coordinates' => $request->coordinates,
         ];
 
         Office::create($data);
@@ -45,4 +45,27 @@ class OfficeController extends Controller
         return redirect()->route('officeIndex')->with('success', 'Office added successfully!');
     }
 
+    public function edit($id)
+    {
+        $office = Office::with('business')->where('id', decrypt($id))->first();
+        return view('office.edit', compact('office'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email'],
+            'address' => ['required', 'max:254'],
+            'city' => ['required'],
+            'phone' => ['required'],
+        ])->validate();
+
+        $office = Office::where('id', decrypt($id))->first();
+
+        $office->update($request->all());
+        $office->save();
+
+        return redirect()->route('officeIndex')->with('success', 'Office updated successfully!!');
+    }
 }

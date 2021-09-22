@@ -8,23 +8,8 @@
 
                 <h4 class="header-title mt-0 mb-3 text-center">{{__('portal.Enter Employee Details')}}</h4>
 
-                <form action="#" method="POST" enctype="multipart/form-data">
+                <form action="{{route('employeeCreate')}}" method="POST" enctype="multipart/form-data">
                     @csrf
-
-                    <div class="form-group">
-                        <label for="pass1">{{__('portal.Business')}} *</label>
-
-                        <select class="custom-select" name="business_id" required>
-                            <option value="" selected>{{__('portal.Select')}}</option>
-                            @foreach($businesses as $business)
-                                <option {{old('business_id') == $business->id ? 'selected' : ''}} value="{{$business->id}}">{{$business->company_name}}</option>
-                            @endforeach
-                        </select>
-
-                        @error('business_id')
-                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('business_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
-                        @enderror
-                    </div>
 
                     <div class="form-group">
                         <label for="pass1">{{__('portal.Office')}} *</label>
@@ -37,8 +22,29 @@
                         </select>
 
                         @error('office_id')
-                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('office_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('office_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pass1">{{__('portal.Employee type')}} *</label>
+
+                        <select class="custom-select" name="role_id" id="role_id" required>
+                            <option value="" disabled selected>{{__('portal.Select')}}</option>
+                            @foreach($roles as $role)
+                                <option {{old('role_id') == $role->id ? 'selected' : ''}} value="{{$role->id}}">{{ucfirst($role->name)}}</option>
+                            @endforeach
+                        </select>
+
+                        @error('role_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('role_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pass1">{{__('portal.Permissions')}}</label>
+
+                        <textarea class="form-control" rows="4" id="permissions" placeholder="{{__('portal.Permissions')}}" disabled></textarea>
                     </div>
 
                     <div class="form-group">
@@ -56,6 +62,24 @@
 
                         @error('email')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('email') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">{{__('portal.Password')}} *</label>
+                        <input class="form-control @error('password') parsley-error @enderror" type="password" name="password" id="password" placeholder="{{__('portal.Enter password')}}" required>
+
+                        @error('password')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('password') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userName">{{__('portal.Phone')}}</label>
+                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="userName" value="{{old('phone')}}" required>
+
+                        @error('phone')
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('phone') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
                     </div>
 
@@ -79,4 +103,32 @@
         </div>
     </div>
 
+@endsection
+
+
+@section('scripts')
+    <script>
+        $("#role_id").change(function (e) {
+            let option = '';
+            $('#permissions').prop('disabled', true);
+            $.ajax({
+                url: "{{route('permissionsSearch')}}",
+                method: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    role_id: $('#role_id').val(),
+                },
+                success: function(result){
+                    $('#permissions').empty();
+                    result.permissions.forEach(function (permissions) {
+                        option = permissions + ', ' ;
+                        $('#permissions').append(option);
+                    });
+                },
+                error: function(){
+                    console.log('error');
+                }
+            });
+        });
+    </script>
 @endsection

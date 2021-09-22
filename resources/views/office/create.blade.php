@@ -62,7 +62,7 @@
 
                     <div class="form-group">
                         <label for="passWord2">{{__('portal.Coordinates')}}</label>
-                        <input type="text" name="coordinates" class="form-control" id="passWord2">
+                        <input type="text" name="coordinates" class="form-control" id="passWord2" value="{{old('coordinates')}}">
                     </div>
 
                     <div class="form-group text-right mb-0">

@@ -13,16 +13,20 @@ class NewEmployeeRegistration extends Notification
 
     private $user;
     private $password;
+    private $role;
+    private $email;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $password)
+    public function __construct($user, $password, $role, $email)
     {
         $this->user = $user;
         $this->password = $password;
+        $this->role = $role;
+        $this->email = $email;
     }
 
     /**
@@ -44,7 +48,8 @@ class NewEmployeeRegistration extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('SmartPunch Verify Registration')->markdown('email.employeeRegistration', ['user' => $this->user, 'password' => $this->password]);
+        return (new MailMessage)->subject('SmartPunch Registration')
+            ->markdown('email.employeeRegistration', ['user' => $this->user, 'password' => $this->password, 'role' => $this->role, 'email' => $this->email]);
     }
 
     /**
