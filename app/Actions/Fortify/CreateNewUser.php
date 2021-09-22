@@ -31,6 +31,7 @@ class CreateNewUser implements CreatesNewUsers
         $adminRole = Role::with('permissions')->where('name', 'admin')->first();
         $permissions = $adminRole->permissions->pluck('name');
 
+
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
