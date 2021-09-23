@@ -45,7 +45,6 @@ class OfficerController extends Controller
             'city' => 'required',
             'coordinates' => 'required',
             'phone' => 'required',
-            'office_email' => 'required',
         ]);
         $office = Office::create($request->all());
         if ($office->wasRecentlyCreated) {
