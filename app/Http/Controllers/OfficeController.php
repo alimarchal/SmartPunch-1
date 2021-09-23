@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Office;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,8 +12,11 @@ class OfficeController extends Controller
 {
     public function index()
     {
-        $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-        return view('office.index', compact('offices'));
+        if (auth()->user()->hasPermissionTo('view office'))
+        {
+            $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
+            return view('office.index', compact('offices'));
+        }
     }
 
     public function create()
@@ -67,5 +71,17 @@ class OfficeController extends Controller
         $office->save();
 
         return redirect()->route('officeIndex')->with('success', 'Office updated successfully!!');
+    }
+
+    public function delete($id)
+    {
+        if (auth()->user()->hasPermissionTo('delete office'))
+        {
+            $office = Office::findOrFail(decrypt($id));
+
+            $office->delete();
+            return redirect()->route('officeIndex')->with('success', __('portal.Office deleted successfully!!'));
+        }
+
     }
 }

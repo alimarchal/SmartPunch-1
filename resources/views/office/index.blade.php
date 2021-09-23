@@ -15,7 +15,9 @@
                         <th>{{__('portal.Address')}}</th>
                         <th>{{__('portal.City Name')}}</th>
                         <th>{{__('portal.Phone')}}</th>
-                        <th>{{__('portal.Edit')}} </th>
+                        @can('delete office')
+                        <th>{{__('portal.Action')}} </th>
+                        @endcan
                     </tr>
                     </thead>
 
@@ -28,7 +30,12 @@
                             <td>{{$office->address}}</td>
                             <td>{{$office->city}}</td>
                             <td>{{$office->phone}}</td>
-                            <td><a href="{{route('officeEdit', encrypt($office->id))}}"><i class="fa fa-pencil-alt text-primary"></i></a> </td>
+                            @can('delete office')
+                            <td>
+                                <a href="{{route('officeEdit', encrypt($office->id))}}"><i class="fa fa-pencil-alt text-primary"></i></a>
+                                <a href="{{route('officeDelete', encrypt($office->id))}}" onclick="return confirm('Are you to delete this office?')"><i class="fa fa-trash-alt text-danger ml-2"></i></a>
+                            </td>
+                            @endcan
                         </tr>
                     @endforeach
                     </tbody>

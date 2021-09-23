@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
@@ -54,5 +55,49 @@ class BusinessController extends Controller
         User::where('id', auth()->id())->update(['business_id' => $business->id]);
 
         return redirect()->route('dashboard')->with('success', 'Business details added successfully!');
+    }
+
+    public function edit($businessID)
+    {
+        if (auth()->user()->hasPermissionTo('edit business'))
+        {
+            $business = Business::firstWhere('id', decrypt($businessID));
+
+            return view('business.edit', compact('business'));
+        }
+
+        return redirect()->back();
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        if (auth()->user()->hasPermissionTo('edit business'))
+        {
+            Validator::make($request->all(), [
+                'company_name' => ['required', 'string', 'max:255'],
+                'country_name' => ['required'],
+                'city_name' => ['required'],
+                'country_code' => ['required'],
+            ])->validate();
+
+            $data = [
+                'company_name' => $request->company_name,
+                'country_name' => $request->country_name,
+                'city_name' => $request->city_name,
+                'country_code' => $request->country_code,
+            ];
+
+            Business::where('id', decrypt($id))->update($data);
+
+            if ($request->hasFile('logo'))
+            {
+                $path = $request->file('logo')->store('', 'public');
+                Business::where('id', decrypt($id))->update(['company_logo' => $path]);
+            }
+
+            return redirect()->route('businessIndex')->with('success', 'Business details updated successfully!!');
+        }
+
+        return redirect()->back();
     }
 }

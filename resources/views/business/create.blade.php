@@ -163,10 +163,10 @@
                                 <div class="form-group">
                                     <label for="logo">{{__('portal.Company Logo')}}</label>
 
-                                    <input type="file" name="logo" class="form-control @error('company_logo') parsley-error @enderror" required>
+                                    <input type="file" name="logo" class="form-control @error('logo') parsley-error @enderror" required>
 
-                                    @error('company_logo')
-                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('company_logo') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                                    @error('logo')
+                                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('logo') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                                     @enderror
                                 </div>
 

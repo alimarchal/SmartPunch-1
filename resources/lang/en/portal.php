@@ -51,5 +51,17 @@ return [
     'Edit' => 'Edit',
     'Update Office Details' => 'Update Office Details',
     'Update' => 'Update',
+    'Update Business Details to proceed' => 'Update Business Details to proceed',
+    'Employee deleted successfully!!' => 'Employee deleted successfully!!',
+    'Employee Details' => 'Employee Details',
+    'Delete' => 'Delete',
+    'Action' => 'Action',
+    'Office deleted successfully!!' => 'Office deleted successfully!!',
+    'Active' => 'Active',
+    'Suspended' => 'Suspended',
+    'Status' => 'Status',
+    'Updated employee details' => 'Updated employee details',
+    'Update Profile Details' => 'Update Profile Details',
+    'Profile updated successfully!!' => 'Profile updated successfully!!',
 
 ];
