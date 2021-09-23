@@ -20,5 +20,6 @@ return [
     'Reports' => 'Reports',
     'Business' => 'Business',
     'Logout' => 'Logout',
+    'Profile' => 'Profile',
 
 ];

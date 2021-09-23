@@ -36,6 +36,20 @@
                     @endif
 
                     <div class="form-group">
+                        <label for="pass1">{{__('portal.Status')}} *</label>
+
+                        <select class="custom-select" name="status" required>
+                            <option value="" disabled selected>{{__('portal.Select')}}</option>
+                            <option {{$employee->status == 0 ? 'selected' : ''}} value="0">{{__('portal.Suspended')}}</option>
+                            <option {{$employee->status == 1 ? 'selected' : ''}} value="1">{{__('portal.Active')}}</option>
+                        </select>
+
+                        @error('status')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('status') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="pass1">{{__('portal.Office')}} *</label>
 
                         <select class="custom-select" name="office_id" id="office_id" required>
@@ -60,8 +74,8 @@
                     </div>
 
                     <div class="form-group text-right mb-0">
-                        <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
-                            {{__('portal.Submit')}}
+                        <button class="btn btn-purple waves-effect waves-light mr-1" type="submit">
+                            {{__('portal.Update')}}
                         </button>
                     </div>
 
