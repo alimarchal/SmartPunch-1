@@ -122,17 +122,18 @@
                     </div>
 
                     <!-- item-->
-                    <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
+                    {{--<a href="{{route('userProfileEdit')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
-                        <span>{{__('navbar.Business')}}</span>
-                    </a>
+                        <span>{{__('navBar.Profile')}}</span>
+                    </a>--}}
 
+                    @can('view business')
                     <!-- item-->
-{{--                    <a href="{{route('profile.show')}}" class="dropdown-item notify-item">--}}
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-settings"></i>
-                        <span>Settings</span>
+                    <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
+                        <i class="fa fa-building"></i>
+                        <span>{{__('navBar.Business')}}</span>
                     </a>
+                    @endcan
 
                     <div class="dropdown-divider"></div>
 

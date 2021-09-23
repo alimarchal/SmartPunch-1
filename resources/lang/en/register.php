@@ -34,5 +34,8 @@ return [
     'A new verification link has been sent to the email address you provided during registration.' => 'A new verification link has been sent to the email address you provided during registration.',
     'Resend Verification Email' => 'Resend Verification Email',
     'Logout' => 'Logout',
+    'Current Password' => 'Current Password',
+    'Enter your current password' => 'Enter your current password',
+    'Update' => 'Update',
 
 ];

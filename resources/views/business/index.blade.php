@@ -46,6 +46,12 @@
             </div>
         @endif
 
+        <div class="col-md-3" style="margin-left: auto">
+            <div class="p-2 mt-sm-4">
+                <a href="{{route('businessEdit', encrypt($business->id))}}" class="btn btn-purple waves-effect width-md waves-light">Edit</a>
+            </div>
+        </div>
+
     </div>
 
 @endsection
