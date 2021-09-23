@@ -24,7 +24,6 @@ class UserController extends Controller
         $adminRole = Role::with('permissions')->where('name', 'admin')->first();
         $permissions = $adminRole->permissions->pluck('name');
 
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -32,7 +31,6 @@ class UserController extends Controller
             'mac_address' => $request->mac_address,
             'user_role' => $adminRole->id,
         ])->syncPermissions($permissions);
-
 
 
         return response(['token' => $user->createToken($request->device_name)->plainTextToken,
