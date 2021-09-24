@@ -17,7 +17,7 @@ class BusinessCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Business::where('user_id', auth()->id())->first() && auth()->user()->hasPermissionTo('view business'))
+        if (!Business::where('user_id', auth()->id())->first() && auth()->user()->hasPermissionTo('view business') && auth()->user()->user_role != 1)
         {
             return redirect()->route('businessCreate');
         }

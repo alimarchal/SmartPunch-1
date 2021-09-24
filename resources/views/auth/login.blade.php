@@ -76,7 +76,7 @@
 
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="text-center">
-                        <a href="{{route('login')}}" class="logo">
+                        <a href="{{route('home')}}" class="logo">
                             <img src="{{url('logo.png')}}" alt="" height="64" class="logo-light mx-auto">
                         </a>
                         <p class="mt-2 mb-4 font-italic" style="font-size: 25px; color: #76ABDC;">{{__('register.SmartPunch')}}</p>

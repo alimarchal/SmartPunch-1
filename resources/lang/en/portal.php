@@ -53,6 +53,7 @@ return [
     'Update' => 'Update',
     'Update Business Details to proceed' => 'Update Business Details to proceed',
     'Employee deleted successfully!!' => 'Employee deleted successfully!!',
+    'Employee added successfully!!!' => 'Employee added successfully!!!',
     'Employee Details' => 'Employee Details',
     'Delete' => 'Delete',
     'Action' => 'Action',
@@ -63,5 +64,15 @@ return [
     'Updated employee details' => 'Updated employee details',
     'Update Profile Details' => 'Update Profile Details',
     'Profile updated successfully!!' => 'Profile updated successfully!!',
+    'You do not have permission for this action.' => 'You do not have permission for this action.',
+    'Owner Email ID' => 'Owner Email ID',
+    'List of businesses' => 'List of businesses',
+    'Total employees' => 'Total employees',
+    'Role' => 'Role',
+    'List of employees' => 'List of employees',
+    'Offices list' => 'Offices list',
+    'Total Offices' => 'Total Offices',
+    'Businesses list' => 'Businesses list',
+    'Cannot delete because this office has employees assigned to it.' => 'Cannot delete because this office has employees assigned to it.',
 
 ];

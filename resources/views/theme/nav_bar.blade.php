@@ -122,15 +122,15 @@
                     </div>
 
                     <!-- item-->
-                    {{--<a href="{{route('userProfileEdit')}}" class="dropdown-item notify-item">
+                    <a href="{{route('userProfileEdit')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
                         <span>{{__('navBar.Profile')}}</span>
-                    </a>--}}
+                    </a>
 
                     @can('view business')
                     <!-- item-->
                     <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
-                        <i class="fa fa-building"></i>
+                        <i class="mdi mdi-briefcase"></i>
                         <span>{{__('navBar.Business')}}</span>
                     </a>
                     @endcan
@@ -183,6 +183,12 @@
                 <li class="has-submenu">
                     <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
+
+                @can('suspend business')
+                    <li class="has-submenu">
+                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>
+                    </li>
+                @endcan
 
                 @can('view office')
                     <li class="has-submenu">
