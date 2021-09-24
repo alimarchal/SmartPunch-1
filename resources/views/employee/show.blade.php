@@ -4,9 +4,11 @@
 
     <div class="row">
         <div class="col-xl-6 mx-auto">
+            @can('update employee')
             <div class="form-group text-right mb-0 mt-2">
                 <a href="{{route('employeeEdit', encrypt($employee->id))}}" class="btn btn-purple waves-effect waves-light mr-1 text-white"> {{__('portal.Updated employee details')}} </a>
             </div>
+            @endcan
             <div class="card-box mt-3">
 
                 <h4 class="header-title mt-0 mb-3 text-center">{{__('portal.Employee Details')}}</h4>

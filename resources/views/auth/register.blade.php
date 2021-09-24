@@ -87,7 +87,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
                 <div class="text-center">
-                    <a href="{{route('login')}}" class="logo">
+                    <a href="{{route('home')}}" class="logo">
                         <img src="{{url('logo.png')}}" alt="" height="64" class="logo-light mx-auto">
                     </a>
                     <p class="mt-2 mb-4 font-italic" style="font-size: 25px; color: #76ABDC;">{{__('register.SmartPunch')}}</p>
@@ -135,7 +135,7 @@
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="checkbox-signup" name="terms" required>
-                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-dark">{{__('register.Terms and Conditions')}}</a></label>
+                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Terms and Conditions')}}</a></label>
                                 </div>
 
                                 @error('terms')

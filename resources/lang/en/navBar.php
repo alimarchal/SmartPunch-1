@@ -19,6 +19,7 @@ return [
     'Schedules' => 'Schedules',
     'Reports' => 'Reports',
     'Business' => 'Business',
+    'Businesses' => 'Businesses',
     'Logout' => 'Logout',
     'Profile' => 'Profile',
 

@@ -4,6 +4,8 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
     return view('welcome');
-});
-
-//Route::get('employee-verification/{verificationCode}', [EmployeeController::class, 'verify'])->name('employeeVerify');
+})->name('home');
 
 Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
 
@@ -29,20 +28,31 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
     Route::middleware(['businessCheck'])->group(function () {
         Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
+        /* Business Routes Start */
         Route::prefix('business')->group(function () {
             Route::get('index', [BusinessController::class, 'index'])->name('businessIndex');
             Route::get('edit/{businessID}', [BusinessController::class, 'edit'])->name('businessEdit');
             Route::post('edit/{businessID}', [BusinessController::class, 'update']);
+
+            Route::middleware('permission:suspend business')->group(function (){
+                /* Function for admin to retrieve all businesses  */
+                Route::get('all', [BusinessController::class, 'allBusinesses'])->name('businesses');
+                /* Function for admin to retrieve all offices of a business  */
+                Route::get('offices/{officeID}', [BusinessController::class, 'businessOffices'])->name('businessOffices');
+                /* Function for admin to retrieve all employees of an office  */
+                Route::get('offices/employees/{officeID}', [BusinessController::class, 'businessOfficesEmployees'])->name('listOfBusinessOfficesEmployees');
+            });
         });
 
         /* Office Routes Start */
-        Route::prefix('office')->group(function () {
+        Route::prefix('office')->middleware('permission:view office')->group(function () {
             Route::get('/', [OfficeController::class, 'index'])->name('officeIndex');
-            Route::get('create', [OfficeController::class, 'create'])->name('officeCreate');
+            Route::get('create', [OfficeController::class, 'create'])->name('officeCreate')->middleware('permission:create office');
             Route::post('create', [OfficeController::class, 'store']);
             Route::get('edit/{officeID}', [OfficeController::class, 'edit'])->name('officeEdit');
             Route::post('edit/{officeID}', [OfficeController::class, 'update']);
             Route::get('delete/{officeID}', [OfficeController::class, 'delete'])->name('officeDelete');
+            Route::get('employees/{officeID}', [OfficeController::class, 'employees'])->name('listOfEmployees');
         });
         /* Office Routes End */
 
@@ -51,7 +61,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::get('/', [EmployeeController::class, 'index'])->name('employeeIndex');
             Route::get('create', [EmployeeController::class, 'create'])->name('employeeCreate');
             Route::post('create', [EmployeeController::class, 'store']);
-            Route::get('edit/{userID}', [EmployeeController::class, 'edit'])->name('employeeEdit');
+            Route::get('edit/{userID}', [EmployeeController::class, 'edit'])->name('employeeEdit')->middleware('permission:update employee');
             Route::post('edit/{userID}', [EmployeeController::class, 'update']);
             Route::get('show/{userID}', [EmployeeController::class, 'show'])->name('employeeShow');
             Route::get('delete/{userID}', [EmployeeController::class, 'delete'])->name('employeeDelete');

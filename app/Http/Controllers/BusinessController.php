@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\Office;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
@@ -59,7 +59,7 @@ class BusinessController extends Controller
 
     public function edit($businessID)
     {
-        if (auth()->user()->hasPermissionTo('edit business'))
+        if (auth()->user()->hasPermissionTo('update business'))
         {
             $business = Business::firstWhere('id', decrypt($businessID));
 
@@ -71,7 +71,7 @@ class BusinessController extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('edit business'))
+        if (auth()->user()->hasPermissionTo('update business'))
         {
             Validator::make($request->all(), [
                 'company_name' => ['required', 'string', 'max:255'],
@@ -100,4 +100,41 @@ class BusinessController extends Controller
 
         return redirect()->back();
     }
+
+                                    /* Functions for only Super Admin Started */
+
+    /* Function for admin to retrieve all businesses  */
+    public function allBusinesses()
+    {
+        if (auth()->user()->hasPermissionTo('suspend business'))
+        {
+            $businesses = Business::with('offices', 'user')->get();
+            return view('business.admin.index', compact('businesses'));
+        }
+        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    /* Function for admin to retrieve all offices of a business  */
+    public function businessOffices($id)
+    {
+        if (auth()->user()->hasPermissionTo('suspend business'))
+        {
+            $offices = Office::with('employees', 'business')->where('business_id', decrypt($id))->get();
+            return view('business.admin.liftOfOffices', compact('offices'));
+        }
+        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    /* Function for admin to retrieve all employees of an office  */
+    public function businessOfficesEmployees($id)
+    {
+        if (auth()->user()->hasPermissionTo('suspend business'))
+        {
+            $office = Office::with('employees')->where('id', decrypt($id))->first();
+            return view('business.admin.listOfOfficeEmployees', compact('office'));
+        }
+        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+                                    /* Functions for only Super Admin Ended */
 }
