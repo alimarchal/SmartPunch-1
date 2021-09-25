@@ -19,6 +19,7 @@ class CreatePunchTablesTable extends Migration
             $table->foreignId('office_id')->constrained()->onDelete('cascade');
             $table->dateTime('time');
             $table->boolean('in_out_status');
+            $table->timestamps();
         });
     }
 
