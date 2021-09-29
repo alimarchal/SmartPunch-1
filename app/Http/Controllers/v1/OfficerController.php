@@ -108,6 +108,13 @@ class OfficerController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $office = Office::find($id);
+        if (empty($office)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        } else {
+            $office = $office->delete();
+            return response()->json($office, 200);
+        }
     }
 }

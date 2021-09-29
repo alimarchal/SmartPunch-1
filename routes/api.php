@@ -25,9 +25,11 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'show']);
     Route::put('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'update']);
     Route::get('/business', [\App\Http\Controllers\v1\BusinessController::class, 'index']);
+    Route::delete('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'destroy']);
 
     Route::post('/office', [\App\Http\Controllers\v1\OfficerController::class, 'store']);
     Route::get('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'show']);
     Route::put('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'update']);
     Route::get('/office', [\App\Http\Controllers\v1\OfficerController::class, 'index']);
+    Route::delete('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'destroy']);
 });

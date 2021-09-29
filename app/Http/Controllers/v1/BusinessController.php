@@ -125,6 +125,12 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $business = Business::find($id);
+        if (empty($business)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        } else {
+            $business = $business->delete();
+            return response()->json($business, 200);
+        }
     }
 }
