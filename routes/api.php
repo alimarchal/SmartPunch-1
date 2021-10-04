@@ -32,4 +32,8 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::put('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'update']);
     Route::get('/office', [\App\Http\Controllers\v1\OfficerController::class, 'index']);
     Route::delete('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'destroy']);
+
+    Route::get('/user/{id}', [\App\Http\Controllers\v1\UserController::class, 'show']);
+    Route::put('/user/{id}', [\App\Http\Controllers\v1\UserController::class, 'update']);
+
 });

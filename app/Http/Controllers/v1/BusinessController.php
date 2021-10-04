@@ -43,14 +43,15 @@ class BusinessController extends Controller
             'country_name' => 'required',
             'country_code' => 'required',
             'city_name' => 'required',
-            'company_logo_url' => 'required|mimes:jpg,bmp,png,JPG,PNG,jpeg',
+            'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
             'ibr' => 'required',
         ]);
 
-        if ($request->has('company_logo_url')) {
-            $path = $request->file('company_logo_url')->store('', 'public');
-            $request->merge(['company_logo' => $path]);
-        }
+//        if ($request->has('company_logo_url')) {
+//            $path = $request->file('company_logo_url')->store('', 'public');
+//            $request->merge(['company_logo' => $path]);
+//        }
+
         $business = Business::create($request->all());
         if ($business->wasRecentlyCreated) {
             return response()->json($business, 201);
@@ -97,12 +98,7 @@ class BusinessController extends Controller
     {
         $business = Business::find($id);
         $validated = $request->validate([
-            'company_name' => 'required',
-            'country_name' => 'required',
-            'country_code' => 'required',
-            'city_name' => 'required',
             'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
-            'ibr' => 'required',
         ]);
 
         if (empty($business)) {
