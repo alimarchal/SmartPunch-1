@@ -115,7 +115,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        if (!empty($user)) {
+            return response()->json($user, 200);
+        } else {
+            return response()->json(['message' => 'Not Found!'], 404);
+        }
     }
 
     /**
@@ -138,7 +143,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if (empty($user)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        } else {
+            $user->update($request->all());
+            return response()->json($user, 200);
+        }
     }
 
     /**
