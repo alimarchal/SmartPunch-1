@@ -14,7 +14,7 @@ class PunchTable extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['user_id', 'office_id', 'time', 'in_out_status'];
+    protected $fillable = ['user_id', 'office_id', 'business_id', 'time', 'in_out_status'];
 
     public function business(): BelongsTo
     {
@@ -28,6 +28,6 @@ class PunchTable extends Model
 
     public function offices(): BelongsTo
     {
-        return $this->belongsTo(Office::class,'office_id','id');
+        return $this->belongsTo(Office::class, 'office_id', 'id');
     }
 }
