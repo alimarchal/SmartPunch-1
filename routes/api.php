@@ -18,6 +18,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [\App\Http\Controllers\v1\UserController::class, 'login']);
     Route::post('/user/email-notification', [\App\Http\Controllers\v1\UserController::class, 'email_notification']);
     Route::post('/register', [\App\Http\Controllers\v1\UserController::class, 'register']);
+
+    Route::get('/punchIn', [\App\Http\Controllers\v1\ReportController::class, 'user_id']);
+    Route::get('/punchOut', [\App\Http\Controllers\v1\ReportController::class, 'user_id']);
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
