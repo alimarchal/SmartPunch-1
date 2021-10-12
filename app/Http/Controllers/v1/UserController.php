@@ -81,9 +81,31 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = null;
+        if ($request->has('business_id')) {
+            $user = User::where('business_id', $request->business_id)->get();
+        } elseif ($request->has('office_id')) {
+            $user = User::where('office_id', $request->office_id)->get();
+        } elseif ($request->has('business_id') && $request->has('office_id')) {
+            $user = User::where('business_id', $request->business_id)->where('office_id', $request->office_id)->get();
+        } else {
+            $user = User::paginate(10);
+        }
+        return response()->json($user, 200);
+
+    }
+
+    public function email_notification(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if (!empty($user)) {
+            $user->sendEmailVerificationNotification();
+            return response()->json('Verification link sent!', 200);
+        } else {
+            return response()->json(['message' => 'User not found!'], 404);
+        }
     }
 
     /**
