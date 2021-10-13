@@ -103,5 +103,23 @@ class ReportController extends Controller
             return response()->json(['punch_in_out' => $punch], 200);
         }
 
+        if ($request->has('business_id')) {
+            $business_id = request('business_id');
+            $punch = DB::select("SELECT punch_tables.user_id, punch_tables.office_id, users.name, users.employee_business_id, offices.name as office_name,
+                                    SUBSTRING_INDEX(GROUP_CONCAT(CASE WHEN in_out_status='1' THEN time END ORDER BY time ASC),',',1) AS time_in,
+                                    SUBSTRING_INDEX(GROUP_CONCAT(CASE WHEN in_out_status='0' THEN time END ORDER BY time ASC),',',-1) AS time_out,
+                                    DATE(time) AS punch_date
+                                    FROM punch_tables
+                                    INNER JOIN users
+                                    ON punch_tables.user_id = users.id
+                                    INNER JOIN offices
+                                    ON punch_tables.office_id = offices.id
+                                    WHERE punch_tables.business_id = $business_id
+                                    GROUP BY punch_tables.created_at
+                                    ORDER BY punch_tables.created_at
+                                    ");
+            return response()->json(['punch_in_out' => $punch], 200);
+        }
+
     }
 }
