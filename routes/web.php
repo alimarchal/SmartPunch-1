@@ -94,4 +94,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
         Route::get('business-create', [BusinessController::class, 'create'])->name('businessCreate');
         Route::post('business-create', [BusinessController::class, 'store']);
     });
+
+// Report
+    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
 });

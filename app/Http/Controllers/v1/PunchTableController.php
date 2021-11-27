@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Office;
+use App\Models\PunchTable;
 use Illuminate\Http\Request;
 
-class OfficerController extends Controller
+class PunchTableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class OfficerController extends Controller
      */
     public function index()
     {
-        $business = Office::paginate(15);
-        return response()->json($business, 200);
+        //
     }
 
     /**
@@ -37,21 +36,7 @@ class OfficerController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'business_id' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'coordinates' => 'required',
-            'phone' => 'required',
-        ]);
-        $office = Office::create($request->all());
-        if ($office->wasRecentlyCreated) {
-            return response()->json($office, 201);
-        } else {
-            return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
-        }
+        //
     }
 
     /**
@@ -62,12 +47,7 @@ class OfficerController extends Controller
      */
     public function show($id)
     {
-        $office = Office::find($id);
-        if (!empty($office)) {
-            return response()->json($office, 200);
-        } else {
-            return response()->json(['message' => 'Not Found!'], 404);
-        }
+        //
     }
 
     /**
@@ -90,14 +70,7 @@ class OfficerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $office = Office::find($id);
-
-        if (empty($office)) {
-            return response()->json(['message' => 'Not Found!'], 404);
-        } else {
-            $office->update($request->all());
-            return response()->json($office, 200);
-        }
+        //
     }
 
     /**
@@ -108,13 +81,43 @@ class OfficerController extends Controller
      */
     public function destroy($id)
     {
+        //
+    }
 
-        $office = Office::find($id);
-        if (empty($office)) {
-            return response()->json(['message' => 'Not Found!'], 404);
+
+    public function punch_in(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'office_id' => 'required',
+            'business_id' => 'required',
+            'time' => 'required',
+            'in_out_status' => 'required',
+        ]);
+
+        $punch_table = PunchTable::create($request->all());
+        if ($punch_table->wasRecentlyCreated) {
+            return response()->json($punch_table, 201);
         } else {
-            $office = $office->delete();
-            return response()->json($office, 200);
+            return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
+        }
+    }
+
+    public function punch_out(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'office_id' => 'required',
+            'business_id' => 'required',
+            'time' => 'required',
+            'in_out_status' => 'required',
+        ]);
+
+        $punch_table = PunchTable::create($request->all());
+        if ($punch_table->wasRecentlyCreated) {
+            return response()->json($punch_table, 201);
+        } else {
+            return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
         }
     }
 }
