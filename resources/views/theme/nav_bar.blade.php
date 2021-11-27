@@ -127,12 +127,12 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                    @can('view business')
+                @can('view business')
                     <!-- item-->
-                    <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
-                        <i class="mdi mdi-briefcase"></i>
-                        <span>{{__('navBar.Business')}}</span>
-                    </a>
+                        <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
+                            <i class="mdi mdi-briefcase"></i>
+                            <span>{{__('navBar.Business')}}</span>
+                        </a>
                     @endcan
 
                     <div class="dropdown-divider"></div>
@@ -251,7 +251,7 @@
 
                 @can('view reports')
                     <li class="has-submenu">
-                        <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
+                        <a href="{{route('report.index')}}"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
                     </li>
                 @endcan
 

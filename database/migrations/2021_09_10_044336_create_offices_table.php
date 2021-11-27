@@ -21,7 +21,7 @@ class CreateOfficesTable extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('coordinates')->nullable();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Business;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
-class BusinessController extends Controller
+class ScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        $business = Business::paginate(15);
-        return response()->json($business, 200);
-
+        $schedule = Schedule::paginate(15);
+        return response()->json($schedule, 200);
     }
 
     /**
@@ -39,22 +38,16 @@ class BusinessController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'company_name' => 'required',
-            'country_name' => 'required',
-            'country_code' => 'required',
-            'city_name' => 'required',
-            'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
-            'ibr' => 'required',
+            'type' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'break_start' => 'required',
+            'break_end' => 'required',
+            'status' => 'required',
         ]);
-
-//        if ($request->has('company_logo_url')) {
-//            $path = $request->file('company_logo_url')->store('', 'public');
-//            $request->merge(['company_logo' => $path]);
-//        }
-
-        $business = Business::create($request->all());
-        if ($business->wasRecentlyCreated) {
-            return response()->json($business, 201);
+        $schedule = Schedule::create($request->all());
+        if ($schedule->wasRecentlyCreated) {
+            return response()->json($schedule, 201);
         } else {
             return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
         }
@@ -68,9 +61,9 @@ class BusinessController extends Controller
      */
     public function show($id)
     {
-        $business = Business::find($id);
-        if (!empty($business)) {
-            return response()->json($business, 200);
+        $schedule = Schedule::find($id);
+        if (!empty($schedule)) {
+            return response()->json($schedule, 200);
         } else {
             return response()->json(['message' => 'Not Found!'], 404);
         }
@@ -82,7 +75,7 @@ class BusinessController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         //
     }
@@ -96,20 +89,13 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $business = Business::find($id);
-        $validated = $request->validate([
-            'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
-        ]);
+        $schedule = Schedule::find($id);
 
-        if (empty($business)) {
+        if (empty($schedule)) {
             return response()->json(['message' => 'Not Found!'], 404);
         } else {
-            if ($request->has('company_logo_url')) {
-                $path = $request->file('company_logo_url')->store('', 'public');
-                $request->merge(['company_logo' => $path]);
-            }
-            $business->update($request->all());
-            return response()->json($business, 200);
+            $schedule->update($request->all());
+            return response()->json($schedule, 200);
         }
     }
 
@@ -121,12 +107,12 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        $business = Business::find($id);
-        if (empty($business)) {
+        $schedule = Schedule::find($id);
+        if (empty($schedule)) {
             return response()->json(['message' => 'Not Found!'], 404);
         } else {
-            $business = $business->delete();
-            return response()->json($business, 200);
+            $schedule = $schedule->delete();
+            return response()->json($schedule, 200);
         }
     }
 }
