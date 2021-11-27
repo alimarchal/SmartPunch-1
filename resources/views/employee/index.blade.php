@@ -19,7 +19,7 @@
                                         {{-- Delete icon --}}
                                         <small class="float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>
                                     @endif
-                                    @if(auth()->user()->hasPermissionTo('edit employee'))
+                                    @if(auth()->user()->hasPermissionTo('update employee'))
                                         {{-- Edit icon --}}
                                         <small class="float-right mr-2 mt-1"><b><a href="{{route('employeeEdit', encrypt($employee->id))}}"><i class="fas fa-pencil-alt"></i></a></b></small>
                                     @endif
