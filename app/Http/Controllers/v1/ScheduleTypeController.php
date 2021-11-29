@@ -4,9 +4,10 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Schedule;
+use App\Models\ScheduleType;
 use Illuminate\Http\Request;
 
-class ScheduleController extends Controller
+class ScheduleTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedule = Schedule::paginate(15);
+        $schedule = ScheduleType::paginate(15);
         return response()->json($schedule, 200);
     }
 
@@ -38,14 +39,11 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'break_start' => 'required',
-            'break_end' => 'required',
-            'status' => 'required',
+            'name' => 'required',
+            'business_id' => 'required',
+            'office_id' => 'required',
         ]);
-        $schedule = Schedule::create($request->all());
+        $schedule = ScheduleType::create($request->all());
         if ($schedule->wasRecentlyCreated) {
             return response()->json($schedule, 201);
         } else {
@@ -61,7 +59,7 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        $schedule = Schedule::find($id);
+        $schedule = ScheduleType::find($id);
         if (!empty($schedule)) {
             return response()->json($schedule, 200);
         } else {
@@ -89,7 +87,7 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $schedule = Schedule::find($id);
+        $schedule = ScheduleType::find($id);
 
         if (empty($schedule)) {
             return response()->json(['message' => 'Not Found!'], 404);
@@ -107,12 +105,12 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-//        $schedule = Schedule::find($id);
-//        if (empty($schedule)) {
-//            return response()->json(['message' => 'Not Found!'], 404);
-//        } else {
-//            $schedule = $schedule->delete();
-//            return response()->json($schedule, 200);
-//        }
+        $schedule = ScheduleType::find($id);
+        if (empty($schedule)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        } else {
+            $schedule = $schedule->delete();
+            return response()->json($schedule, 200);
+        }
     }
 }
