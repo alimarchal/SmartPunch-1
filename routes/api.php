@@ -47,4 +47,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // Schedule
     Route::resource('/schedule', \App\Http\Controllers\v1\ScheduleController::class);
 
+    // Schedule Type
+    Route::resource('/schedule-type', \App\Http\Controllers\v1\ScheduleTypeController::class);
+
 });
