@@ -23,6 +23,15 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+//Route::get('/config-clear', function() {
+//    Artisan::call('config:clear');
+//    Artisan::call('optimize:clear');
+//    Artisan::call('vendor:publish --tag=graphql-playground-config');
+//    Artisan::call('vendor:publish --tag=graphql-playground-view');
+//    Artisan::call('vendor:publish --tag=graphql-playground-config');
+//    // Do whatever you want either a print a message or exit
+//});
+
 Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
