@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -70,6 +71,22 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
         });
         /* Employee Routes End */
+
+        /* Schedule Routes Start */
+        Route::prefix('schedule')->middleware('permission:view schedule')->group(function () {
+            Route::get('show/{userID}', [ScheduleController::class, 'show'])->name('scheduleShow');
+            Route::prefix('schedule')->middleware('permission:create schedule')->group(function () {
+                Route::get('/', [ScheduleController::class, 'index'])->name('scheduleIndex');
+                Route::get('create', [ScheduleController::class, 'create'])->name('scheduleCreate');
+                Route::post('create', [ScheduleController::class, 'store']);
+                Route::get('edit/{userID}', [ScheduleController::class, 'edit'])->name('scheduleEdit')->middleware('permission:update schedule');
+                Route::post('edit/{userID}', [ScheduleController::class, 'update']);
+                Route::get('delete/{userID}', [ScheduleController::class, 'delete'])->name('scheduleDelete');
+                Route::get('profile/update/', [ScheduleController::class, 'profileEdit'])->name('userProfileEdit');
+                Route::post('profile/update/', [ScheduleController::class, 'profileUpdate']);
+            });
+        });
+        /* Schedule Routes End */
     });
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */

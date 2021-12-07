@@ -239,7 +239,7 @@
                         <ul class="submenu">
                             @can('create schedule')
                                 <li>
-                                    <a href="javascript:void(0)"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
+                                    <a href="{{route('scheduleCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
                             @endcan
                             <li>
