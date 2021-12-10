@@ -1,0 +1,81 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+    users: [User!]! @all
+    user(id: String @eq): User @find
+
+    business: [Business!]! @all
+    business_find(id: Int! @eq) : Business @find
+
+    office: [Office!]! @all
+    officeById(id: ID! @eq): Office @find
+
+    schedule: [Schedule!]! @all
+    scheduleById(id: ID! @eq): Schedule @find
+
+    scheduleType: [ScheduleType!]! @all
+    scheduleTypeById(id: ID! @eq): ScheduleType @find
+
+}
+
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    office_id: Int
+    business_id: Int
+    employee_business_id: Int
+    user_role: String
+    phone: String
+    mac_address: String
+    device_name: String
+    status: String
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Business {
+    id: ID!
+    user_id: String!
+    company_name: String!
+    country_name: String
+    company_logo: String
+    country_code: String
+    city_name: String
+    ibr: String
+}
+
+
+type Office {
+    business_id: ID!
+    name: String!
+    email: String!
+    address: String
+    city: String
+    coordinates: String
+    phone: String
+    country: String
+}
+
+type Schedule {
+    id: ID!
+    type: String!
+    start_time: String!
+    end_time: String!
+    break_start: String
+    break_end: String
+    status: String
+}
+
+
+type ScheduleType {
+    id: ID!
+    name: String
+    business_id: String
+    office_id: String
+}
