@@ -107,12 +107,12 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        $schedule = Schedule::find($id);
-        if (empty($schedule)) {
-            return response()->json(['message' => 'Not Found!'], 404);
-        } else {
-            $schedule = $schedule->delete();
-            return response()->json($schedule, 200);
-        }
+//        $schedule = Schedule::find($id);
+//        if (empty($schedule)) {
+//            return response()->json(['message' => 'Not Found!'], 404);
+//        } else {
+//            $schedule = $schedule->delete();
+//            return response()->json($schedule, 200);
+//        }
     }
 }
