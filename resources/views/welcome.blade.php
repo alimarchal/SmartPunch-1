@@ -10,16 +10,16 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Applab | Landing, Corporate &amp; Business Templatee</title>
+    <title>SmartPunch</title>
 
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{url('applab/public/assets/img/favicons/apple-touch-icon.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{url('applab/public/assets/img/favicons/favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{url('applab/public/assets/img/favicons/favicon-16x16.png')}}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{url('applab/public/assets/img/favicons/favicon.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url('logo.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url('logo.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url('logo.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{url('logo.png')}}">
     <link rel="manifest" href="{{url('applab/public/assets/img/favicons/manifest.json')}}">
     <meta name="msapplication-TileImage" content="{{url('applab/public/assets/img/favicons/mstile-150x150.png')}}">
     <meta name="theme-color" content="#ffffff">
@@ -40,10 +40,8 @@
 <!-- ===============================================-->
 <main class="main" id="top">
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand d-flex align-items-center fw-bold fs-2" href="index.html">
-                <div class="text-warning">App</div>
-                <div class="text-1000">Lab</div>
-            </a>
+        <div class="container">
+            <img src="{{url('logo.png')}}" alt="SmartPunch" width="70px;">
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto pt-2 pt-lg-0">
@@ -53,9 +51,7 @@
                     <li class="nav-item" data-anchor="data-anchor"><a class="nav-link fw-medium" href="#testimonial">Testimonial</a></li>
                     <li class="nav-item" data-anchor="data-anchor"><a class="nav-link fw-medium" href="#faq">FAQ</a></li>
                 </ul>
-                <form class="ps-lg-5">
-                    <button class="btn btn-lg btn-primary rounded-pill order-0" type="submit">Try for free</button>
-                </form>
+                <a href="{{route('login')}}" class="btn btn-lg btn-primary rounded-pill order-0">Try for free</a>
             </div>
         </div>
     </nav>
@@ -69,7 +65,7 @@
                 <div class="col-md-5 col-lg-6 order-md-1 text-center text-md-end"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/mobile.png')}}" width="350" alt="" /></div>
                 <div class="col-md-7 col-lg-6 text-center text-md-start"><span class="badge bg-light rounded-pill text-dark align-items-center d-flex flex-row-reverse justify-content-end mx-auto mx-md-0 ps-0 w-75 w-sm-50 w-md-75 w-xl-50 mb-3">#1 Editiors Choice App of 2020<img class="img-fluid float-start me-3" src="{{url('applab/public/assets/img/illustrations/arrow-right.png')}}" alt=""/></span>
                     <h1 class="mb-4 display-3 fw-bold lh-sm">Best app for your <br class="d-block d-lg-none d-xl-block" />modern lifestyle</h1>
-                    <p class="mt-3 mb-4 fs-1">Increase productivity with a simple to-do app. app for <br class="d-none d-lg-block" />managing your personal budgets.</p><a class="btn btn-lg btn-primary rounded-pill hover-top" href="#" role="button">Try for free</a><a class="btn btn-link ps-md-4" href="#" role="button"> Watch demo video</a>
+                    <p class="mt-3 mb-4 fs-1">Increase productivity with a simple to-do app. app for <br class="d-none d-lg-block" />managing your personal budgets.</p><a class="btn btn-lg btn-primary rounded-pill hover-top" href="{{route('login')}}" role="button">Try for free</a><a class="btn btn-link ps-md-4" href="#" role="button"> Watch demo video</a>
                 </div>
             </div>
         </div>
@@ -561,7 +557,7 @@
                 <div class="col-md-7 col-lg-5 text-center text-md-start">
                     <h1 class="display-3 fw-bold lh-sm">Download our App now</h1>
                     <p class="my-4"> The rise of mobile devices transforms the way we consume information entirely and the world's most elevant channels such as Facebook.</p>
-                    <div class="d-flex justify-content-center d-md-inline-block"><a class="pe-2 pe-sm-3 pe-md-4" href="!#"><img src="{{url('applab/public/assets/img/illustrations/google-play.png')}}" width="160" alt="" /></a><a href="!#"><img src="{{url('applab/public/assets/img/illustrations/app-store.png')}}" width="160" alt="" /></a></div>
+                    <div class="d-flex justify-content-center d-md-inline-block"><a class="pe-2 pe-sm-3 pe-md-4" href="javascript:void(0)"><img src="{{url('applab/public/assets/img/illustrations/google-play.png')}}" width="160" alt="" /></a><a href="javascript:void(0)"><img src="{{url('applab/public/assets/img/illustrations/app-store.png')}}" width="160" alt="" /></a></div>
                 </div>
             </div>
         </div>
@@ -574,19 +570,17 @@
 
         <div class="container">
             <div class="row flex-center">
-                <div class="col-auto mb-5"><a class="pe-2 d-flex align-items-center text-decoration-none fw-bold fs-3" href="#">
-                        <div class="text-warning">App</div>
-                        <div class="text-white">Lab</div>
-                    </a></div>
+                <div class="col-auto mb-5">
+                    <img src="{{url('logo.png')}}" alt="SmartPunch" width="70px;">
             </div>
             <div class="row flex-center">
                 <div class="col-auto mb-5">
                     <ul class="list-unstyled list-inline mb-0">
-                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#!">Home</a></li>
-                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#!">Key Features</a></li>
-                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#!">Pricing</a></li>
-                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#!">Testimonial</a></li>
-                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#!">FAQ</a></li>
+                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#home">Home</a></li>
+                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#features">Key Features</a></li>
+                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#pricing">Pricing</a></li>
+                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#testimonial">Testimonial</a></li>
+                        <li class="list-inline-item me3 me-sm-4"><a class="text-light text-decoration-none" href="#faq">FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -600,10 +594,6 @@
                         <li class="list-inline-item me-3"><a href="#!">
                                 <svg class="bi bi-twitter" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#7D7987" viewBox="0 0 16 16">
                                     <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
-                                </svg></a></li>
-                        <li class="list-inline-item me-3"><a href="#!">
-                                <svg class="bi bi-hash" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 16 16">
-                                    <path d="M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z"></path>
                                 </svg></a></li>
                         <li class="list-inline-item me-3"><a href="#!">
                                 <svg class="bi bi-instagram" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#7D7987" viewBox="0 0 16 16">
