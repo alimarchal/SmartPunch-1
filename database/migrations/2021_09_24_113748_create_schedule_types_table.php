@@ -15,7 +15,7 @@ class CreateScheduleTypesTable extends Migration
     {
         Schema::create('schedule_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('schedule_name');
             $table->string('business_id')->nullable();
             $table->string('office_id')->nullable();
             $table->timestamps();

@@ -75,7 +75,7 @@ return [
     'Businesses list' => 'Businesses list',
     'Cannot delete because this office has employees assigned to it.' => 'Cannot delete because this office has employees assigned to it.',
     'Enter Schedule Details' => 'Enter Schedule Details',
-    'Schedule Type' => 'Schedule Type',
+    'Schedule Type' => 'Schedule Name',
     'Start Time' => 'Start Time',
     'End Time' => 'End Time',
     'Break Start Time' => 'Break Start Time',

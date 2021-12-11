@@ -15,7 +15,9 @@ class ScheduleController extends Controller
 
     public function store()
     {
-        if (auth()->user()->hasPermissionTo('create schedule'))
-        {}
+        if(auth()->user()->hasPermissionTo('create schedule'))
+        {
+            //
+        }
     }
 }
