@@ -10,7 +10,7 @@ class ScheduleType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','business_id','office_id'];
+    protected $fillable = ['schedule_name','business_id','office_id'];
 
     public function schedules(): HasMany
     {
