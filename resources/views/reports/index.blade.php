@@ -13,6 +13,8 @@
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>Day</th>
+                        <th>Date</th>
                         <th>Name</th>
                         <th>Office</th>
                         <th>Employee Business ID</th>
@@ -25,6 +27,8 @@
                     @foreach($punch as $pun)
                         <tr>
                         <td>{{$loop->iteration}}</td>
+                        <td>{{\Carbon\Carbon::parse($pun->time_in)->format('l')}}</td>
+                        <td>{{\Carbon\Carbon::parse($pun->time_in)->format('d-m-Y')}}</td>
                         <td>{{$pun->name}}</td>
                         <td>{{$pun->office_name}}</td>
                         <td>{{$pun->employee_business_id}}</td>
@@ -40,7 +44,13 @@
 
                                 ;
                             @endphp
-                            {{ gmdate('H:i', $t1 - $t2) }}
+
+                            @if(!empty($pun->time_in) && !empty($pun->time_out))
+                                {{ gmdate('H:i', $t1 - $t2) }}
+                            @else
+                                00:00
+                            @endif
+
                         </td>
 
                         </tr>
