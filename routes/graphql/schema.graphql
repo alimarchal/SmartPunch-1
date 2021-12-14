@@ -20,22 +20,24 @@ type Query {
     scheduleType: [ScheduleType!]! @all
     scheduleTypeById(id: ID! @eq): ScheduleType @find
 
-#   for testing authentication
+    #   for testing authentication
     me: User @auth(guard: "api")
 
-#   issues in roles table path
+    #   issues in roles table path
     roles: [Roles!] @all
 
 }
 
+
 type Mutation {
+    #    createUser(name: String! email: String!, password: String!): @create
+    createUser(name: String!, email: String!, password: String! @hash, business_id: Int, office_id: Int, employee_business_id: String, schedule_id: String, user_role: String, permission: String, phone: String, mac_address: String, device_name: String, rtl: Int, type: Int, status: Int ): User @create
     login(
         email: String! @rules(apply: ["email", "required"])
         password: String! @rules(apply: ["required"])
         device_name: String!
     ): authenticated @field(resolver: "AuthMutator@loginCheck")
     logout: LogoutResponse @field(resolver: "Logout@logout")
-
 }
 
 # Login mutation response if user is authenticated

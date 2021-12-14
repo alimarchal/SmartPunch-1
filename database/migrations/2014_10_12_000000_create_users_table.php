@@ -22,14 +22,14 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('user_role')->nullabld();
-            $table->string('permision')->nullabld();
+            $table->string('user_role')->nullable();
+            $table->string('permission')->nullable();
             $table->string('phone')->nullable();
             $table->string('mac_address')->nullable();
             $table->string('device_name')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('email_verified_at', 2048)->nullable();
             $table->integer('rtl')->default(1);
             $table->integer('type')->default(1);
             $table->integer('status')->default(1);                          /* 0 for Not-active/suspended, 1 for active  */
