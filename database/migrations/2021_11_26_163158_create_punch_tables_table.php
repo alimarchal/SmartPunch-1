@@ -15,12 +15,20 @@ class CreatePunchTablesTable extends Migration
     {
         Schema::create('punch_tables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('office_id')->constrained()->onDelete('cascade');
-            $table->string('business_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('office_id');
+            $table->string('business_id');
+            $table->string('mac_address');
             $table->dateTime('time');
-            $table->boolean('in_out_status');
+            $table->tinyInteger('in_out_status');
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+        });
+        Schema::table('offices', function (Blueprint $table) {
+            $table->foreignId('office_id')->nullable()->references('id')->on('offices')->onDelete('cascade');
         });
     }
 
