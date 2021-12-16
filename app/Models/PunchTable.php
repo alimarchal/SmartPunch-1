@@ -14,7 +14,7 @@ class PunchTable extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['user_id', 'office_id', 'business_id', 'time', 'in_out_status'];
+    protected $fillable = ['user_id', 'office_id', 'business_id', 'mac_address', 'time', 'in_out_status'];
 
     public function business(): BelongsTo
     {

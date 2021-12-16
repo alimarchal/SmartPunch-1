@@ -23,25 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasRoles;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    protected $fillable = [
-        'office_id',
-        'business_id',
-        'employee_business_id',
-        'name',
-        'email',
-        'password',
-        'user_role',
-        'phone',
-        'mac_address',
-        'device_name',
-        'status',
-    ];
-
-    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
@@ -51,6 +32,29 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'business_id',
+        'office_id',
+        'employee_business_id',
+        'schedule_id',
+        'name',
+        'email',
+        'password',
+        'user_role',
+        'phone',
+        'mac_address',
+        'device_name',
+        'profile_photo_path',
+        'rtl',
+        'type',
+        'status',
     ];
 
     /**
