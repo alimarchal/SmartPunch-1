@@ -33,10 +33,12 @@ class UserController extends Controller
         ])->syncPermissions($permissions);
 
 
-        return response(['token' => $user->createToken($request->device_name)->plainTextToken,
-            'permission' => $user->getAllPermissions(), 'role' => $adminRole], 200);
-
-
+        return response([
+            'token' => $user->createToken($request->device_name)->plainTextToken,
+            'user' => $user,
+            'permission' => $user->getAllPermissions(),
+            'role' => $adminRole
+            ], 200);
     }
 
     /**
