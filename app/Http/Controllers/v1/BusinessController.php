@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BusinessController extends Controller
@@ -38,21 +39,30 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'company_name' => 'required',
             'country_name' => 'required',
             'country_code' => 'required',
             'city_name' => 'required',
             'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
-            'ibr' => 'required',
         ]);
 
-//        if ($request->has('company_logo_url')) {
-//            $path = $request->file('company_logo_url')->store('', 'public');
-//            $request->merge(['company_logo' => $path]);
-//        }
+        if ($request->has('company_logo_url')) {
+            $path = $request->file('company_logo_url')->store('', 'public');
+            $request->merge(['company_logo' => $path]);
+        }
 
-        $business = Business::create($request->all());
+        $data = [
+            'user_id' => auth()->id(),
+            'company_name' => $request->company_name,
+            'country_name' => $request->country_name,
+            'country_code' => $request->country_code,
+            'city_name' => $request->city_name,
+            'company_logo' => $request->company_logo,
+            'ibr' => $request->ibr,
+        ];
+        $business = Business::create($data);
+        User::where('id', auth()->id())->update(['business_id' => $business->id]);
         if ($business->wasRecentlyCreated) {
             return response()->json($business, 201);
         } else {
