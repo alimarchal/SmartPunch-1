@@ -38,7 +38,9 @@ class UserController extends Controller
             'user' => $user,
             'permission' => $user->getAllPermissions(),
             'role' => $adminRole
-            ], 200);
+        ], 200);
+
+
     }
 
     /**
@@ -87,7 +89,7 @@ class UserController extends Controller
     {
         $user = null;
         if ($request->has('business_id')) {
-            $user = User::where('business_id', $request->business_id)->get();
+            $user = User::with('office')->where('business_id', $request->business_id)->get();
         } elseif ($request->has('office_id')) {
             $user = User::where('office_id', $request->office_id)->get();
         } elseif ($request->has('business_id') && $request->has('office_id')) {
@@ -141,7 +143,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (!empty($user)) {
-            return response()->json($user, 200);
+            $office = $user->office();
+            $permissions = $user->getAllPermissions();
+            return response()->json(['user' => $user, 'office' => $office, 'permissions' => $permissions], 200);
         } else {
             return response()->json(['message' => 'Not Found!'], 404);
         }

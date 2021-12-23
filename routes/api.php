@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\v1\BusinessController;
+use App\Http\Controllers\v1\EmployeeController;
+use App\Http\Controllers\v1\OfficerController;
+use App\Http\Controllers\v1\ReportController;
+use App\Http\Controllers\v1\ScheduleController;
+use App\Http\Controllers\v1\ScheduleTypeController;
+use App\Http\Controllers\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,39 +22,44 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::post('/login', [\App\Http\Controllers\v1\UserController::class, 'login']);
-    Route::post('/user/email-notification', [\App\Http\Controllers\v1\UserController::class, 'email_notification']);
-    Route::post('/register', [\App\Http\Controllers\v1\UserController::class, 'register']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/user/email-notification', [UserController::class, 'email_notification']);
+    Route::post('/register', [UserController::class, 'register']);
 
-    Route::get('/punchIn', [\App\Http\Controllers\v1\ReportController::class, 'user_id']);
-    Route::get('/punchOut', [\App\Http\Controllers\v1\ReportController::class, 'user_id']);
+    Route::get('/punchIn', [ReportController::class, 'user_id']);
+    Route::get('/punchOut', [ReportController::class, 'user_id']);
 });
 
-Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [\App\Http\Controllers\v1\UserController::class, 'logout']);
-    Route::post('/business', [\App\Http\Controllers\v1\BusinessController::class, 'store']);
-    Route::get('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'show']);
-    Route::put('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'update']);
-    Route::get('/business', [\App\Http\Controllers\v1\BusinessController::class, 'index']);
-    Route::delete('/business/{id}', [\App\Http\Controllers\v1\BusinessController::class, 'destroy']);
+Route::prefix('v1')->middleware('auth:sanctum')->group(function ()
+{
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/business', [BusinessController::class, 'store']);
+    Route::get('/business/{id}', [BusinessController::class, 'show']);
+    Route::put('/business/{id}', [BusinessController::class, 'update']);
+    Route::get('/business', [BusinessController::class, 'index']);
+    Route::delete('/business/{id}', [BusinessController::class, 'destroy']);
 
-    Route::post('/office', [\App\Http\Controllers\v1\OfficerController::class, 'store']);
-    Route::get('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'show']);
-    Route::put('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'update']);
-    Route::get('/office', [\App\Http\Controllers\v1\OfficerController::class, 'index']);
-    Route::delete('/office/{id}', [\App\Http\Controllers\v1\OfficerController::class, 'destroy']);
+    Route::post('/office', [OfficerController::class, 'store']);
+    Route::get('/office/{id}', [OfficerController::class, 'show']);
+    Route::put('/office/{id}', [OfficerController::class, 'update']);
+    Route::get('/office', [OfficerController::class, 'index']);
+    Route::delete('/office/{id}', [OfficerController::class, 'destroy']);
 
-    Route::get('/user', [\App\Http\Controllers\v1\UserController::class, 'index']);
-    Route::get('/user/{id}', [\App\Http\Controllers\v1\UserController::class, 'show']);
-    Route::put('/user/{id}', [\App\Http\Controllers\v1\UserController::class, 'update']);
+
+    Route::post('/employee', [EmployeeController::class, 'store']);
+//    Route::post('/employee/{id}', [EmployeeController::class, 'delete']);
+
+    Route::get('/user', [UserController::class, 'index']);
+    Route::get('/user/{id}', [UserController::class, 'show']);
+    Route::put('/user/{id}', [UserController::class, 'update']);
 
     // Reports
-    Route::get('/report', [\App\Http\Controllers\v1\ReportController::class, 'user_id']);
+    Route::get('/report', [ReportController::class, 'user_id']);
 
     // Schedule
-    Route::resource('/schedule', \App\Http\Controllers\v1\ScheduleController::class);
+    Route::resource('/schedule', ScheduleController::class);
 
     // Schedule Type
-    Route::resource('/schedule-type', \App\Http\Controllers\v1\ScheduleTypeController::class);
+    Route::resource('/schedule-type', ScheduleTypeController::class);
 
 });
