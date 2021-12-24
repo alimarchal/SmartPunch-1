@@ -56,12 +56,26 @@ class UserController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
+        if (!$user || !Hash::check($request->password, $user->password) || $user->status == 0) {
+            /*throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
-            ]);
+            ]);*/
+            if (!$user || !Hash::check($request->password, $user->password))
+            {
+                return response([
+                    'email' => ['The provided credentials are incorrect.'],
+                ], 200);
+            }
+            elseif ($user->status == 0)
+            {
+                return response([
+                    'status' => ['Your account is suspended'],
+                ], 200);
+            }
         }
 
+        $user->device_name = $request->device_name;
+        $user->save();
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,
             'permission' => $user->getAllPermissions(), 'user' => $user,

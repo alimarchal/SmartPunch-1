@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('user_role');
+            $table->string('otp')->nullable();
             $table->string('phone')->nullable();
             $table->string('mac_address')->nullable();
             $table->string('device_name')->nullable();

@@ -18,12 +18,7 @@
                     <div class="form-group">
                         <label for="pass1">{{__('portal.Schedule Type')}} *</label>
 
-                        <select class="custom-select" name="schedule_type" required>
-                            <option value="" selected>{{__('portal.Select')}}</option>
-                            @foreach($scheduleTypes as $scheduleType)
-                                <option {{old('schedule_type') == $scheduleType->id ? 'selected' : ''}} value="{{$scheduleType->id}}">{{ucfirst($scheduleType->name)}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="name" class="form-control" required>
 
                         @error('schedule_type')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('schedule_type') as $error) <li>{{ $error }}</li> @endforeach</li></ul>

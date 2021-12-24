@@ -142,6 +142,7 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
+    /* Commented in view because of the requirement ie account should be suspended rather than deleting it */
     public function delete($id): RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('delete employee'))

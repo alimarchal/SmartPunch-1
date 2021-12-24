@@ -17,7 +17,8 @@
                                     <small style="color: limegreen"><b><i class="fa fa-check-circle"></i></b></small>
                                     @if(auth()->user()->hasPermissionTo('delete employee'))
                                         {{-- Delete icon --}}
-                                        <small class="float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>
+                                            {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
+{{--                                        <small class="float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}
                                     @endif
                                     @if(auth()->user()->hasPermissionTo('update employee'))
                                         {{-- Edit icon --}}
@@ -28,7 +29,8 @@
                                     <small class="text-danger"><b><i class="fa fa-times-circle"></i></b></small>
                                     @if(auth()->user()->hasPermissionTo('delete employee'))
                                         {{-- Delete icon --}}
-                                        <small class="text-danger float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>
+                                            {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
+{{--                                        <small class="text-danger float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}
                                     @endif
                                 @endif
                             </h5>

@@ -18,13 +18,25 @@ class EmployeeController extends Controller
     {
         if (auth()->user()->hasPermissionTo('create employee'))
         {
-            Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'office_id' => ['required'],
                 'role_id' => ['required'],
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'min:8',],
-            ])->validate();
+            ], [
+                'office_id.required' => 'Please select an office',
+                'role_id.required' => 'Please select a role',
+                'name.required' => 'Name is required',
+                'email.required' => 'Name is required',
+                'password.required' => 'Password is required',
+                'password.min' => 'Password must contain minimum 8 characters',
+            ]);
+
+            if ($validator->fails())
+            {
+                return response()->json(['errors' => $validator->errors()]);
+            }
 
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
@@ -42,7 +54,7 @@ class EmployeeController extends Controller
 
             $user = User::create($data)->syncPermissions($permissions);
 
-            $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email));
+//            $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email));
 
             return response()->json(['message' => 'Employee created', 'user' => $user]);
         }
@@ -50,17 +62,14 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'Forbidden!'], 403);
     }
 
-    public function delete($id): JsonResponse
+    public function status($id, Request $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('delete employee'))
+        if (auth()->user()->hasPermissionTo('update employee'))
         {
             $employee = User::findOrFail($id);
 
-            $permissions = $employee->getAllPermissions();
-            $employee->revokePermissionTo($permissions);
-
-            $employee->delete();
-            return response()->json(['message' => 'Employee deleted successfully!!!']);
+            $employee->update(['status' => $request->status]);
+            return response()->json(['message' => 'Employee status updated successfully!!!']);
         }
 
         return response()->json(['message' => 'Forbidden!'], 403);

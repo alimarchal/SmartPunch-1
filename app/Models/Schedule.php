@@ -11,7 +11,7 @@ class Schedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'start_time', 'end_time', 'break_start', 'break_end', 'status'];
+    protected $fillable = ['name', 'start_time', 'end_time', 'break_start', 'break_end', 'status'];
 
     public function scheduleType(): HasOne
     {
