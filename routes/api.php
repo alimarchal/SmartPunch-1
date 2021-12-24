@@ -3,6 +3,7 @@
 use App\Http\Controllers\v1\BusinessController;
 use App\Http\Controllers\v1\EmployeeController;
 use App\Http\Controllers\v1\OfficerController;
+use App\Http\Controllers\v1\PunchController;
 use App\Http\Controllers\v1\ReportController;
 use App\Http\Controllers\v1\ScheduleController;
 use App\Http\Controllers\v1\ScheduleTypeController;
@@ -39,15 +40,19 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function ()
     Route::get('/business', [BusinessController::class, 'index']);
     Route::delete('/business/{id}', [BusinessController::class, 'destroy']);
 
+    // Office APIs
     Route::post('/office', [OfficerController::class, 'store']);
     Route::get('/office/{id}', [OfficerController::class, 'show']);
     Route::put('/office/{id}', [OfficerController::class, 'update']);
     Route::get('/office', [OfficerController::class, 'index']);
     Route::delete('/office/{id}', [OfficerController::class, 'destroy']);
 
-
+    // Employee APIs
     Route::post('/employee', [EmployeeController::class, 'store']);
-//    Route::post('/employee/{id}', [EmployeeController::class, 'delete']);
+    Route::post('/employee/{id}', [EmployeeController::class, 'status']);
+
+    // Punch Table APIs
+    Route::post('/punch', [PunchController::class, 'store']);
 
     Route::get('/user', [UserController::class, 'index']);
     Route::get('/user/{id}', [UserController::class, 'show']);

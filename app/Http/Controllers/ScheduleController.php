@@ -9,8 +9,7 @@ class ScheduleController extends Controller
 {
     public function create()
     {
-        $scheduleTypes = ScheduleType::all();
-        return view('schedule.create', compact('scheduleTypes'));
+        return view('schedule.create');
     }
 
     public function store()
