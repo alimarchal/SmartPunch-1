@@ -13,6 +13,8 @@ class Schedule extends Model
 
     protected $fillable = ['name', 'start_time', 'end_time', 'break_start', 'break_end', 'status'];
 
+    public $timestamps = false;
+
     public function scheduleType(): HasOne
     {
         return $this->hasOne(ScheduleType::class,'id', 'type');
