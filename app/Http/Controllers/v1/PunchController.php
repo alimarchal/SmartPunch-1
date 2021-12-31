@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class PunchController extends Controller
 {
+    public function index(): JsonResponse
+    {
+        $punchInfo = PunchTable::where('user_id', auth()->id())->get();
+        return response()->json(['punchInfo' => $punchInfo]);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [

@@ -52,6 +52,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function ()
     Route::post('/employee/{id}', [EmployeeController::class, 'status']);
 
     // Punch Table APIs
+    Route::get('/punch-info', [PunchController::class, 'index']);
     Route::post('/punch', [PunchController::class, 'store']);
 
     Route::get('/user', [UserController::class, 'index']);
@@ -62,6 +63,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function ()
     Route::get('/report', [ReportController::class, 'user_id']);
 
     // Schedule
+    Route::get('/schedule/office', [ScheduleController::class, 'schedules']);
     Route::resource('/schedule', ScheduleController::class);
 
     // Schedule Type

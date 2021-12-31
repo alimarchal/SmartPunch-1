@@ -3,49 +3,58 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Office;
+use App\Models\OfficeSchedule;
 use App\Models\Schedule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $schedule = Schedule::paginate(15);
         return response()->json($schedule, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
             'break_start' => 'required',
             'break_end' => 'required',
             'status' => 'required',
+        ],[
+            'start_time.required' => 'Start time is required',
+            'end_time.required' => 'End time is required',
+            'break_start.required' => 'Start time for break is required',
+            'break_end.required' => 'Start time for break is required',
         ]);
-        $schedule = Schedule::create($request->all());
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        $data = [
+            'business_id' => auth()->user()->business_id,
+            'name' => $request->name,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'break_start' => $request->break_start,
+            'break_end' => $request->break_end,
+            'status' => $request->status,
+        ];
+
+        $schedule = Schedule::create($data);
         if ($schedule->wasRecentlyCreated) {
             return response()->json($schedule, 201);
         } else {
@@ -53,12 +62,6 @@ class ScheduleController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $schedule = Schedule::find($id);
@@ -69,24 +72,11 @@ class ScheduleController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $schedule = Schedule::find($id);
@@ -99,12 +89,6 @@ class ScheduleController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
 //        $schedule = Schedule::find($id);
@@ -114,5 +98,11 @@ class ScheduleController extends Controller
 //            $schedule = $schedule->delete();
 //            return response()->json($schedule, 200);
 //        }
+    }
+
+    public function schedules(): JsonResponse
+    {
+        $schedules = Schedule::with(['officeSchedules', 'officeSchedules.office'])->where('business_id', auth()->user()->business_id)->get();
+        return response()->json(['schedules' => $schedules]);
     }
 }
