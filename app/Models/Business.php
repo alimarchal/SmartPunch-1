@@ -22,4 +22,9 @@ class Business extends Model
     {
         return $this->hasMany(Office::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

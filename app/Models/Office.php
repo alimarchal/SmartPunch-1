@@ -22,4 +22,9 @@ class Office extends Model
     {
         return $this->hasMany(User::class, 'office_id', 'id');
     }
+
+    public function officeSchedules(): HasMany
+    {
+        return $this->hasMany(OfficeSchedule::class, 'office_id', 'id');
+    }
 }

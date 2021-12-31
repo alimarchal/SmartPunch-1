@@ -4,49 +4,54 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Office;
+use App\Models\OfficeSchedule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OfficerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): JsonResponse
     {
         $business = Office::paginate(15);
         return response()->json($business, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'business_id' => 'required',
+        $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
             'address' => 'required',
             'city' => 'required',
             'coordinates' => 'required',
             'phone' => 'required',
+            'schedule_id' => 'required',
+        ],[
+            'schedule_id.required' => 'Please select schedule(s)'
         ]);
+
+        $request->merge(['business_id' => auth()->user()->business_id]);
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
         $office = Office::create($request->all());
+
+        foreach ($request->schedule_id as $schedule_id)
+        {
+            OfficeSchedule::create([
+                'office_id' => $office->id,
+                'schedule_id' => $schedule_id,
+            ]);
+        }
+
         if ($office->wasRecentlyCreated) {
             return response()->json($office, 201);
         } else {
@@ -54,13 +59,7 @@ class OfficerController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $office = Office::find($id);
         if (!empty($office)) {
@@ -70,25 +69,12 @@ class OfficerController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         $office = Office::find($id);
 
@@ -100,13 +86,7 @@ class OfficerController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
 
         $office = Office::find($id);
