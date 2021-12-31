@@ -41,8 +41,8 @@ class PunchController extends Controller
             'in_out_status' => $request->in_out_status,
         ];
 
-        PunchTable::create($data);
+        $punched = PunchTable::create($data);
 
-        return response()->json(['message' => 'Data punched successfully!!!']);
+        return response()->json(['message' => 'Data punched successfully!!!', 'punch_data' => $punched]);
     }
 }
