@@ -15,12 +15,13 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
+            $table->unique(['business_id', 'name']);
             $table->foreignId('business_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->dateTime('break_start');
-            $table->dateTime('break_end');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->time('break_start');
+            $table->time('break_end');
             $table->integer('status')->default(0);
             $table->timestamps();
         });

@@ -16,6 +16,7 @@
                         <th>{{__('portal.City Name')}}</th>
                         <th>{{__('portal.Phone')}}</th>
                         <th>{{__('portal.Total employees')}}</th>
+                        <th>{{__('portal.Schedule(s) assigned')}}</th>
                         @can('delete office')
                         <th>{{__('portal.Action')}} </th>
                         @endcan
@@ -37,6 +38,11 @@
                                 @else
                                     <span class="text-danger">{{count($office->employees)}}</span>
                                 @endif
+                            </td>
+                            <td>
+                                @foreach($office->officeSchedules as $officeSchedule)
+                                    {{$officeSchedule->schedule->name}} @if(!$loop->last) , @endif
+                                @endforeach
                             </td>
                             @can('delete office')
                             <td>

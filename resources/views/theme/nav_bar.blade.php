@@ -243,7 +243,7 @@
                                 </li>
                             @endcan
                             <li>
-                                <a href="javascript:void(0)"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                                <a href="{{route('scheduleIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
                             </li>
                         </ul>
                     </li>

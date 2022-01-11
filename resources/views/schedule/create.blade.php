@@ -15,21 +15,32 @@
                 <form action="{{route('scheduleCreate')}}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="form-group">
-                        <label for="pass1">{{__('portal.Schedule Type')}} *</label>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="name">{{__('portal.Schedule Type')}} *</label>
 
-                        <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" value="{{old('name')}}" required>
 
-                        @error('schedule_type')
-                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('schedule_type') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
-                        @enderror
+                            @error('name')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="offices">{{__('portal.Offices list')}}</label>
+                            <select name="offices[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+                                @foreach($offices as $office)
+                                    <option value="{{$office->id}}">{{$office->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>{{__('portal.Start Time')}}</label>
                             <div class="input-group">
-                                <input id="timepicker" type="text" name="start_time" class="form-control" required>
+                                <input id="timepicker" type="text" name="start_time" value="{{old('start_time')}}" readonly class="form-control" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
                                 </div>
@@ -42,7 +53,7 @@
                         <div class="form-group col-sm-6">
                             <label>{{__('portal.End Time')}}</label>
                             <div class="input-group">
-                                <input id="timepicker1" type="text" name="end_time" class="form-control" required>
+                                <input id="timepicker1" type="text" name="end_time" value="{{old('end_time')}}" readonly class="form-control" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
                                 </div>
@@ -57,7 +68,7 @@
                         <div class="form-group col-sm-6">
                             <label>{{__('portal.Break Start Time')}}</label>
                             <div class="input-group">
-                                <input id="timepicker2" type="text" name="break_start" class="form-control" required>
+                                <input id="timepicker2" type="text" name="break_start" value="{{old('break_start')}}" readonly class="form-control" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
                                 </div>
@@ -69,7 +80,7 @@
                         <div class="form-group col-sm-6">
                             <label>{{__('portal.Break End Time')}}</label>
                             <div class="input-group">
-                                <input id="timepicker3" type="text" name="break_end" class="form-control" required>
+                                <input id="timepicker3" type="text" name="break_end" value="{{old('break_end')}}" readonly class="form-control" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
                                 </div>
@@ -95,11 +106,13 @@
 
 @section('scripts')
     <script src="{{url('Horizontal/dist/assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
-
     <script type="text/javascript">
         $('#timepicker').timepicker();
         $('#timepicker1').timepicker();
         $('#timepicker2').timepicker();
         $('#timepicker3').timepicker();
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
     </script>
 @endsection
