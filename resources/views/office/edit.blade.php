@@ -65,6 +65,20 @@
                         <input type="text" name="coordinates" class="form-control" id="passWord2" value="{{$office->coordinates}}">
                     </div>
 
+                    {{--<div class="form-group">
+                        <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
+                        <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+                            @foreach($schedules as $id => $schedule)
+                                <option
+--}}{{--                                {{ (in_array($office->officeSchedules->schdeule->id, old('schedules', [])) || isset($office->officeSchedules) && $office->officeSchedules->pluck('name', 'id')->contains($office->officeSchedules)) ? 'selected' : '' }}--}}{{--
+                                {{ ($schedule->officeSchedules->pluck('id')->contains($id)) ? 'selected' : '' }}
+--}}{{--                                {{ ($office->officeSchedules->pluck('name', 'id')->contains($office->officeSchedules)) ? 'selected' : '' }}--}}{{--
+--}}{{--                                <option value="{{ $id }}" {{ ($user->roles()->pluck('name', 'id')->contains($id)) ? 'selected' : '' }}>--}}{{--
+                                        value="{{$schedule->id}}">{{$schedule->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>--}}
+
                     <div class="form-group text-right mb-0">
                         <button class="btn btn-purple waves-effect waves-light mr-1" type="submit">
                             {{__('portal.Update')}}
@@ -76,4 +90,12 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 @endsection

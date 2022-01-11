@@ -11,23 +11,35 @@
                 <form action="{{route('employeeCreate')}}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="form-group">
-                        <label for="pass1">{{__('portal.Office')}} *</label>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="office_id">{{__('portal.Office')}} *</label>
 
-                        <select class="custom-select" name="office_id" required>
-                            <option value="" selected>{{__('portal.Select')}}</option>
-                            @foreach($offices as $office)
-                                <option {{old('office_id') == $office->id ? 'selected' : ''}} value="{{$office->id}}">{{$office->name}}</option>
-                            @endforeach
-                        </select>
+                            <select class="custom-select" name="office_id" required>
+                                <option value="" selected>{{__('portal.Select')}}</option>
+                                @foreach($offices as $office)
+                                    <option {{old('office_id') == $office->id ? 'selected' : ''}} value="{{$office->id}}">{{$office->name}}</option>
+                                @endforeach
+                            </select>
 
-                        @error('office_id')
-                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('office_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
-                        @enderror
+                            @error('office_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('office_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
+
+                            <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+{{--                                @foreach($schedules as $schedule)--}}
+                                    <option value="14">nam</option>
+{{--                                @endforeach--}}
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.Employee type')}} *</label>
+                        <label for="role_id">{{__('portal.Employee type')}} *</label>
 
                         <select class="custom-select" name="role_id" id="role_id" required>
                             <option value="" disabled selected>{{__('portal.Select')}}</option>
@@ -42,13 +54,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.Permissions')}}</label>
+                        <label for="permissions">{{__('portal.Permissions')}}</label>
 
                         <textarea class="form-control" rows="4" id="permissions" placeholder="{{__('portal.Permissions')}}" disabled></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Name')}} *</label>
+                        <label for="name">{{__('portal.Name')}} *</label>
                         <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}">
 
                         @error('name')
@@ -57,7 +69,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Email')}} *</label>
+                        <label for="email">{{__('portal.Email')}} *</label>
                         <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter employee email')}}" class="form-control @error('email') parsley-error @enderror" id="userName" value="{{old('email')}}" required>
 
                         @error('email')
@@ -75,7 +87,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Phone')}}</label>
+                        <label for="phone">{{__('portal.Phone')}}</label>
                         <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="userName" value="{{old('phone')}}" required>
 
                         @error('phone')
@@ -84,7 +96,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Employee ID')}}</label>
+                        <label for="employee_business_id">{{__('portal.Employee ID')}}</label>
                         <input type="text" name="employee_business_id" parsley-trigger="change" placeholder="{{__('portal.Enter Employee ID (if any)')}}" class="form-control @error('employee_business_id') parsley-error @enderror" value="{{old('employee_business_id')}}">
 
                         @error('employee_business_id')
@@ -107,6 +119,12 @@
 
 
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+
     <script>
         $("#role_id").change(function (e) {
             let option = '';

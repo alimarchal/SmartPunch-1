@@ -31,42 +31,45 @@ Route::prefix('v1')->group(function () {
     Route::get('/punchOut', [ReportController::class, 'user_id']);
 });
 
-Route::prefix('v1')->middleware('auth:sanctum')->group(function ()
+Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 {
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::post('/business', [BusinessController::class, 'store']);
-    Route::get('/business/{id}', [BusinessController::class, 'show']);
-    Route::put('/business/{id}', [BusinessController::class, 'update']);
-    Route::get('/business', [BusinessController::class, 'index']);
-    Route::delete('/business/{id}', [BusinessController::class, 'destroy']);
+    Route::post('/verify/{userID}/', [UserController::class, 'verify_otp']);
+    Route::prefix('v1')->middleware(['auth:sanctum', 'verified'])->group(function ()
+    {
+        Route::post('/logout', [UserController::class, 'logout']);
+        Route::post('/business', [BusinessController::class, 'store']);
+        Route::get('/business/{id}', [BusinessController::class, 'show']);
+        Route::put('/business/{id}', [BusinessController::class, 'update']);
+        Route::get('/business', [BusinessController::class, 'index']);
+        Route::delete('/business/{id}', [BusinessController::class, 'destroy']);
 
-    // Office APIs
-    Route::post('/office', [OfficerController::class, 'store']);
-    Route::get('/office/{id}', [OfficerController::class, 'show']);
-    Route::put('/office/{id}', [OfficerController::class, 'update']);
-    Route::get('/office', [OfficerController::class, 'index']);
-    Route::delete('/office/{id}', [OfficerController::class, 'destroy']);
+        // Office APIs
+        Route::post('/office', [OfficerController::class, 'store']);
+        Route::get('/office/{id}', [OfficerController::class, 'show']);
+        Route::put('/office/{id}', [OfficerController::class, 'update']);
+        Route::get('/office', [OfficerController::class, 'index']);
+        Route::delete('/office/{id}', [OfficerController::class, 'destroy']);
 
-    // Employee APIs
-    Route::post('/employee', [EmployeeController::class, 'store']);
-    Route::post('/employee/{id}', [EmployeeController::class, 'status']);
+        // Employee APIs
+        Route::post('/employee', [EmployeeController::class, 'store']);
+        Route::post('/employee/{id}', [EmployeeController::class, 'status']);
 
-    // Punch Table APIs
-    Route::get('/punch-info', [PunchController::class, 'index']);
-    Route::post('/punch', [PunchController::class, 'store']);
+        // Punch Table APIs
+        Route::get('/punch-info', [PunchController::class, 'index']);
+        Route::post('/punch', [PunchController::class, 'store']);
 
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/user/{id}', [UserController::class, 'show']);
-    Route::put('/user/{id}', [UserController::class, 'update']);
+        Route::get('/user', [UserController::class, 'index']);
+        Route::get('/user/{id}', [UserController::class, 'show']);
+        Route::put('/user/{id}', [UserController::class, 'update']);
 
-    // Reports
-    Route::get('/report', [ReportController::class, 'user_id']);
+        // Reports
+        Route::get('/report', [ReportController::class, 'user_id']);
 
-    // Schedule
-    Route::get('/schedule/office', [ScheduleController::class, 'schedules']);
-    Route::resource('/schedule', ScheduleController::class);
+        // Schedule
+        Route::get('/schedule/office', [ScheduleController::class, 'schedules']);
+        Route::resource('/schedule', ScheduleController::class);
 
-    // Schedule Type
-    Route::resource('/schedule-type', ScheduleTypeController::class);
-
+        // Schedule Type
+        Route::resource('/schedule-type', ScheduleTypeController::class);
+    });
 });

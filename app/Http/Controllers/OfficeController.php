@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Office;
+use App\Models\OfficeSchedule;
+use App\Models\Schedule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,12 +17,18 @@ class OfficeController extends Controller
         {
             if (auth()->user()->user_role == 2)     /* 2 for admin*/
             {
-                $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
+                $offices = Office::with('business', 'officeSchedules.schedule')
+                                ->where('business_id', auth()->user()->business_id)
+                                ->get();
+
                 return view('office.index', compact('offices'));
             }
             if (auth()->user()->user_role == 3)     /* 3 for Manager*/
             {
-                $offices = Office::with('business')->where(['business_id' => auth()->user()->business_id, 'id' => auth()->user()->office_id])->get();
+                $offices = Office::with('business', 'officeSchedules.schedule')
+                                ->where(['business_id' => auth()->user()->business_id, 'id' => auth()->user()->office_id])
+                                ->get();
+
                 return view('office.index', compact('offices'));
             }
         }
@@ -31,7 +39,8 @@ class OfficeController extends Controller
     {
         if (auth()->user()->hasPermissionTo('create office'))
         {
-            return view('office.create');
+            $schedules = Schedule::where(['business_id' => auth()->user()->business_id, 'status' => 1])->get();
+            return view('office.create', compact('schedules'));
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
@@ -58,7 +67,18 @@ class OfficeController extends Controller
                 'coordinates' => $request->coordinates,
             ];
 
-            Office::create($data);
+            $office = Office::create($data);
+
+            if (!is_null($request->schedules))
+            {
+                foreach ($request->schedules as $scheduleID)
+                {
+                    OfficeSchedule::create([
+                        'office_id' => $office->id,
+                        'schedule_id' => $scheduleID,
+                    ]);
+                }
+            }
 
             return redirect()->route('officeIndex')->with('success', 'Office added successfully!');
         }
@@ -69,8 +89,9 @@ class OfficeController extends Controller
     {
         if (auth()->user()->hasPermissionTo('update office'))
         {
-            $office = Office::with('business')->where('id', decrypt($id))->first();
-            return view('office.edit', compact('office'));
+            $office = Office::with('business', 'officeSchedules.schedule')->where('id', decrypt($id))->first();
+            $schedules = Schedule::where('business_id', auth()->user()->business_id)->get();
+            return view('office.edit', compact('office', 'schedules'));
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }

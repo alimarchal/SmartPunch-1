@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OTPSent;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
@@ -24,14 +28,18 @@ class UserController extends Controller
         $adminRole = Role::with('permissions')->where('name', 'admin')->first();
         $permissions = $adminRole->permissions->pluck('name');
 
+        $otp = mt_rand(1000, 9999);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'mac_address' => $request->mac_address,
             'user_role' => $adminRole->id,
-        ])->syncPermissions($permissions);
+            'otp' => $otp,
+        ])->assignRole($adminRole)->syncPermissions($permissions);
 
+        Mail::to($user->email)->send(new OTPSent($user->otp));
 
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,
@@ -204,5 +212,34 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function verify_otp(Request $request, $userID)
+    {
+//        $user = User::findOrFail($userID);
+        $user = User::firstWhere('id', $userID);
+//        return $user;
+        $validator = Validator::make($request->all(), [
+            'otp' => ['required', 'string', 'max:255'],
+        ],[
+            'otp.required' => 'OTP is required',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+        if ($user->otp != $request->otp)
+        {
+            return response([
+                'error' => ['Incorrect OTP entered.'],
+            ], 200);
+        }
+        $user->email_verified_at = Carbon::now()->toDateTimeString();
+        $user->save();
+
+        return response([
+            'user' => 'verified'
+        ], 200);
     }
 }

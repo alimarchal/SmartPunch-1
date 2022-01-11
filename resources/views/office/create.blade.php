@@ -12,7 +12,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Name')}} *</label>
+                        <label for="name">{{__('portal.Name')}} *</label>
                         <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter name')}}" class="form-control @error('name') parsley-error @enderror" id="userName" value="{{old('name')}}" required>
 
                         @error('name')
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Email')}} *</label>
+                        <label for="email">{{__('portal.Email')}} *</label>
                         <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter email')}}" class="form-control @error('email') parsley-error @enderror" id="userName" value="{{old('email')}}" required>
 
                         @error('email')
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Address')}} *</label>
+                        <label for="address">{{__('portal.Address')}} *</label>
                         <textarea class="form-control @error('address') parsley-error @enderror" name="address" rows="3" maxlength="254" id="example-textarea" placeholder="{{__('portal.Enter address')}}" required>{{old('address')}}</textarea>
 
                         @error('address')
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.City Name')}} *</label>
+                        <label for="city">{{__('portal.City Name')}} *</label>
 
                         <select class="custom-select" name="city" required>
                             <option value="" selected>{{__('portal.Select')}}</option>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userName">{{__('portal.Phone')}} *</label>
+                        <label for="phone">{{__('portal.Phone')}} *</label>
                         <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter phone')}}" class="form-control @error('phone') parsley-error @enderror" id="userName" value="{{old('phone')}}" required>
 
                         @error('phone')
@@ -61,8 +61,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="passWord2">{{__('portal.Coordinates')}}</label>
+                        <label for="coordinates">{{__('portal.Coordinates')}}</label>
                         <input type="text" name="coordinates" class="form-control" id="passWord2" value="{{old('coordinates')}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
+                        <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+                            @foreach($schedules as $schedule)
+                                <option value="{{$schedule->id}}">{{$schedule->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group text-right mb-0">
@@ -76,4 +85,12 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 @endsection
