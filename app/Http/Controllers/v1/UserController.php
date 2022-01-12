@@ -214,11 +214,8 @@ class UserController extends Controller
         //
     }
 
-    public function verify_otp(Request $request, $userID)
+    public function verify_otp(Request $request)
     {
-//        $user = User::findOrFail($userID);
-        $user = User::firstWhere('id', $userID);
-//        return $user;
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'string', 'max:255'],
         ],[
@@ -229,6 +226,9 @@ class UserController extends Controller
         {
             return response()->json(['errors' => $validator->errors()]);
         }
+
+        $user = User::findOrFail(auth()->user()->id);
+
         if ($user->otp != $request->otp)
         {
             return response([
