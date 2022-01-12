@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Office;
 use App\Models\OfficeSchedule;
 use App\Models\Schedule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -113,6 +114,8 @@ class OfficeController extends Controller
             $office->update($request->all());
             $office->save();
 
+//            $office->officeSchedules()->update([$office->officeSchedules]);
+
             return redirect()->route('officeIndex')->with('success', 'Office updated successfully!!');
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -143,6 +146,18 @@ class OfficeController extends Controller
             return view('office.employeeList', compact('office'));
         }
         return  redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
+    }
 
+    public function schedules(Request $request): JsonResponse
+    {
+        $officeSchedules = OfficeSchedule::with('schedule')->where('office_id', $request->office_id)->get();
+        $scheduleIDs = array();
+        foreach ($officeSchedules as $officeSchedule)
+        {
+            $scheduleIDs[] = $officeSchedule->schedule->id;
+        }
+        $schedules = Schedule::whereIn('id', $scheduleIDs)->where('status', 1)->get();
+
+        return response()->json(['schedules' => $schedules]);
     }
 }

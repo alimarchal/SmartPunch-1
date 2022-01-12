@@ -35,7 +35,7 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 {
     Route::post('/verify', [UserController::class, 'verify_otp']);
     Route::post('/logout', [UserController::class, 'logout']);
-    Route::middleware(['auth:sanctum', 'verified'])->group(function ()
+    Route::middleware( 'verified')->group(function ()
     {
         Route::post('/business', [BusinessController::class, 'store']);
         Route::get('/business/{id}', [BusinessController::class, 'show']);

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Office;
 use App\Models\User;
+use App\Models\UserHasSchedule;
 use App\Notifications\NewEmployeeRegistration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -61,18 +63,10 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreEmployeeRequest $request): RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('create employee'))
         {
-            Validator::make($request->all(), [
-                'office_id' => ['required'],
-                'role_id' => ['required'],
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'min:8',],
-            ])->validate();
-
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
 
@@ -80,6 +74,7 @@ class EmployeeController extends Controller
                 'business_id' => auth()->user()->business_id,
                 'office_id' => $request->office_id,
                 'employee_business_id' => $request->employee_business_id,
+                'schedule_id' => $request->schedule,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -88,6 +83,10 @@ class EmployeeController extends Controller
             ];
 
             $user = User::create($data)->syncPermissions($permissions);
+            UserHasSchedule::create([
+                'schedule_id' => $request->schedule,
+                'user_id' => $user->id,
+            ]);
 
             $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email));
 

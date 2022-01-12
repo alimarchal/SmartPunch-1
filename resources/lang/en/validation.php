@@ -137,9 +137,38 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        /* Schedule validation errors start */
+        'name' => [
+            'required' => 'Name is required',
         ],
+        'start_time' => [
+            'required' => 'Start time is required',
+        ],
+        'end_time' => [
+            'required' => 'End time is required',
+        ],
+        'break_start' => [
+            'required' => 'Break start is required',
+        ],
+        'break_end' => [
+            'required' => 'Break end is required',
+        ],
+        /* Schedule validation errors end */
+
+        /* Add Employee validation errors start */
+        'office_id' => [
+            'required' => 'Please select an office',
+        ],
+        'role_id' => [
+            'required' => 'Please select a role',
+        ],
+        'schedule' => [
+            'required' => 'Please select respective office\'s schedule',
+        ],
+        'schedules' => [
+            'required' => 'Please select respective office\'s schedules',
+        ],
+        /* Add Employee validation errors end */
     ],
 
     /*

@@ -45,11 +45,11 @@ class StoreSchedule extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'start_time.required' => 'Start time is required',
-            'end_time.required' => 'End time is required',
-            'break_start.required' => 'Break start is required',
-            'break_end.required' => 'Break end is required',
+            'name.required' => __('validation.custom.name.required'),
+            'start_time.required' => __('validation.custom.start_time.required'),
+            'end_time.required' => __('validation.custom.end_time.required'),
+            'break_start.required' => __('validation.custom.break_start.required'),
+            'break_end.required' => __('validation.custom.break_end.required'),
         ];
     }
 }
