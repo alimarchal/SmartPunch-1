@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 {
-    Route::post('/verify/{userID}/', [UserController::class, 'verify_otp']);
+    Route::post('/verify', [UserController::class, 'verify_otp']);
     Route::prefix('v1')->middleware(['auth:sanctum', 'verified'])->group(function ()
     {
         Route::post('/logout', [UserController::class, 'logout']);
