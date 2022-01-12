@@ -13,3 +13,7 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+.DS_Store
+app/.DS_Store
+resources/.DS_Store
+routes/.DS_Store
