@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::post('edit/{officeID}', [OfficeController::class, 'update']);
             Route::get('delete/{officeID}', [OfficeController::class, 'delete'])->name('officeDelete');
             Route::get('employees/{officeID}', [OfficeController::class, 'employees'])->name('listOfEmployees');
+            Route::post('/get-schedules', [OfficeController::class, 'schedules'])->name('getSchedules');
         });
         /* Office Routes End */
 

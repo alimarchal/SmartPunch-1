@@ -8,17 +8,17 @@
 
                 <h4 class="header-title mt-0 mb-3 text-center">{{__('portal.Enter Employee Details')}}</h4>
 
-                <form action="{{route('employeeCreate')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('employeeCreate')}}" method="POST" id="form" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                             <label for="office_id">{{__('portal.Office')}} *</label>
 
-                            <select class="custom-select" name="office_id" required>
+                            <select class="custom-select" name="office_id" id="office" required>
                                 <option value="" selected>{{__('portal.Select')}}</option>
                                 @foreach($offices as $office)
-                                    <option {{old('office_id') == $office->id ? 'selected' : ''}} value="{{$office->id}}">{{$office->name}}</option>
+                                    <option value="{{$office->id}}">{{$office->name}}</option>
                                 @endforeach
                             </select>
 
@@ -27,14 +27,17 @@
                             @enderror
                         </div>
 
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                             <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
 
-                            <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
-{{--                                @foreach($schedules as $schedule)--}}
-                                    <option value="14">nam</option>
-{{--                                @endforeach--}}
+{{--                            <select name="schedules[]" class="select2 select2-multiple" id="schedules" multiple required>--}}
+                            {{-- Uncomment uper for multiple schedule and comment below --}}
+                            <select name="schedule" class="form-control" id="schedules" required>
                             </select>
+
+                            @error('schedules')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('schedules') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                            @enderror
                         </div>
                     </div>
 
@@ -61,7 +64,7 @@
 
                     <div class="form-group">
                         <label for="name">{{__('portal.Name')}} *</label>
-                        <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}">
+                        <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}" required>
 
                         @error('name')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -122,10 +125,34 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+            $("#schedules").prop("disabled", true);
         });
-    </script>
 
-    <script>
+        $("#office").change(function (e) {
+            let option = '';
+            $('#schedules').prop('disabled', true);
+            $.ajax({
+                url: "{{route('getSchedules')}}",
+                method: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    office_id: $('#office').val(),
+                },
+                success: function(result){
+                    $('#schedules').prop('disabled', false);
+                    $('#schedules').empty();
+                    $('#schedules').select2({ placeholder: 'Select schedules' });
+                    result.schedules.forEach(function (schedule) {
+                        option = "<option value='" + schedule.id + "'>" + schedule.name + "</option>"
+                        $('#schedules').append(option);
+                    });
+                },
+                error: function(result){
+                    console.log('error');
+                }
+            });
+        });
+
         $("#role_id").change(function (e) {
             let option = '';
             $('#permissions').prop('disabled', true);
