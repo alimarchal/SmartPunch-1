@@ -91,7 +91,7 @@ class OfficeController extends Controller
         if (auth()->user()->hasPermissionTo('update office'))
         {
             $office = Office::with('business', 'officeSchedules.schedule')->where('id', decrypt($id))->first();
-            $schedules = Schedule::where('business_id', auth()->user()->business_id)->get();
+            $schedules = Schedule::where(['business_id' => auth()->user()->business_id, 'status' => 1])->get();
             return view('office.edit', compact('office', 'schedules'));
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -114,7 +114,17 @@ class OfficeController extends Controller
             $office->update($request->all());
             $office->save();
 
-//            $office->officeSchedules()->update([$office->officeSchedules]);
+            $office->officeSchedules()->whereNotIn('schedule_id', $request->schedules)->delete();
+            foreach($request->schedules as $scheduleID)
+            {
+                if ($office->officeSchedules->doesntContain('schedule_id', $scheduleID))
+                {
+                    OfficeSchedule::create([
+                        'office_id' => $office->id,
+                        'schedule_id' => $scheduleID,
+                    ]);
+                }
+            }
 
             return redirect()->route('officeIndex')->with('success', 'Office updated successfully!!');
         }
@@ -142,7 +152,7 @@ class OfficeController extends Controller
     {
         if (auth()->user()->hasPermissionTo('view office'))
         {
-            $office = Office::with('employees')->where('id', decrypt($id))->first();
+            $office = Office::with('employees', 'employees.userSchedules.schedule')->where('id', decrypt($id))->first();
             return view('office.employeeList', compact('office'));
         }
         return  redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));

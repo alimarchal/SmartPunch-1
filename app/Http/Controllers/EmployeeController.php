@@ -24,18 +24,18 @@ class EmployeeController extends Controller
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
-                $employees = User::where('business_id', auth()->user()->business_id)->get()->except([auth()->id()]);
+                $employees = User::where('business_id', auth()->user()->business_id)->orderByDesc('created_at')->get()->except([auth()->id()]);
                 return view('employee.index', compact('employees'));
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */
             {
-                $employees = User::where('business_id', auth()->user()->business_id)->where('user_role', '!=', 2)->get()->except([auth()->id()]);
+                $employees = User::where('business_id', auth()->user()->business_id)->where('user_role', '!=', 2)->orderByDesc('created_at')->get()->except([auth()->id()]);
                 return view('employee.index', compact('employees'));
             }
             if (\auth()->user()->user_role == 4) /* 4 => Supervisor */
             {
                 $userRoles = [2,3];
-                $employees = User::where('business_id', auth()->user()->business_id)->whereNotIn('user_role', $userRoles)->get()->except([auth()->id()]);
+                $employees = User::where('business_id', auth()->user()->business_id)->whereNotIn('user_role', $userRoles)->orderByDesc('created_at')->get()->except([auth()->id()]);
                 return view('employee.index', compact('employees'));
             }
 
@@ -82,7 +82,7 @@ class EmployeeController extends Controller
                 'user_role' => $role->id,
             ];
 
-            $user = User::create($data)->syncPermissions($permissions);
+            $user = User::create($data)->assignRole($role)->syncPermissions($permissions);
             UserHasSchedule::create([
                 'schedule_id' => $request->schedule,
                 'user_id' => $user->id,
@@ -98,7 +98,7 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        $employee = User::with('office')->findOrFail(decrypt($id));
+        $employee = User::with('office', 'userSchedules.schedule')->findOrFail(decrypt($id));
         $permissions = Permission::get()->pluck( 'name', 'id');
         return view('employee.show', compact('employee', 'permissions'));
     }
@@ -107,7 +107,7 @@ class EmployeeController extends Controller
     {
         if (auth()->user()->hasPermissionTo('update employee'))
         {
-            $employee = User::with('office', 'business', 'punchTable')->where('id', decrypt($id))->first();
+            $employee = User::with('office', 'business', 'punchTable', 'userSchedules', 'office.officeSchedules')->where('id', decrypt($id))->first();
             $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
             $permissions = Permission::get()->pluck( 'name', 'id');
             return view('employee.edit', compact('employee', 'offices', 'permissions'));
@@ -121,13 +121,18 @@ class EmployeeController extends Controller
         {
             Validator::make($request->all(), [
                 'office_id' => ['required'],
-                'status' => ['required']
+                'status' => ['required'],
+                'schedule_id' => ['required']
+            ],[
+                'office_id.required' => __('validation.custom.office_id.required'),
+                'schedule_id.required' => __('validation.custom.schedule.required'),
             ])->validate();
 
             $user = User::findOrFail(decrypt($id));
 
             $user->update([
                 'office_id' => $request->office_id,
+                'schedule_id' => $request->schedule_id,
                 'status' => $request->status,
             ]);
             $user->save();
@@ -135,6 +140,10 @@ class EmployeeController extends Controller
             $permissions = $user->getAllPermissions();
             $user->revokePermissionTo($permissions);
             $user->syncPermissions($request->permissions);
+
+            $user->userSchedules()->update([
+                'schedule_id' => $request->schedule_id,
+            ]);
 
             return redirect()->route('employeeIndex')->with('success', 'Employee updated successfully!!');
         }

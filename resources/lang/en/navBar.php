@@ -15,6 +15,7 @@ return [
     'Offices' => 'Offices',
     'Add' => 'Add',
     'View' => 'View',
+    'My schedule' => 'My schedule',
     'Employees' => 'Employees',
     'Schedules' => 'Schedules',
     'Reports' => 'Reports',

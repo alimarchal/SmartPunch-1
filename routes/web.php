@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
 
         /* Schedule Routes Start */
         Route::prefix('schedule')->middleware('permission:view schedule')->group(function () {
-            Route::get('show/{userID}', [ScheduleController::class, 'show'])->name('scheduleShow');
+            Route::get('show/', [ScheduleController::class, 'show'])->name('scheduleShow');
             Route::middleware('permission:create schedule')->group(function () {
                 Route::get('/', [ScheduleController::class, 'index'])->name('scheduleIndex');
                 Route::get('create', [ScheduleController::class, 'create'])->name('scheduleCreate');
