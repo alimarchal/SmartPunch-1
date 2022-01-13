@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="pass1">{{__('portal.Office')}} *</label>
 
-                        <select class="custom-select" name="office_id" id="office_id" required>
+                        <select class="custom-select" name="office_id" id="office" required>
                             <option value="" disabled selected>{{__('portal.Select')}}</option>
                             @foreach($offices as $office)
                                 <option {{$employee->office_id == $office->id ? 'selected' : ''}} value="{{$office->id}}">{{ucfirst($office->name)}}</option>
@@ -61,6 +61,21 @@
 
                         @error('office_id')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('office_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pass1">{{__('portal.Schedule(s) List')}} *</label>
+
+                        <select class="custom-select" name="schedule_id" id="schedules" >
+                            <option value="" disabled selected>{{__('portal.Select')}}</option>
+                            @foreach($employee->office->officeSchedules as $officeSchedule)
+                                <option {{$employee->userSchedules->schedule_id == $officeSchedule->schedule->id ? 'selected' : ''}} value="{{$officeSchedule->schedule->id}}">{{ucfirst($officeSchedule->schedule->name)}}</option>
+                            @endforeach
+                        </select>
+
+                        @error('schedule_id')
+                            <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('schedule_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
                     </div>
 
@@ -90,6 +105,32 @@
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+            $('#schedules').select2();
+        });
+
+        $("#office").change(function (e) {
+            let option = '';
+            $('#schedules').prop('disabled', true);
+            $.ajax({
+                url: "{{route('getSchedules')}}",
+                method: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    office_id: $('#office').val(),
+                },
+                success: function(result){
+                    $('#schedules').prop('disabled', false);
+                    $('#schedules').empty();
+                    $('#schedules').select2({ placeholder: 'Select schedules' });
+                    result.schedules.forEach(function (schedule) {
+                        option = "<option value='" + schedule.id + "'>" + schedule.name + "</option>"
+                        $('#schedules').append(option);
+                    });
+                },
+                error: function(result){
+                    console.log('error');
+                }
+            });
         });
     </script>
 @endsection

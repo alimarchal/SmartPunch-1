@@ -45,7 +45,7 @@
 <!-- END wrapper -->
 
 <!-- Right Sidebar -->
-@include('theme.right_side_bar')
+{{--@include('theme.right_side_bar')--}}
 <!-- /Right-bar -->
 
 @include('theme.scripts')
