@@ -41,6 +41,7 @@
                         <input class="form-control" type="password" name="password_confirmation" id="password" placeholder="{{__('register.Confirm Password')}}" required>
                     </div>
 
+                    @if(!auth()->user()->hasRole('employee'))
                     <div class="form-group">
                         <label for="logo">{{__('portal.Company Logo')}}</label>
 
@@ -50,6 +51,7 @@
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('logo') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
                     </div>
+                    @endif
 
                     <div class="form-group mb-0 text-center">
                         <button class="btn btn-purple btn-block" type="submit"> {{__('register.Update')}} </button>

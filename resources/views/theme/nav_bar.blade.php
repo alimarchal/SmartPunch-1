@@ -127,7 +127,7 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                @can('view business')
+                    @can('view business')
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-briefcase"></i>

@@ -77,10 +77,13 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::get('show/{userID}', [EmployeeController::class, 'show'])->name('employeeShow');
             Route::get('delete/{userID}', [EmployeeController::class, 'delete'])->name('employeeDelete');
             Route::post('permissions-search', [EmployeeController::class, 'permissions'])->name('permissionsSearch');
-            Route::get('profile/update/', [EmployeeController::class, 'profileEdit'])->name('userProfileEdit');
-            Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
         });
         /* Employee Routes End */
+
+        /* Profile Update Routes */
+        Route::get('profile/update/', [EmployeeController::class, 'profileEdit'])->name('userProfileEdit');
+        Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
+        /* Profile Update Routes */
 
         /* Schedule Routes Start */
         Route::prefix('schedule')->middleware('permission:view schedule')->group(function () {

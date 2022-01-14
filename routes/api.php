@@ -37,37 +37,51 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
     Route::post('/logout', [UserController::class, 'logout']);
     Route::middleware( 'verified')->group(function ()
     {
-        Route::post('/business', [BusinessController::class, 'store']);
-        Route::get('/business/{id}', [BusinessController::class, 'show']);
-        Route::put('/business/{id}', [BusinessController::class, 'update']);
-        Route::get('/business', [BusinessController::class, 'index']);
-        Route::delete('/business/{id}', [BusinessController::class, 'destroy']);
+        Route::prefix('business')->group(function () {
+            Route::post('/', [BusinessController::class, 'store']);
+            Route::get('/{id}', [BusinessController::class, 'show']);
+            Route::put('/{id}', [BusinessController::class, 'update']);
+            Route::get('/', [BusinessController::class, 'index']);
+            Route::delete('/{id}', [BusinessController::class, 'destroy']);
+        });
 
         // Office APIs
-        Route::post('/office', [OfficerController::class, 'store']);
-        Route::get('/office/{id}', [OfficerController::class, 'show']);
-        Route::put('/office/{id}', [OfficerController::class, 'update']);
-        Route::get('/office', [OfficerController::class, 'index']);
-        Route::delete('/office/{id}', [OfficerController::class, 'destroy']);
+        Route::prefix('office')->group(function () {
+            Route::post('/', [OfficerController::class, 'store']);
+            Route::get('/{id}', [OfficerController::class, 'show']);
+            Route::put('/{id}', [OfficerController::class, 'update']);
+            Route::get('/', [OfficerController::class, 'index']);
+            Route::delete('/{id}', [OfficerController::class, 'destroy']);
+        });
+
+        /* Profile Update Routes */
+        Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
+        /* Profile Update Routes */
 
         // Employee APIs
-        Route::post('/employee', [EmployeeController::class, 'store']);
-        Route::post('/employee/{id}', [EmployeeController::class, 'status']);
+        Route::prefix('employee')->group(function () {
+            Route::post('/', [EmployeeController::class, 'store']);
+            Route::post('/{id}', [EmployeeController::class, 'status']);
+        });
 
         // Punch Table APIs
         Route::get('/punch-info', [PunchController::class, 'index']);
         Route::post('/punch', [PunchController::class, 'store']);
 
-        Route::get('/user', [UserController::class, 'index']);
-        Route::get('/user/{id}', [UserController::class, 'show']);
-        Route::put('/user/{id}', [UserController::class, 'update']);
+        Route::prefix('user')->group(function () {
+            Route::get('/', [UserController::class, 'index']);
+            Route::get('/{id}', [UserController::class, 'show']);
+            Route::put('/{id}', [UserController::class, 'update']);
+        });
 
         // Reports
         Route::get('/report', [ReportController::class, 'user_id']);
 
         // Schedule
-        Route::get('/schedule/office', [ScheduleController::class, 'schedules']);
-        Route::resource('/schedule', ScheduleController::class);
+        Route::prefix('schedule')->group(function () {
+            Route::get('/office', [ScheduleController::class, 'schedules']);
+            Route::resource('/', ScheduleController::class);
+        });
 
         // Schedule Type
         Route::resource('/schedule-type', ScheduleTypeController::class);
