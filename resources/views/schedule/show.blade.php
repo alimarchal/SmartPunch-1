@@ -20,6 +20,7 @@
                     </thead>
 
                     <tbody>
+                    @if(isset($userSchedule))
                         <tr>
                             <td>1</td>
                             <td>{{$userSchedule->schedule->name}}</td>
@@ -29,6 +30,7 @@
                             <td>{{$userSchedule->schedule->break_end}}</td>
                             <td>{{auth()->user()->office->name}}</td>
                         </tr>
+                    @endif
                     </tbody>
                 </table>
             </div>

@@ -88,7 +88,7 @@ class EmployeeController extends Controller
                 'user_id' => $user->id,
             ]);
 
-            $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email));
+            $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email, $user->otp));
 
             return redirect()->route('employeeIndex')->with('success', __('portal.Employee added successfully!!!'));
         }
