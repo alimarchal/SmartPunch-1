@@ -67,39 +67,34 @@ class EmployeeController extends Controller
 
     public function profileUpdate(Request $request): JsonResponse|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view office'))
-        {
-            Validator::make($request->all(),[
-                'password' => ['required', 'confirmed'],
-                'current_password' => ['required'],
-                'logo' => ['mimes:jpg,bmp,png'],
-            ])->validate();
+        Validator::make($request->all(),[
+            'password' => ['required', 'confirmed'],
+            'current_password' => ['required'],
+            'logo' => ['mimes:jpg,bmp,png'],
+        ])->validate();
 
-            if ($request->current_password != ''){
-                if (!(Hash::check($request->get('current_password'), Auth::user()->getAuthPassword())))
-                {
-                    return redirect()->back()->with('error', 'Current password not matched');
-                }
-            }
-            if ($request->password != ''){
-                if (strcmp($request->get('current_password'),$request->get('password'))==0)
-                {
-                    return redirect()->back()->with('error', 'Your current password cannot be same to new password');
-
-                }
-            }
-
-            if ($request->hasFile('logo'))
+        if ($request->current_password != ''){
+            if (!(Hash::check($request->get('current_password'), Auth::user()->getAuthPassword())))
             {
-                $path = $request->file('logo')->store('', 'public');
-                User::where('id', auth()->id())->update(['profile_photo_path' => $path]);
+                return redirect()->back()->with('error', 'Current password not matched');
             }
+        }
+        if ($request->password != ''){
+            if (strcmp($request->get('current_password'),$request->get('password'))==0)
+            {
+                return redirect()->back()->with('error', 'Your current password cannot be same to new password');
 
-            User::where('id', auth()->id())->update(['password' => Hash::make($request->password)]);
-            return response()->json(['Success' => 'Profile updated successfully!!']);
+            }
         }
 
-        return response()->json(['message' => 'Forbidden!'], 403);
+        if ($request->hasFile('logo'))
+        {
+            $path = $request->file('logo')->store('', 'public');
+            User::where('id', auth()->id())->update(['profile_photo_path' => $path]);
+        }
+
+        User::where('id', auth()->id())->update(['password' => Hash::make($request->password)]);
+        return response()->json(['Success' => 'Profile updated successfully!!']);
     }
 
     public function status($id, Request $request): JsonResponse

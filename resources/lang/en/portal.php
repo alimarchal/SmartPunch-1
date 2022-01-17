@@ -15,6 +15,7 @@ return [
     'Country Name' => 'Country Name',
     'Country Code' => 'Country Code',
     'Company Logo' => 'Company Logo',
+    'Profile Photo' => 'Profile Photo',
     'City Name' => 'City Name',
     'IBR' => 'IBR',
     'Enter Business Details to proceed' => 'Enter Business Details to proceed',

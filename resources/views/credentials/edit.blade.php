@@ -43,7 +43,7 @@
 
                     @if(!auth()->user()->hasRole('employee'))
                     <div class="form-group">
-                        <label for="logo">{{__('portal.Company Logo')}}</label>
+                        <label for="logo">{{__('portal.Profile Photo')}}</label>
 
                         <input type="file" name="logo" class="form-control @error('logo') parsley-error @enderror">
 
