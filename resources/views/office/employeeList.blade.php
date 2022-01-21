@@ -19,6 +19,7 @@
                         <th>{{__('portal.Employee ID')}}</th>
                         <th>{{__('portal.Role')}}</th>
                         <th>{{__('portal.Phone')}}</th>
+                        <th>{{__('portal.Schedule assigned')}}</th>
                         <th>{{__('portal.Status')}}</th>
                     </tr>
                     </thead>
@@ -33,6 +34,7 @@
                             @php $role = \Spatie\Permission\Models\Role::where('id', $employee->user_role)->pluck('name')->first(); @endphp
                             <td>{{ucfirst($role)}}</td>
                             <td>{{$employee->phone}}</td>
+                            <td> @if(isset($employee->userSchedules->schedule->name)) {{$employee->userSchedules->schedule->name}} @else -- @endif </td>
                             <td>
                                 @if($employee->status == 1) <span style="color: limegreen">{{__('portal.Active')}}</span> @endif
                                 @if($employee->status == 0) <span class="text-danger">{{__('portal.Suspended')}}</span> @endif

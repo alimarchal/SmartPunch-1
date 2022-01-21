@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSchedule;
 use App\Models\Office;
 use App\Models\OfficeSchedule;
 use App\Models\Schedule;
+use App\Models\UserHasSchedule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,6 +64,12 @@ class ScheduleController extends Controller
             return redirect()->route('scheduleIndex')->with('success', __('portal.Schedule added successfully!!!'));
         }
         return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    public function show()
+    {
+        $userSchedule = UserHasSchedule::with('schedule')->firstWhere('user_id', auth()->id());
+        return view('schedule.show', compact('userSchedule'));
     }
 
     public function approve(Request $request): JsonResponse
