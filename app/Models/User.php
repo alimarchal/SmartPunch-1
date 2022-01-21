@@ -91,4 +91,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PunchTable::class);
     }
 
+    public function userSchedules(): HasOne
+    {
+        return $this->hasOne(UserHasSchedule::class);
+    }
+
 }

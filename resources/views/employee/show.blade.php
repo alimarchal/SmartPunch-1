@@ -38,19 +38,27 @@
                 @endif
 
                 <div class="form-group">
-                    <label for="pass1">{{__('portal.Status')}} *</label>
+                    <label for="pass1">{{__('portal.Status')}}</label>
 
-                    <select class="custom-select" name="status" disabled>
+                    <select class="custom-select" disabled>
                         <option>@if($employee->status == 1) {{__('portal.Active')}} @elseif($employee->active == 0) Suspended @endif </option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="pass1">{{__('portal.Office')}} *</label>
+                    <label for="pass1">{{__('portal.Office')}}</label>
 
-                    <select class="custom-select" name="office_id" id="office_id" disabled>
-                        <option>{{ucfirst($employee->office->name)}}</option>
-                    </select>
+                    <input class="form-control" disabled value="{{$employee->office->name}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="pass1">{{__('portal.Schedule assigned')}}</label>
+
+                    <input class="form-control" disabled
+                           @isset($employee->userSchedules->schedule->name))
+                           value="{{$employee->userSchedules->schedule->name}}"
+                           @endisset
+                    >
                 </div>
 
                 <div class="form-group">

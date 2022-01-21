@@ -68,9 +68,9 @@
                     <div class="form-group">
                         <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
                         <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
-                            @foreach($schedules as $id => $schedule)
+                            @foreach($schedules as $schedule)
                                 <option
-                                {{ ($office->officeSchedules->pluck('schedule_id')->contains($id)) ? 'selected' : '' }}
+                                {{ ($office->officeSchedules->pluck('schedule_id')->contains($schedule->id)) ? 'selected' : '' }}
                                         value="{{$schedule->id}}">{{$schedule->name}}</option>
                             @endforeach
                         </select>

@@ -127,7 +127,7 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                @can('view business')
+                    @can('view business')
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-briefcase"></i>
@@ -242,9 +242,19 @@
                                     <a href="{{route('scheduleCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
                             @endcan
+
+                            @if(!auth()->user()->hasRole('employee'))
                             <li>
                                 <a href="{{route('scheduleIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
                             </li>
+                            @endif
+
+                            @if(!auth()->user()->hasRole('admin'))
+                                <li>
+                                    <a href="{{route('scheduleShow')}}"><i class="fa fa-eye"></i> {{__('navBar.My schedule')}}</a>
+                                </li>
+                            @endif
+
                         </ul>
                     </li>
                 @endcan

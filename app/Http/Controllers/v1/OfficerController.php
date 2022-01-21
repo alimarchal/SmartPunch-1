@@ -12,7 +12,14 @@ class OfficerController extends Controller
 {
     public function index(): JsonResponse
     {
-        $business = Office::paginate(15);
+        if (auth()->user()->user_role == 2)     /* 2 for admin*/
+        {
+            $business = Office::where('business_id', auth()->user()->business_id)->paginate(15);
+        }
+        if (auth()->user()->user_role == 3)     /* 3 for Manager*/
+        {
+            $business = Office::where(['business_id' => auth()->user()->business_id, 'id' => auth()->user()->office_id])->paginate(15);
+        }
         return response()->json($business, 200);
     }
 
