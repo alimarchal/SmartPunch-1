@@ -72,7 +72,7 @@ class UserController extends Controller
             {
                 return response([
                     'email' => ['The provided credentials are incorrect.'],
-                ], 200);
+                ], 401);
             }
             elseif ($user->status == 0)
             {
@@ -86,8 +86,9 @@ class UserController extends Controller
         $user->save();
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,
-            'permission' => $user->getAllPermissions(), 'user' => $user,
-            'user_role' => Role::findById($user->user_role)
+            'user' => $user,
+            'user_role' => Role::findById($user->user_role),
+            'permission' => $user->getAllPermissions(),
         ], 200);
 
     }

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Office;
 use App\Models\User;
 use App\Models\UserHasSchedule;
+use App\Models\UserOffice;
 use App\Notifications\NewEmployeeRegistration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -87,6 +88,10 @@ class EmployeeController extends Controller
                 'schedule_id' => $request->schedule,
                 'user_id' => $user->id,
             ]);
+            UserOffice::create([
+                'user_id' => $user->id,
+                'office_id' => $request->office_id,
+            ]);
 
             $user->notify(new NewEmployeeRegistration($user, $request->password, $role->name, $request->email, $user->otp));
 
@@ -98,19 +103,21 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        $employee = User::with('office', 'userSchedules.schedule')->findOrFail(decrypt($id));
+        $employee = User::with('office', 'userSchedule.schedule')->findOrFail(decrypt($id));
+        $userSchedule = $employee->userSchedule()->firstWhere('status', 1);
         $permissions = Permission::get()->pluck( 'name', 'id');
-        return view('employee.show', compact('employee', 'permissions'));
+        return view('employee.show', compact('employee', 'permissions', 'userSchedule'));
     }
 
     public function edit($id)
     {
         if (auth()->user()->hasPermissionTo('update employee'))
         {
-            $employee = User::with('office', 'business', 'punchTable', 'userSchedules', 'office.officeSchedules')->where('id', decrypt($id))->first();
+            $employee = User::with('office', 'business', 'punchTable', 'userSchedule', 'office.officeSchedules')->where('id', decrypt($id))->first();
+            $employeeSchedule = $employee->userSchedule()->firstWhere('status', 1);
             $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
             $permissions = Permission::get()->pluck( 'name', 'id');
-            return view('employee.edit', compact('employee', 'offices', 'permissions'));
+            return view('employee.edit', compact('employee', 'offices', 'permissions', 'employeeSchedule'));
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
@@ -141,9 +148,37 @@ class EmployeeController extends Controller
             $user->revokePermissionTo($permissions);
             $user->syncPermissions($request->permissions);
 
-            $user->userSchedules()->update([
-                'schedule_id' => $request->schedule_id,
-            ]);
+            $previousAssignedSchedule = $user->userSchedule()->firstWhere('status', 1);
+            $previousAssignedOffice = $user->userOffice()->firstWhere('status', 1);
+
+            if ($previousAssignedSchedule->schedule_id != $request->schedule_id)
+            {
+
+                /* Update previous employee schedule status */
+                $user->userSchedule()->firstWhere('status', 1)->update([
+                    'status' => 0,
+                ]);
+
+                $user->userSchedule()->create([
+                    'schedule_id' => $request->schedule_id,
+                    'user_id' => $user->id,
+                    'previous_schedule_id' => $previousAssignedSchedule->schedule_id,
+                ]);
+            }
+
+            if (isset($previousAssignedOffice) && $previousAssignedOffice->office_id != $request->office_id)
+            {
+                /* Update previous employee Office status */
+                $user->userOffice()->firstWhere('status', 1)->update([
+                    'status' => 0,
+                ]);
+
+                $user->userOffice()->create([
+                    'user_id' => $user->id,
+                    'office_id' => $request->office_id,
+                    'previous_office_id' => $previousAssignedOffice->office_id,
+                ]);
+            }
 
             return redirect()->route('employeeIndex')->with('success', 'Employee updated successfully!!');
         }
