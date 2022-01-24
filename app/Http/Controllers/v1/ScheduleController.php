@@ -3,47 +3,25 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSchedule;
 use App\Models\Office;
 use App\Models\OfficeSchedule;
 use App\Models\Schedule;
+use App\Models\UserHasSchedule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        $schedule = Schedule::paginate(15);
-        return response()->json($schedule, 200);
+        $schedules = Schedule::with(['officeSchedules', 'officeSchedules.office'])->where('business_id', auth()->user()->business_id)->get();
+        return response()->json(['schedules' => $schedules]);
     }
 
-    public function create()
+    public function store(StoreSchedule $request): JsonResponse
     {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'break_start' => 'required',
-            'break_end' => 'required',
-            'status' => 'required',
-        ],[
-            'start_time.required' => 'Start time is required',
-            'end_time.required' => 'End time is required',
-            'break_start.required' => 'Start time for break is required',
-            'break_end.required' => 'Start time for break is required',
-        ]);
-
-        if ($validator->fails())
-        {
-            return response()->json(['errors' => $validator->errors()]);
-        }
-
         $data = [
             'business_id' => auth()->user()->business_id,
             'name' => $request->name,
@@ -51,10 +29,19 @@ class ScheduleController extends Controller
             'end_time' => $request->end_time,
             'break_start' => $request->break_start,
             'break_end' => $request->break_end,
-            'status' => $request->status,
         ];
 
         $schedule = Schedule::create($data);
+        if (!is_null($request->offices))
+        {
+            foreach ($request->offices as $officeID)
+            {
+                OfficeSchedule::create([
+                    'office_id' => $officeID,
+                    'schedule_id' => $schedule->id,
+                ]);
+            }
+        }
         if ($schedule->wasRecentlyCreated) {
             return response()->json($schedule, 201);
         } else {
@@ -62,47 +49,24 @@ class ScheduleController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(): JsonResponse
     {
-        $schedule = Schedule::find($id);
-        if (!empty($schedule)) {
-            return response()->json($schedule, 200);
-        } else {
+        $userSchedule = UserHasSchedule::with('schedule')->firstWhere('user_id', auth()->id());
+        if (!empty($userSchedule))
+        {
+            return response()->json(['schedule' => $userSchedule]);
+        }
+        else
+        {
             return response()->json(['message' => 'Not Found!'], 404);
         }
     }
 
-    public function edit($id)
+    public function approve($id): JsonResponse
     {
-        //
-    }
+        $schedule = Schedule::findOrFail($id);
+        $schedule->update(['status' => 1]);
 
-    public function update(Request $request, $id)
-    {
-        $schedule = Schedule::find($id);
-
-        if (empty($schedule)) {
-            return response()->json(['message' => 'Not Found!'], 404);
-        } else {
-            $schedule->update($request->all());
-            return response()->json($schedule, 200);
-        }
-    }
-
-    public function destroy($id)
-    {
-//        $schedule = Schedule::find($id);
-//        if (empty($schedule)) {
-//            return response()->json(['message' => 'Not Found!'], 404);
-//        } else {
-//            $schedule = $schedule->delete();
-//            return response()->json($schedule, 200);
-//        }
-    }
-
-    public function schedules(): JsonResponse
-    {
-        $schedules = Schedule::with(['officeSchedules', 'officeSchedules.office'])->where('business_id', auth()->user()->business_id)->get();
-        return response()->json(['schedules' => $schedules]);
+        return response()->json(['message' => 'Schedule approved successfully!!!', 'schedule' => $schedule]);
     }
 }

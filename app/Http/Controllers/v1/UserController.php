@@ -15,15 +15,21 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
             'device_name' => 'required',
+        ],[
+            'device_name.required' => 'Device name is required.'
         ]);
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         $adminRole = Role::with('permissions')->where('name', 'admin')->first();
         $permissions = $adminRole->permissions->pluck('name');
@@ -35,6 +41,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'mac_address' => $request->mac_address,
+            'device_name' => $request->device_name,
             'user_role' => $adminRole->id,
             'otp' => $otp,
         ])->assignRole($adminRole)->syncPermissions($permissions);
@@ -51,10 +58,6 @@ class UserController extends Controller
 
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
     public function login(Request $request)
     {
         $request->validate([
@@ -71,14 +74,14 @@ class UserController extends Controller
             if (!$user || !Hash::check($request->password, $user->password))
             {
                 return response([
-                    'email' => ['The provided credentials are incorrect.'],
-                ], 200);
+                    'error' => ['The provided credentials are incorrect.'],
+                ], 404);
             }
             elseif ($user->status == 0)
             {
                 return response([
                     'status' => ['Your account is suspended'],
-                ], 200);
+                ], 45);
             }
         }
 
@@ -86,27 +89,19 @@ class UserController extends Controller
         $user->save();
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,
-            'permission' => $user->getAllPermissions(), 'user' => $user,
-            'user_role' => Role::findById($user->user_role)
+            'user' => $user,
+            'user_role' => Role::findById($user->user_role),
+            'permission' => $user->getAllPermissions(),
         ], 200);
 
     }
 
-    /**
-     * @param Request $request
-     * @return string[]
-     */
-    public function logout(Request $request)
+    public function logout()
     {
         auth()->user()->tokens()->delete();
         return response(['message' => 'Logged out'], 200);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $user = null;
@@ -134,33 +129,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user = User::find($id);
@@ -173,24 +141,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user = User::find($id);
@@ -203,17 +153,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function verify_otp(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -224,7 +163,7 @@ class UserController extends Controller
 
         if ($validator->fails())
         {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['errors' => $validator->errors()],422);
         }
 
         $user = User::findOrFail(auth()->user()->id);

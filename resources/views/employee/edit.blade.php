@@ -70,7 +70,7 @@
                         <select class="custom-select" name="schedule_id" id="schedules" >
                             <option value="" disabled selected>{{__('portal.Select')}}</option>
                             @foreach($employee->office->officeSchedules as $officeSchedule)
-                                <option {{$employee->userSchedules->schedule_id == $officeSchedule->schedule->id ? 'selected' : ''}} value="{{$officeSchedule->schedule->id}}">{{ucfirst($officeSchedule->schedule->name)}}</option>
+                                <option {{$employeeSchedule->schedule_id == $officeSchedule->schedule->id ? 'selected' : ''}} value="{{$officeSchedule->schedule->id}}">{{ucfirst($officeSchedule->schedule->name)}}</option>
                             @endforeach
                         </select>
 

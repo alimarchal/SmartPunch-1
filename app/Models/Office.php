@@ -27,4 +27,9 @@ class Office extends Model
     {
         return $this->hasMany(OfficeSchedule::class, 'office_id', 'id');
     }
+
+    public function userOffice(): HasMany
+    {
+        return $this->hasMany(UserOffice::class, 'office_id', 'id');
+    }
 }
