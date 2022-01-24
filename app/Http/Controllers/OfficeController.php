@@ -194,6 +194,7 @@ class OfficeController extends Controller
         return  redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
+    /* Response to API present in Employee Create view */
     public function schedules(Request $request): JsonResponse
     {
         $officeSchedules = OfficeSchedule::with('schedule')->where('office_id', $request->office_id)->get();

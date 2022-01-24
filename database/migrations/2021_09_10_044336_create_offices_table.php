@@ -15,7 +15,7 @@ class CreateOfficesTable extends Migration
     {
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('business_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('business_id')->constrained();
             $table->string('name');
             $table->string('email');
             $table->string('address');
