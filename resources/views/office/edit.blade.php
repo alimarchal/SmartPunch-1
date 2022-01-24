@@ -67,13 +67,16 @@
 
                     <div class="form-group">
                         <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
-                        <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+                        <select name="schedules[]" class="select2 select2-multiple  @if(session()->has('assignedSchedules')) parsley-error @endif" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
                             @foreach($schedules as $schedule)
                                 <option
                                 {{ ($office->officeSchedules->pluck('schedule_id')->contains($schedule->id)) ? 'selected' : '' }}
                                         value="{{$schedule->id}}">{{$schedule->name}}</option>
                             @endforeach
                         </select>
+                        @if(session()->has('assignedSchedules'))
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li> @foreach (session('assignedSchedules') as $assignedSchedule) {{ $assignedSchedule }} @if (!$loop->last) {{ ', ' }} @endif @endforeach {{' schedule(s) cannot be removed because user(s) are assigned.'}} </li> </ul>
+                        @endif
                     </div>
 
                     <div class="form-group text-right mb-0">

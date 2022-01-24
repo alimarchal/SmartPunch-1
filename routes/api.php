@@ -47,11 +47,12 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Office APIs
         Route::prefix('office')->group(function () {
+            Route::get('/', [OfficerController::class, 'index']);
             Route::post('/', [OfficerController::class, 'store']);
             Route::get('/{id}', [OfficerController::class, 'show']);
             Route::put('/{id}', [OfficerController::class, 'update']);
-            Route::get('/', [OfficerController::class, 'index']);
-            Route::delete('/{id}', [OfficerController::class, 'destroy']);
+            Route::delete('/{id}', [OfficerController::class, 'delete']);
+            Route::get('/employees/{id}', [OfficerController::class, 'employees']);
         });
 
         /* Profile Update Routes */
@@ -60,8 +61,11 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Employee APIs
         Route::prefix('employee')->group(function () {
+            Route::get('/', [EmployeeController::class, 'index']);
             Route::post('/', [EmployeeController::class, 'store']);
-            Route::post('/{id}', [EmployeeController::class, 'status']);
+            Route::get('/show/{id}', [EmployeeController::class, 'show']);
+            Route::post('/update/{id}', [EmployeeController::class, 'update']);
+            Route::post('/suspend/{id}', [EmployeeController::class, 'status']);
         });
 
         // Punch Table APIs
@@ -79,11 +83,10 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Schedule
         Route::prefix('schedule')->group(function () {
-            Route::get('/office', [ScheduleController::class, 'schedules']);
+            Route::get('/show', [ScheduleController::class, 'show']);
+            Route::post('/approve/{id}', [ScheduleController::class, 'approve']);
             Route::resource('/', ScheduleController::class);
         });
 
-        // Schedule Type
-        Route::resource('/schedule-type', ScheduleTypeController::class);
     });
 });

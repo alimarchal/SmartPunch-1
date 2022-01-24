@@ -55,8 +55,8 @@
                     <label for="pass1">{{__('portal.Schedule assigned')}}</label>
 
                     <input class="form-control" disabled
-                           @isset($employee->userSchedules->schedule->name))
-                           value="{{$employee->userSchedules->schedule->name}}"
+                           @isset($userSchedule))
+                           value="{{$userSchedule->schedule->name}}"
                            @endisset
                     >
                 </div>

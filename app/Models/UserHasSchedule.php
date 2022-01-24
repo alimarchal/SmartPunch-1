@@ -10,7 +10,7 @@ class UserHasSchedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['schedule_id', 'user_id'];
+    protected $fillable = ['schedule_id', 'user_id', 'previous_schedule_id', 'status'];
 
     public function schedule(): BelongsTo
     {
