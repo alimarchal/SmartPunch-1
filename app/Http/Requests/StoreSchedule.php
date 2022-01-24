@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
 class StoreSchedule extends FormRequest
@@ -51,5 +52,12 @@ class StoreSchedule extends FormRequest
             'break_start.required' => __('validation.custom.break_start.required'),
             'break_end.required' => __('validation.custom.break_end.required'),
         ];
+    }
+
+    public function response(array $errors)
+    {
+        if ($this->expectsJson()) {
+            return new JsonResponse($errors, 422);
+        }
     }
 }

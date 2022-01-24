@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 
 class StoreEmployeeRequest extends FormRequest
 {
@@ -40,5 +41,13 @@ class StoreEmployeeRequest extends FormRequest
             'role_id.required' => __('validation.custom.role_id.required'),
             'schedule.required' => __('validation.custom.schedule.required'),
         ];
+    }
+
+    public function response(array $errors)
+    {
+        if ($this->expectsJson())
+        {
+            return new JsonResponse($errors,422);
+        }
     }
 }

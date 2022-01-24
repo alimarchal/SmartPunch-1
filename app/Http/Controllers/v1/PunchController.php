@@ -29,7 +29,7 @@ class PunchController extends Controller
 
         if ($validator->fails())
         {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['errors' => $validator->errors()],422);
         }
 
         $data = [
