@@ -26,7 +26,13 @@ class EmployeeController extends Controller
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
-                $employees = User::where('business_id', auth()->user()->business_id)->orderByDesc('created_at')->get()->except([auth()->id()]);
+                $employees = User::with(['userOffice' => function ($query) {
+                    $query->where('status', 1)->pluck('office_id');
+                }, 'userOffice.office'])
+                    ->where('business_id', auth()->user()->business_id)
+                    ->orderByDesc('created_at')
+                    ->get()
+                    ->except([auth()->id()]);
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
@@ -35,7 +41,14 @@ class EmployeeController extends Controller
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */
             {
-                $employees = User::where('business_id', auth()->user()->business_id)->where('user_role', '!=', 2)->orderByDesc('created_at')->get()->except([auth()->id()]);
+                $employees = User::with(['userOffice' => function ($query) {
+                    $query->where('status', 1);
+                }])
+                    ->where('business_id', auth()->user()->business_id)
+                    ->where('user_role', '!=', 2)
+                    ->orderByDesc('created_at')
+                    ->get()
+                    ->except([auth()->id()]);
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
@@ -45,7 +58,14 @@ class EmployeeController extends Controller
             if (\auth()->user()->user_role == 4) /* 4 => Supervisor */
             {
                 $userRoles = [2,3];
-                $employees = User::where('business_id', auth()->user()->business_id)->whereNotIn('user_role', $userRoles)->orderByDesc('created_at')->get()->except([auth()->id()]);
+                $employees = User::with(['userOffice' => function ($query) {
+                    $query->where('status', 1);
+                }])
+                    ->where('business_id', auth()->user()->business_id)
+                    ->whereNotIn('user_role', $userRoles)
+                    ->orderByDesc('created_at')
+                    ->get()
+                    ->except([auth()->id()]);
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
