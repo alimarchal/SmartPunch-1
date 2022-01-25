@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\OTPSent;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -180,5 +181,19 @@ class UserController extends Controller
         return response([
             'user' => 'verified'
         ], 200);
+    }
+
+    public function resend_otp(): JsonResponse
+    {
+        $otp = mt_rand(1000, 9999);
+        $user = User::firstWhere('id', auth()->id());
+        if (!$user)
+        {
+            return response()->json(['error' => 'Record Not Found'],404);
+        }
+        $user->update(['otp' => $otp]);
+        Mail::to($user->email)->send(new OTPSent($user->otp));
+
+        return response()->json(['success' => 'OTP resent to your registered email.']);
     }
 }
