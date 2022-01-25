@@ -26,14 +26,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/user/email-notification', [UserController::class, 'email_notification']);
     Route::post('/register', [UserController::class, 'register']);
-
-    Route::get('/punchIn', [ReportController::class, 'user_id']);
-    Route::get('/punchOut', [ReportController::class, 'user_id']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 {
     Route::post('/verify', [UserController::class, 'verify_otp']);
+    Route::post('/resend/otp', [UserController::class, 'resend_otp']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::middleware( 'verified')->group(function ()
     {
