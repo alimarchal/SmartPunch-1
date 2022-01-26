@@ -16,7 +16,9 @@ class ScheduleController extends Controller
 {
     public function index(): JsonResponse
     {
-        $schedules = Schedule::with(['officeSchedules', 'officeSchedules.office'])->where('business_id', auth()->user()->business_id)->get();
+        $schedules = Schedule::with(['officeSchedules', 'officeSchedules.schedule:id,name', 'officeSchedules.office'])
+            ->where('business_id', auth()->user()->business_id)
+            ->get();
         return response()->json(['schedules' => $schedules]);
     }
 
