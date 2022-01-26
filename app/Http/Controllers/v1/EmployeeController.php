@@ -27,7 +27,7 @@ class EmployeeController extends Controller
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
                 $employees = User::with(['userOffice' => function ($query) {
-                    $query->where('status', 1)->pluck('office_id');
+                    $query->where('status', 1);
                 }, 'userOffice.office'])
                     ->where('business_id', auth()->user()->business_id)
                     ->orderByDesc('created_at')

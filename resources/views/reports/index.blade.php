@@ -2,67 +2,47 @@
 
 @section('body')
 
-
-
     <div class="row mt-3">
         <div class="col-12">
             <div class="card-box">
-                <h4 style="text-align: center;">Attendance Report</h4>
+                <h4 style="text-align: center;">{{__('portal.List of employees')}}</h4>
 
-                <table class="table table-bordered">
+                <table id="datatable" class="table table-bordered dt-responsive nowrap">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Office</th>
-                        <th>Employee Business ID</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Total Time</th>
+                        <th>{{__('portal.Name')}}</th>
+                        <th>{{__('portal.Email')}}</th>
+                        <th>{{__('portal.Phone')}}</th>
+                        <th>{{__('portal.Office assigned to')}}</th>
+                        <th>{{__('portal.Schedule assigned')}}</th>
+                        <th>{{__('portal.Action')}} </th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    @foreach($punch as $pun)
+                    @foreach($employees as $employee)
                         <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{\Carbon\Carbon::parse($pun->time_in)->format('l')}}</td>
-                        <td>{{\Carbon\Carbon::parse($pun->time_in)->format('d-m-Y')}}</td>
-                        <td>{{$pun->name}}</td>
-                        <td>{{$pun->office_name}}</td>
-                        <td>{{$pun->employee_business_id}}</td>
-                        <td>{{$pun->time_in}}</td>
-                        <td>{{$pun->time_out}}</td>
-                        <td>
-                            @php
-                                $time_out = \Carbon\Carbon::parse($pun->time_out)->format('H:s');
-                                $time_in = \Carbon\Carbon::parse($pun->time_in)->format('H:s');
-
-                                $t1 = strtotime($time_out);
-                                $t2 = strtotime($time_in);
-
-                                ;
-                            @endphp
-
-                            @if(!empty($pun->time_in) && !empty($pun->time_out))
-                                {{ gmdate('H:i', $t1 - $t2) }}
-                            @else
-                                00:00
-                            @endif
-
-                        </td>
-
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$employee->name}}</td>
+                            <td>{{$employee->email}}</td>
+                            <td>{{$employee->phone}}</td>
+                            <td>
+                                @if(isset($employee->userOffice))
+                                {{$employee->userOffice->office->name}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($employee->userSchedule))
+                                    {{$employee->userSchedule->schedule->name}}
+                                @endif
+                            </td>
+                            <td></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-
-
             </div>
         </div>
     </div>
-
-
-
 @endsection
