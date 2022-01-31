@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/user/email-notification', [UserController::class, 'email_notification']);
     Route::post('/register', [UserController::class, 'register']);
+    Route::post('/forgot-password', [UserController::class, 'forgot_password']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
