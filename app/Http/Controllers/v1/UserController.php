@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Mail\forgotPassword;
 use App\Mail\OTPSent;
 use App\Models\User;
 use Carbon\Carbon;
@@ -195,5 +196,19 @@ class UserController extends Controller
         Mail::to($user->email)->send(new OTPSent($user->otp));
 
         return response()->json(['success' => 'OTP resent to your registered email.']);
+    }
+
+    public function forgot_password(Request $request): JsonResponse
+    {
+        $user = User::firstWhere('email', $request->email);
+        if (!$user)
+        {
+            return response()->json(['error' => 'Record Not Found'],404);
+        }
+        $password = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
+        $user->update(['password' => Hash::make($password)]);
+        Mail::to($user->email)->send(new forgotPassword($password));
+
+        return response()->json(['success' => 'New password is sent to your registered email.']);
     }
 }
