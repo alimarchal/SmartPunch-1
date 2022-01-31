@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -108,5 +109,5 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
     });
 
 // Report
-    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+    Route::get('reports', [ReportController::class, 'index'])->name('report.index');
 });
