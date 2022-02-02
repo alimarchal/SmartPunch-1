@@ -49,6 +49,5 @@
 <!-- /Right-bar -->
 
 @include('theme.scripts')
-
 </body>
 </html>
