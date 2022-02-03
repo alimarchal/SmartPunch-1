@@ -37,6 +37,7 @@ return [
     'Enter address' => 'Enter address',
     'Enter phone' => 'Enter phone',
     'List of offices' => 'List of offices',
+    'List of users (Referencee)' => 'List of users (Referencee)',
     'List of schedules' => 'List of schedules',
     'Business' => 'Business',
     'Enter Employee Details' => 'Enter Employee Details',
