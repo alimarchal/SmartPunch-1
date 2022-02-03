@@ -6,7 +6,6 @@ use App\Http\Controllers\v1\OfficerController;
 use App\Http\Controllers\v1\PunchController;
 use App\Http\Controllers\v1\ReportController;
 use App\Http\Controllers\v1\ScheduleController;
-use App\Http\Controllers\v1\ScheduleTypeController;
 use App\Http\Controllers\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
