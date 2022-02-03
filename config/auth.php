@@ -40,9 +40,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'ibr' => [
+            'driver' => 'session',
+            'provider' => 'ibrs',
+        ],
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'users',
+        ],
+        'ibr_api' => [
+            'driver' => 'sanctum',
+            'provider' => 'ibrs',
         ],
     ],
 
@@ -69,10 +77,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+         'ibrs' => [
+             'driver' => 'eloquent',
+             'model' => App\Models\Ibr::class,
+         ],
     ],
 
     /*
@@ -93,6 +101,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'ibrs' => [
+            'provider' => 'ibrs',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

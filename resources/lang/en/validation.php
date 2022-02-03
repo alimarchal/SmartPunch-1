@@ -169,6 +169,33 @@ return [
             'required' => 'Please select respective office\'s schedules',
         ],
         /* Add Employee validation errors end */
+
+        /* Add IBRs validation errors start */
+        'dob' => [
+            'required' => 'Please select your date of birth',
+        ],
+        'dob.date' => [
+            'date' => 'Date of birth must be a validate date',
+        ],
+        'country_of_business' => [
+            'required' => 'Please select a country of business',
+        ],
+        'country_of_bank' => [
+            'required' => 'Please select a country of bank',
+        ],
+        'bank' => [
+            'required' => 'Please select a bank',
+        ],
+        'iban' => [
+            'required' => 'Please enter a IBAN number',
+        ],
+        'currency' => [
+            'required' => 'Please select currency',
+        ],
+        'mobile_number' => [
+            'required' => 'Mobile number is required',
+        ],
+        /* Add IBRs validation errors end */
     ],
 
     /*

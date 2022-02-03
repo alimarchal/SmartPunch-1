@@ -67,6 +67,9 @@ class Kernel extends HttpKernel
         'businessCheck' => \App\Http\Middleware\BusinessCheck::class,
         'businessCreateCheck' => \App\Http\Middleware\BusinessCreateCheck::class,
         'accountStatus' => \App\Http\Middleware\AccountStatus::class,
+        'verified_email' => \App\Http\Middleware\emailVerified::class,
+        'ibr_authenticated' => \App\Http\Middleware\ibrAuthenticated::class,
+        'web_guarded_users' => \App\Http\Middleware\webUsers::class,
         'permission' => PermissionMiddleware::class,
     ];
 }
