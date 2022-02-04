@@ -62,12 +62,12 @@
 
                     <div class="form-group">
                         <label for="coordinates">{{__('portal.Coordinates')}}</label>
-                        <input type="text" name="coordinates" class="form-control" id="passWord2" value="{{old('coordinates')}}">
+                        <input type="text" name="coordinates" class="form-control" id="coordinates" value="{{old('coordinates')}}">
                     </div>
 
                     <div class="form-group">
                         <label for="schedules">{{__('portal.Schedule(s) List')}}</label>
-                        <select name="schedules[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
+                        <select name="schedules[]" id="schedules" class="select2 select2-multiple" multiple="multiple" data-placeholder="{{__('portal.Select')}}">
                             @foreach($schedules as $schedule)
                                 <option value="{{$schedule->id}}">{{$schedule->name}}</option>
                             @endforeach

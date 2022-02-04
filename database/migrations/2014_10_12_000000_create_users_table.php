@@ -17,9 +17,10 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('business_id')->nullable();
             $table->unsignedBigInteger('office_id')->nullable();
-            $table->integer('parent_id')->default(0);
             $table->string('employee_business_id')->nullable();
             $table->string('schedule_id')->nullable();
+            $table->integer('parent_id')->default(0);
+            $table->string('designation');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

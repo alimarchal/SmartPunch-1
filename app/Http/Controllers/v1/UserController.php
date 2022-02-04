@@ -46,6 +46,7 @@ class UserController extends Controller
             'device_name' => $request->device_name,
             'user_role' => $adminRole->id,
             'otp' => $otp,
+            'designation' => 'Admin',
         ])->assignRole($adminRole)->syncPermissions($permissions);
 
         Mail::to($user->email)->send(new OTPSent($user->otp));

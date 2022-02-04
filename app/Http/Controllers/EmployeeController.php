@@ -51,8 +51,9 @@ class EmployeeController extends Controller
             /* If user is admin(2) */
             if (auth()->user()->user_role == 2) {
                 $roles = Role::with('permissions')->get()->except(1);
+                $employees = User::where('parent_id', auth()->id())->get()->except(\auth()->id());
                 $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-                return view('employee.create', compact('roles', 'offices'));
+                return view('employee.create', compact('roles', 'employees','offices'));
             }
             /* If user is manager(3) */
             if (auth()->user()->user_role == 3) {

@@ -16,7 +16,7 @@ class CreateOfficesTable extends Migration
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->constrained();
-            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->integer('parent_id')->default(0);
             $table->string('name');
             $table->string('email');
             $table->string('address');
