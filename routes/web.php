@@ -110,4 +110,5 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
 
 // Report
     Route::get('reports', [ReportController::class, 'index'])->name('report.index');
+    Route::get('teamViewShow', [\App\Http\Controllers\TeamViewController::class, 'show'])->name('teamView.show');
 });
