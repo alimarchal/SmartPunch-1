@@ -44,6 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'office_id',
         'employee_business_id',
         'schedule_id',
+        'parent_id',
+        'designation',
         'name',
         'email',
         'password',
@@ -75,6 +77,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(User::class, 'parent_id');
+    }
+
+    public function subCategory(): HasMany
+    {
+        return $this->hasMany(User::class, 'parent_id')->orderBy('name');
+    }
 
     public function business(): HasOne
     {

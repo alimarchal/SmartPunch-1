@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="phone">{{__('portal.Phone')}}</label>
-                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="userName" value="{{old('phone')}}" required>
+                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="phone" value="{{old('phone')}}" required>
 
                         @error('phone')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('phone') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -99,8 +99,20 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="parent_id">{{__('portal.Immediate boss')}}</label>
+
+                        <select id="parent_id" class="children custom-select" name="parent_id">
+                            <option value="">{{__('portal.Select')}}</option>
+                        </select>
+
+                        @error('parent_id')
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('parent_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="employee_business_id">{{__('portal.Employee ID')}}</label>
-                        <input type="text" name="employee_business_id" parsley-trigger="change" placeholder="{{__('portal.Enter Employee ID (if any)')}}" class="form-control @error('employee_business_id') parsley-error @enderror" value="{{old('employee_business_id')}}">
+                        <input type="text" id="employee_business_id" name="employee_business_id" parsley-trigger="change" placeholder="{{__('portal.Enter Employee ID (if any)')}}" class="form-control @error('employee_business_id') parsley-error @enderror" value="{{old('employee_business_id')}}">
 
                         @error('employee_business_id')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('employee_business_id') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -122,6 +134,9 @@
 
 
 @section('scripts')
+    <link href="{{ url('select2/src/select2totree.css') }}" rel="stylesheet">
+    <script src="{{ url('select2/src/select2totree.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -174,6 +189,16 @@
                     console.log('error');
                 }
             });
+        });
+
+        var mydata = [
+            @include('employee.children', ['employees' => $employees])
+        ];
+        $(".children").select2ToTree({
+            treeData: {
+                dataArr: mydata
+            },
+            maximumSelectionLength: 1
         });
     </script>
 @endsection
