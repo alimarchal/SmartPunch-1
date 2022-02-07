@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\v1\BusinessController;
 use App\Http\Controllers\v1\EmployeeController;
+use App\Http\Controllers\v1\ibr\IbrController;
 use App\Http\Controllers\v1\ibr\LoginController;
 use App\Http\Controllers\v1\ibr\RegisterController;
 use App\Http\Controllers\v1\OfficerController;
@@ -31,10 +32,11 @@ Route::prefix('v1/ibr')->group(function () {
 
 Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
 {
-    Route::post('/verify', [UserController::class, 'verify_otp']);
-    Route::post('/resend/otp', [UserController::class, 'resend_otp']);
-    Route::post('/logout', [RegisterController::class, 'logout']);
-    Route::middleware( 'verified')->group(function ()
+    Route::post('/verify', [LoginController::class, 'verify_otp']);
+    Route::post('/resend/otp', [LoginController::class, 'resend_otp']);
+    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::middleware( 'email_verified')->group(function ()
     {
+        Route::get('/referrals', [IbrController::class, 'referrals']);
     });
 });

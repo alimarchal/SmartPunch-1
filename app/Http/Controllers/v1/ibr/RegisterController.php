@@ -8,10 +8,15 @@ use App\Mail\forgotPassword;
 use App\Mail\ibr\verifyEmail;
 use App\Mail\OTPSent;
 use App\Models\Ibr;
+use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -74,11 +79,5 @@ class RegisterController extends Controller
         Mail::to($ibr->email)->send(new forgotPassword($password));
 
         return response()->json(['success' => 'New password is sent to your registered email.']);
-    }
-
-    public function logout()
-    {
-        auth()->guard('ibr_api')->user()->tokens()->delete();
-        return response(['message' => 'Logged out'], 200);
     }
 }

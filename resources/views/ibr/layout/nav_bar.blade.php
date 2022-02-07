@@ -157,7 +157,7 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="{{route('dashboard')}}" class="logo logo-light">
+            <a href="{{route('ibr.dashboard')}}" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="{{url('logo.png')}}" alt="" height="44">
                     @php $role = \Spatie\Permission\Models\Role::where('id', auth()->user()->user_role)->pluck('name')->first(); @endphp
@@ -181,7 +181,7 @@
             <ul class="navigation-menu">
 
                 <li class="has-submenu">
-                    <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
+                    <a href="{{route('ibr.dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
                 <li class="has-submenu">
