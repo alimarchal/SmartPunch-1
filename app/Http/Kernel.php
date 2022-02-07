@@ -2,6 +2,13 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AccountStatus;
+use App\Http\Middleware\api_verfied_email;
+use App\Http\Middleware\BusinessCheck;
+use App\Http\Middleware\BusinessCreateCheck;
+use App\Http\Middleware\emailVerified;
+use App\Http\Middleware\ibrAuthenticated;
+use App\Http\Middleware\webUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 
@@ -64,12 +71,13 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'businessCheck' => \App\Http\Middleware\BusinessCheck::class,
-        'businessCreateCheck' => \App\Http\Middleware\BusinessCreateCheck::class,
-        'accountStatus' => \App\Http\Middleware\AccountStatus::class,
-        'verified_email' => \App\Http\Middleware\emailVerified::class,
-        'ibr_authenticated' => \App\Http\Middleware\ibrAuthenticated::class,
-        'web_guarded_users' => \App\Http\Middleware\webUsers::class,
+        'businessCheck' => BusinessCheck::class,
+        'businessCreateCheck' => BusinessCreateCheck::class,
+        'accountStatus' => AccountStatus::class,
+        'verified_email' => emailVerified::class,
+        'ibr_authenticated' => ibrAuthenticated::class,
+        'web_guarded_users' => webUsers::class,
+        'email_verified' => api_verfied_email::class,
         'permission' => PermissionMiddleware::class,
     ];
 }
