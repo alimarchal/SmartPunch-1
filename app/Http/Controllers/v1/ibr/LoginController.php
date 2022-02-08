@@ -20,12 +20,12 @@ class LoginController extends Controller
     public function login(Request $request): Response
     {
         $request->validate([
-            'email' => 'required|email',
+            'ibr_no' => 'required',
             'password' => 'required',
             'device_name' => 'required',
         ]);
 
-        if(auth()->guard('ibr')->attempt(['email' => request('email'), 'password' => request('password')]))
+        if(auth()->guard('ibr')->attempt(['ibr_no' => request('ibr_no'), 'password' => request('password')]))
         {
             $ibr = Ibr::find(auth()->guard('ibr')->user()->id);
 
