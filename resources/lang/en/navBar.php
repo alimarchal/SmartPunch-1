@@ -22,6 +22,8 @@ return [
     'Business' => 'Business',
     'Businesses' => 'Businesses',
     'Referrals' => 'Referrals',
+    'My referred businesses' => 'My referred businesses',
+    'My referred IBRs' => 'My referred IBRs',
     'Logout' => 'Logout',
     'Profile' => 'Profile',
 

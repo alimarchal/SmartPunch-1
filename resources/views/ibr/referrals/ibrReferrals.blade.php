@@ -4,7 +4,7 @@
     <div class="row mt-3">
         <div class="col-12">
             <div class="card-box">
-                <h4 style="text-align: center;">{{__('portal.List of users (Referencee)')}}</h4>
+                <h4 style="text-align: center;">{{__('portal.List of IBR referrals')}}</h4>
 
                 <table id="datatable" class="table table-bordered dt-responsive nowrap">
                     <thead>

@@ -108,6 +108,11 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
         Route::post('business-create', [BusinessController::class, 'store']);
     });
 
+    Route::get('/packages', function (){
+        $packages = \App\Models\Package::all();
+        return view('package.index', compact('packages'));
+    });
+
 // Report
     Route::get('reports', [ReportController::class, 'index'])->name('report.index');
     Route::get('teamViewShow', [\App\Http\Controllers\TeamViewController::class, 'show'])->name('teamView.show');

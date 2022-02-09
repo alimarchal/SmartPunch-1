@@ -37,6 +37,8 @@ Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::middleware( 'email_verified')->group(function ()
     {
-        Route::get('/referrals', [IbrController::class, 'referrals']);
+        Route::get('business-referrals', [IbrController::class, 'business_referrals']);
+        Route::get('ibr-referrals', [IbrController::class, 'ibr_referrals']);
+
     });
 });
