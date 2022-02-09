@@ -26,6 +26,7 @@ Route::middleware(['auth:ibr'])->prefix('ibr')->name('ibr.')->group(function () 
     /* Added web users middleware inorder to prevent web guard users to use ibr guarded user routes */
     Route::middleware(['verified_email', 'web_guarded_users'])->group(function () {
             Route::get('dashboard', [IbrController::class, 'dashboard'])->name('dashboard');
-            Route::get('referrals', [IbrController::class, 'referrals'])->name('referrals');
+            Route::get('business-referrals', [IbrController::class, 'business_referrals'])->name('business_referrals');
+            Route::get('ibr-referrals', [IbrController::class, 'ibr_referrals'])->name('ibr_referrals');
     });
 });

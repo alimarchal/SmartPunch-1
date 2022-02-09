@@ -185,7 +185,11 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="{{route('ibr.referrals')}}"><i class="mdi mdi-account-multiple"></i>{{__('navBar.Referrals')}}</a>
+                    <a href="{{route('ibr.business_referrals')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.My referred businesses')}}</a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="{{route('ibr.ibr_referrals')}}"><i class="mdi mdi-account-multiple"></i>{{__('navBar.My referred IBRs')}}</a>
                 </li>
 
                 @can('suspend business')
