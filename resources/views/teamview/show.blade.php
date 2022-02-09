@@ -40,7 +40,7 @@
     <div class="row mt-3">
         <div class="col-12">
             <div class="card-box bg-white">
-                <h4 class="text-center">Team View</h4>
+                <h4 class="text-center text-primary">Team View</h4>
                 @include('teamview.categoryTreeview')
 
 
