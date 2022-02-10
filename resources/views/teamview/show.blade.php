@@ -14,11 +14,12 @@
             margin: 0;
             padding: 0 7px;
             line-height: 20px;
-            color: #369;
+            color: #000;
             font-weight: bold;
             border-left:2px solid rgb(100,100,100);
 
         }
+        ul.tree li a:hover {text-decoration: underline}
         ul.tree li:last-child {
             border-left:none;
         }
@@ -36,11 +37,12 @@
         ul.tree li:last-child:before {
             border-left:2px solid rgb(100,100,100);
         }
+
     </style>
     <div class="row mt-3">
         <div class="col-12">
             <div class="card-box bg-white">
-                <h4 class="text-center text-primary">Team View</h4>
+                <h4 class="text-center ">Team View</h4>
                 @include('teamview.categoryTreeview')
 
 
