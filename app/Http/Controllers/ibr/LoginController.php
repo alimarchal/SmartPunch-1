@@ -39,7 +39,7 @@ class LoginController extends Controller
         }
         else
         {
-            return redirect()->route('ibr.login')->with('error', 'Invalid credentials');
+            return redirect()->route('ibr.login')->withErrors('Invalid credentials')->withInput();
         }
 
     }

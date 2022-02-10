@@ -1,4 +1,4 @@
-@extends('theme.master')
+@extends('superAdmin.layout.master')
 
 @section('body')
     <div class="row mt-3">
@@ -31,7 +31,7 @@
                             <td>{{$business->user->email}}</td>
                             <td>
                                 @if(count($business->offices) > 0)
-                                    <a href="{{route('businessOffices', encrypt($business->id) )}}" style="color: limegreen;text-decoration: underline">{{count($business->offices)}}</a>
+                                    <a href="{{route('superAdmin.businessOffices', encrypt($business->id) )}}" style="color: limegreen;text-decoration: underline">{{count($business->offices)}}</a>
                                 @else
                                     <span class="text-danger">{{count($business->offices)}}</span>
                                 @endif

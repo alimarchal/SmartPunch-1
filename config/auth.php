@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'ibrs',
         ],
+        'super_admin' => [
+            'driver' => 'session',
+            'provider' => 'super_admins',
+        ],
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'users',
@@ -81,6 +85,10 @@ return [
              'driver' => 'eloquent',
              'model' => App\Models\Ibr::class,
          ],
+        'super_admins' => [
+             'driver' => 'eloquent',
+             'model' => App\Models\SuperAdmin::class,
+         ],
     ],
 
     /*
@@ -108,6 +116,13 @@ return [
 
         'ibrs' => [
             'provider' => 'ibrs',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'super_admins' => [
+            'provider' => 'super_admins',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

@@ -100,41 +100,4 @@ class BusinessController extends Controller
 
         return redirect()->back();
     }
-
-                                    /* Functions for only Super Admin Started */
-
-    /* Function for admin to retrieve all businesses  */
-    public function allBusinesses()
-    {
-        if (auth()->user()->hasPermissionTo('suspend business'))
-        {
-            $businesses = Business::with('offices', 'user')->get();
-            return view('business.admin.index', compact('businesses'));
-        }
-        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
-    }
-
-    /* Function for admin to retrieve all offices of a business  */
-    public function businessOffices($id)
-    {
-        if (auth()->user()->hasPermissionTo('suspend business'))
-        {
-            $offices = Office::with('employees', 'business')->where('business_id', decrypt($id))->get();
-            return view('business.admin.liftOfOffices', compact('offices'));
-        }
-        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
-    }
-
-    /* Function for admin to retrieve all employees of an office  */
-    public function businessOfficesEmployees($id)
-    {
-        if (auth()->user()->hasPermissionTo('suspend business'))
-        {
-            $office = Office::with('employees')->where('id', decrypt($id))->first();
-            return view('business.admin.listOfOfficeEmployees', compact('office'));
-        }
-        return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
-    }
-
-                                    /* Functions for only Super Admin Ended */
 }

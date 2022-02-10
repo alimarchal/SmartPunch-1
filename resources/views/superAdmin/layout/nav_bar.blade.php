@@ -108,11 +108,8 @@
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-{{--                        <img src="{{ Auth::guard('ibr')->user()->profile_photo_url }}" alt="user-image" class="rounded-circle">--}}
-                    @endif
                     <span class="pro-user-name ml-1">
-                         {{ Auth::guard('ibr')->user()->name }} <i class="mdi mdi-chevron-down"></i>
+                         {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -127,22 +124,14 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                    @can('view business')
-                    <!-- item-->
-                        <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
-                            <i class="mdi mdi-briefcase"></i>
-                            <span>{{__('navBar.Business')}}</span>
-                        </a>
-                    @endcan
-
                     <div class="dropdown-divider"></div>
 
                     <!-- item-->
 
-                    <form method="POST" action="{{ route('ibr.logout') }}">
+                    <form method="POST" action="{{ route('superAdmin.logout') }}">
                         @csrf
 
-                        <a href="{{ route('ibr.logout') }}"
+                        <a href="{{ route('superAdmin.logout') }}"
                            onclick="event.preventDefault();
                                                 this.closest('form').submit();" class="dropdown-item notify-item">
                             <i class="fe-log-out"></i>
@@ -157,10 +146,10 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="{{route('ibr.dashboard')}}" class="logo logo-light">
+            <a href="{{route('superAdmin.dashboard')}}" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="{{url('logo.png')}}" alt="" height="44">
-                    <span class="ml-1 text-white">{{__('navBar.IBR')}}</span>
+                    <span class="ml-1 text-white">{{__('navBar.Super Admin')}}</span>
                 </span>
                 <span class="logo-sm">
                     <img src="{{url('logo.png')}}" alt="" height="44">
@@ -180,20 +169,12 @@
             <ul class="navigation-menu">
 
                 <li class="has-submenu">
-                    <a href="{{route('ibr.dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
+                    <a href="{{route('superAdmin.dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
-                <li class="has-submenu">
-                    <a href="{{route('ibr.business_referrals')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.My referred businesses')}}</a>
-                </li>
-
-                <li class="has-submenu">
-                    <a href="{{route('ibr.ibr_referrals')}}"><i class="mdi mdi-account-multiple"></i>{{__('navBar.My referred IBRs')}}</a>
-                </li>
-
-                @can('suspend business')
+                @can('suspend business', 'super_admin')
                     <li class="has-submenu">
-                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>
+                        <a href="{{route('superAdmin.businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>
                     </li>
                 @endcan
 
