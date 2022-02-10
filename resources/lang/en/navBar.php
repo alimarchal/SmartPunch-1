@@ -12,6 +12,7 @@ return [
     */
 
     'Dashboard' => 'Dashboard',
+    'Super Admin' => 'Super Admin',
     'Offices' => 'Offices',
     'Add' => 'Add',
     'View' => 'View',
@@ -22,6 +23,7 @@ return [
     'Business' => 'Business',
     'Businesses' => 'Businesses',
     'Referrals' => 'Referrals',
+    'IBR' => 'IBR',
     'My referred businesses' => 'My referred businesses',
     'My referred IBRs' => 'My referred IBRs',
     'Logout' => 'Logout',

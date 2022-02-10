@@ -44,15 +44,6 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::get('index', [BusinessController::class, 'index'])->name('businessIndex');
             Route::get('edit/{businessID}', [BusinessController::class, 'edit'])->name('businessEdit');
             Route::post('edit/{businessID}', [BusinessController::class, 'update']);
-
-            Route::middleware('permission:suspend business')->group(function (){
-                /* Function for admin to retrieve all businesses  */
-                Route::get('all', [BusinessController::class, 'allBusinesses'])->name('businesses');
-                /* Function for admin to retrieve all offices of a business  */
-                Route::get('offices/{officeID}', [BusinessController::class, 'businessOffices'])->name('businessOffices');
-                /* Function for admin to retrieve all employees of an office  */
-                Route::get('offices/employees/{officeID}', [BusinessController::class, 'businessOfficesEmployees'])->name('listOfBusinessOfficesEmployees');
-            });
         });
 
         /* Office Routes Start */
