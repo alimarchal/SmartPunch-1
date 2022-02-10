@@ -186,7 +186,7 @@
 
                 @can('suspend business')
                     <li class="has-submenu">
-                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>
+{{--                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>--}}
                     </li>
                 @endcan
 
