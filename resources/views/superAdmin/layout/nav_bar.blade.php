@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- item-->
-                    <a href="{{route('userProfileEdit')}}" class="dropdown-item notify-item">
+                    <a href="{{route('superAdmin.userProfileEdit')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
                         <span>{{__('navBar.Profile')}}</span>
                     </a>

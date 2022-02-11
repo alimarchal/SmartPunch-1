@@ -73,7 +73,7 @@
             </div><!-- end row -->
             <div class="row">
                 <!--Pricing Column-->
-                @foreach($packages->sortByDesc('id')->take(4) as $package)
+                @foreach($packages->sortByDesc('id')->take(4)->reverse() as $package)
                     <article class="pricing-column col-xl-3 col-md-6">
                         <div class="inner-box card-box">
                             <div class="plan-header p-3 text-center">

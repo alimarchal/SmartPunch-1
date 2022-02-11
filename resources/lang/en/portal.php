@@ -18,6 +18,7 @@ return [
     'Profile Photo' => 'Profile Photo',
     'City Name' => 'City Name',
     'IBR' => 'IBR',
+    'IBR no' => 'IBR no',
     'Enter Business Details to proceed' => 'Enter Business Details to proceed',
     'Select' => 'Select',
     'Submit' => 'Submit',

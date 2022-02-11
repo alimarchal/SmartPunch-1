@@ -11,7 +11,13 @@ Route::prefix('super-admin/')->name('superAdmin.')->group(function () {
 });
 
 Route::middleware(['auth:super_admin'])->prefix('super-admin')->name('superAdmin.')->group(function () {
+
     Route::get('dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
+
+    /* Profile Update Routes */
+    Route::get('profile/update/', [SuperAdminController::class, 'profileEdit'])->name('userProfileEdit');
+    Route::post('profile/update/', [SuperAdminController::class, 'profileUpdate']);
+
     Route::middleware('permission:suspend business')->group(function (){
         /* Function for admin to retrieve all businesses  */
         Route::get('businesses', [BusinessController::class, 'allBusinesses'])->name('businesses');

@@ -12,15 +12,17 @@ class OTPSent extends Mailable
     use Queueable, SerializesModels;
 
     protected $otp;
+    protected $ibr_no;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($otp)
+    public function __construct($user)
     {
-        $this->otp = $otp;
+        $this->otp = $user->otp;
+        $this->ibr_no = $user->ibr_no;
     }
 
     /**
@@ -31,7 +33,8 @@ class OTPSent extends Mailable
     public function build()
     {
         $otp = $this->otp;
+        $ibr_no = $this->ibr_no;
         return $this->subject('Email verification')
-            ->view('email.otpSent', compact('otp'));
+            ->view('email.otpSent', compact('otp', 'ibr_no'));
     }
 }

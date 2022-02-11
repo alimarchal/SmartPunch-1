@@ -108,9 +108,6 @@
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-{{--                        <img src="{{ Auth::guard('ibr')->user()->profile_photo_url }}" alt="user-image" class="rounded-circle">--}}
-                    @endif
                     <span class="pro-user-name ml-1">
                          {{ Auth::guard('ibr')->user()->name }} <i class="mdi mdi-chevron-down"></i>
                     </span>
@@ -122,7 +119,7 @@
                     </div>
 
                     <!-- item-->
-                    <a href="{{route('userProfileEdit')}}" class="dropdown-item notify-item">
+                    <a href="{{route('ibr.userProfileEdit')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
@@ -190,87 +187,6 @@
                 <li class="has-submenu">
                     <a href="{{route('ibr.ibr_referrals')}}"><i class="mdi mdi-account-multiple"></i>{{__('navBar.My referred IBRs')}}</a>
                 </li>
-
-                @can('suspend business')
-                    <li class="has-submenu">
-                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>
-                    </li>
-                @endcan
-
-                @can('view office')
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)"> <i class="fa fa-building"></i>{{__('navBar.Offices')}}
-                            <div class="arrow-down"></div>
-                        </a>
-                        <ul class="submenu megamenu">
-                            <li>
-                                <ul>
-                                    @can('create office')
-                                        <li>
-                                            <a href="{{route('officeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
-                                        </li>
-                                    @endcan
-                                    <li>
-                                        <a href="{{route('officeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                @endcan
-
-                @can('view employee')
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)"> <i class="mdi mdi-account-multiple"></i>{{__('navBar.Employees')}}
-                            <div class="arrow-down"></div>
-                        </a>
-                        <ul class="submenu">
-                            @can('create employee')
-                                <li>
-                                    <a href="{{route('employeeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
-                                </li>
-                            @endcan
-                            <li>
-                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                @endcan
-
-                @can('view schedule')
-                    <li class="has-submenu">
-                        <a href="javascript:void(0)"> <i class="mdi mdi-calendar-clock"></i>{{__('navBar.Schedules')}}
-                            <div class="arrow-down"></div>
-                        </a>
-                        <ul class="submenu">
-                            @can('create schedule')
-                                <li>
-                                    <a href="{{route('scheduleCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
-                                </li>
-                            @endcan
-
-                            @if(!auth()->user()->hasRole('employee'))
-                            <li>
-                                <a href="{{route('scheduleIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
-                            </li>
-                            @endif
-
-                            @if(!auth()->user()->hasRole('admin'))
-                                <li>
-                                    <a href="{{route('scheduleShow')}}"><i class="fa fa-eye"></i> {{__('navBar.My schedule')}}</a>
-                                </li>
-                            @endif
-
-                        </ul>
-                    </li>
-                @endcan
-
-                @can('view reports')
-                    <li class="has-submenu">
-                        <a href="{{route('report.index')}}"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
-                    </li>
-                @endcan
 
             </ul>
             <!-- End navigation menu -->

@@ -53,11 +53,14 @@ class RegisterController extends Controller
 
         $ibr = Ibr::create($data);
 
-        Ibr::where('id', $ibr->id)->update([
+        $ibr->update([
             'ibr_no' =>  'IBR'.$ibr->id,
         ]);
+        $ibr->save();
 
-        Mail::to($ibr->email)->send(new OTPSent($ibr->otp));
+        /* Sending ibr_no and otp to email because IBR logins with ibr_no and password instead of email and password */
+        $user = $ibr;  /* Saving to a user variable because same OTP Sent mail is used for ibr and user registration */
+        Mail::to($ibr->email)->send(new OTPSent($user));
 
         \auth()->guard('ibr')->login($ibr);
         return response()->json([

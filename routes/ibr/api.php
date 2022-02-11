@@ -40,5 +40,8 @@ Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
         Route::get('business-referrals', [IbrController::class, 'business_referrals']);
         Route::get('ibr-referrals', [IbrController::class, 'ibr_referrals']);
 
+        /* Profile Update Routes */
+        Route::post('profile/update/', [IbrController::class, 'profileUpdate']);
+        /* Profile Update Routes */
     });
 });
