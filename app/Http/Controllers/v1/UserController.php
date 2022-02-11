@@ -49,7 +49,7 @@ class UserController extends Controller
             'designation' => 'Admin',
         ])->assignRole($adminRole)->syncPermissions($permissions);
 
-        Mail::to($user->email)->send(new OTPSent($user->otp));
+        Mail::to($user->email)->send(new OTPSent($user));
 
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,

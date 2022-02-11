@@ -184,12 +184,6 @@
                     <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
-                @can('suspend business')
-                    <li class="has-submenu">
-{{--                        <a href="{{route('businesses')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.Businesses')}}</a>--}}
-                    </li>
-                @endcan
-
                 @can('view office')
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="fa fa-building"></i>{{__('navBar.Offices')}}
