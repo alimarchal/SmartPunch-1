@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Business extends Model
 {
@@ -27,4 +28,25 @@ class Business extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function businessPackages(): HasMany
+    {
+        return $this->hasMany(BusinessPackages::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function coupon(): HasMany
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
+    public function directCommissions(): HasOne
+    {
+        return $this->hasOne(IbrDirectCommission::class);
+    }
+
 }

@@ -22,6 +22,7 @@ class CreatePackagesTable extends Migration
             $table->decimal('half_year',12);
             $table->decimal('yearly',12);
             $table->tinyInteger('popular')->default(0);     /* Used to show which package is popular */
+            $table->tinyInteger('status')->default(1);     /* 1 => active, 0 => in-active */
             $table->timestamps();
         });
     }

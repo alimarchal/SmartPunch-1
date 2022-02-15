@@ -3,6 +3,7 @@
 use App\Http\Controllers\v1\BusinessController;
 use App\Http\Controllers\v1\EmployeeController;
 use App\Http\Controllers\v1\OfficerController;
+use App\Http\Controllers\v1\PackageController;
 use App\Http\Controllers\v1\PunchController;
 use App\Http\Controllers\v1\ReportController;
 use App\Http\Controllers\v1\ScheduleController;
@@ -35,12 +36,18 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
     Route::post('/logout', [UserController::class, 'logout']);
     Route::middleware( 'verified')->group(function ()
     {
+        // Businesses APIs
         Route::prefix('business')->group(function () {
+            Route::get('/', [BusinessController::class, 'index']);
             Route::post('/', [BusinessController::class, 'store']);
             Route::get('/{id}', [BusinessController::class, 'show']);
             Route::put('/{id}', [BusinessController::class, 'update']);
-            Route::get('/', [BusinessController::class, 'index']);
             Route::delete('/{id}', [BusinessController::class, 'destroy']);
+        });
+
+        // Packages APIs
+        Route::prefix('package')->group(function () {
+            Route::get('/', [PackageController::class, 'index']);
         });
 
         // Office APIs

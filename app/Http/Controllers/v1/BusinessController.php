@@ -4,18 +4,23 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\IbrDirectCommission;
+use App\Models\Package;
+use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BusinessController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $business = Business::paginate(15);
         return response()->json($business);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'company_name' => 'required',
@@ -43,12 +48,13 @@ class BusinessController extends Controller
         User::where('id', auth()->id())->update(['business_id' => $business->id]);
         if ($business->wasRecentlyCreated) {
             return response()->json($business, 201);
-        } else {
+        }
+        else {
             return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
         }
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $business = Business::find($id);
         if (!empty($business)) {
@@ -58,7 +64,7 @@ class BusinessController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         $business = Business::find($id);
         $validated = $request->validate([
@@ -77,7 +83,7 @@ class BusinessController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $business = Business::find($id);
         if (empty($business)) {
