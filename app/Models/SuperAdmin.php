@@ -10,5 +10,5 @@ class SuperAdmin extends Authenticatable
 {
     use HasFactory, HasRoles;
 
-    protected $fillable = ['name', 'email', 'role'];
+    protected $fillable = ['name', 'email', 'role', 'password'];
 }
