@@ -32,7 +32,7 @@ class CreateSuperAdminsTable extends Migration
         SuperAdmin::create([
             'name' => 'SmartPunch',
             'email' => 'admin@smartpunch.app',
-            'password' => Hash::make(123456789),
+            'password' => \Illuminate\Support\Facades\Hash::make(123456789),
             'role' => 1,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
