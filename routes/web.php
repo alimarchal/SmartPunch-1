@@ -100,7 +100,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
     });
 
     Route::get('/packages', function (){
-        $packages = \App\Models\Package::all();
+        $packages = \App\Models\Package::get()->take(8);
         return view('package.index', compact('packages'));
     });
 
