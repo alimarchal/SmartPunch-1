@@ -21,7 +21,8 @@ use Spatie\Permission\Models\Role;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $packages = \App\Models\Package::get()->take(8);
+    return view('welcome', compact('packages'));
 })->name('home');
 /*
 Route::get('/config-clear', function() {
@@ -35,13 +36,19 @@ Route::get('/config-clear', function() {
 */
 Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
 
+    /* Checking whether business details present or not previously (if Present will be redirected back) */
+    Route::middleware(['businessCreateCheck'])->group(function () {
+        Route::get('business-create', [BusinessController::class, 'create'])->name('businessCreate');
+        Route::post('business-create', [BusinessController::class, 'store']);
+    });
+
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
     Route::middleware(['businessCheck'])->group(function () {
         Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
         /* Business Routes Start */
         Route::prefix('business')->group(function () {
-            Route::get('index', [BusinessController::class, 'index'])->name('businessIndex');
+            Route::get('/', [BusinessController::class, 'index'])->name('businessIndex');
             Route::get('edit/{businessID}', [BusinessController::class, 'edit'])->name('businessEdit');
             Route::post('edit/{businessID}', [BusinessController::class, 'update']);
         });
@@ -91,12 +98,6 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             });
         });
         /* Schedule Routes End */
-    });
-
-    /* Checking whether business details present or not previously (if Present will be redirected back) */
-    Route::middleware(['businessCreateCheck'])->group(function () {
-        Route::get('business-create', [BusinessController::class, 'create'])->name('businessCreate');
-        Route::post('business-create', [BusinessController::class, 'store']);
     });
 
     Route::get('/packages', function (){
