@@ -317,53 +317,108 @@
                     <p class="mb-4">The rise of mobile devices transforms the way we consume information entirely and the world's most elevant channels such as Facebook.</p>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-center">
+                        <h4 class="page-title">{{__('portal.Small and medium packages')}}</h4>
+                    </div>
+                </div>
+            </div>
             <div class="row flex-center">
-                <div class="col-12 mb-3">
-                    <div class="d-flex justify-content-center">
-                        <label class="form-check-label me-2" for="customSwitch1">Monthly</label>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" id="customSwitch1" type="checkbox" checked="checked" />
-                            <label class="form-check-label align-top" for="customSwitch1">Yearly</label>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-center">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <span class="nav-link active" id="MonthlyTab" style="cursor: pointer" onclick="package_details(1)">{{__('portal.Monthly')}}</span>
+                                </li>
+                                <li class="nav-item">
+                                    <span class="nav-link" id="QuarterlyTab" style="cursor: pointer" onclick="package_details(2)" >{{__('portal.Quarterly')}}</span>
+                                </li>
+                                <li class="nav-item">
+                                    <span class="nav-link" id="6MonthsTab" style="cursor: pointer" onclick="package_details(3)" >{{__('portal.6 months')}}</span>
+                                </li>
+                                <li class="nav-item">
+                                    <span class="nav-link" id="YearlyTab" style="cursor: pointer" onclick="package_details(4)" >{{__('portal.Yearly')}}</span>
+                                </li>
+                            </ul>
+
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                @foreach($packages->take(4) as $package)
+                <div class="col-lg-3">
                     <div class="card shadow-lg mb-4 border-0">
                         <div class="card-header border-bottom-0 pt-7 pb-5">
                             <div class="d-flex justify-content-center">
-                                <h1 class="fw-bold">$0</h1><span class="d-flex align-items-center">/month</span>
+                                <span class="price_monthly text-center">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center ">{{__('portal.Per Month')}}</span>
+                                </span>
+                                <span class="price_quarterly" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                </span>
+                                <span class="price_half_year" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                </span>
+                                <span class="price_yearly" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->yearly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                </span>
                             </div>
-                            <h5 class="fw-bold text-center">Business Class</h5><span class="text-700 text-center d-block">For small teams or office</span>
                         </div>
                         <div class="card-body mx-auto">
                             <ul class="list-unstyled mb-4">
-                                <li class="text-700 py-2 text-secondary">Darg &amp; Drop Builder</li>
-                                <li class="text-700 py-2 text-secondary">1,000's of Templates</li>
-                                <li class="text-700 py-2 text-secondary">Blog Support Tools</li>
-                                <li class="text-700 py-2 text-secondary">eCommerce Store </li>
-                            </ul><a class="btn btn-lg btn-primary rounded-pill mb-3" href="#">Start free trial</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card shadow-lg mb-4">
-                        <div class="card-header border-bottom-0 pt-7 pb-5">
-                            <div class="d-flex justify-content-center">
-                                <h1 class="fw-bold">$99</h1><span class="d-flex align-items-center">/month</span>
-                            </div>
-                            <h5 class="fw-bold text-center">Pro Master</h5><span class="text-700 text-center d-block">For small teams or office</span>
-                        </div>
-                        <div class="card-body mx-auto">
-                            <ul class="list-unstyled mb-4">
-                                <li class="text-700 py-2 text-secondary">Darg &amp; Drop Builder</li>
-                                <li class="text-700 py-2 text-secondary">1,000's of Templates</li>
-                                <li class="text-700 py-2 text-secondary">Blog Support Tools</li>
-                                <li class="text-700 py-2 text-secondary">eCommerce Store </li>
+                                <li class="text-700 py-2 text-secondary">{{$package->users}} {{__('portal.Users')}}</li>
                             </ul>
-                            <div class="d-flex flex-column"> <a class="btn btn-lg btn-primary rounded-pill mb-3" href="#">Start free trial</a><a href="#">Or Start 14 days trail</a></div>
                         </div>
                     </div>
                 </div>
+                @endforeach
+            </div>
+
+
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-center">
+                        <h4 class="page-title">{{__('portal.Packages above 100 users')}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-center">
+                @foreach($packages->sortByDesc('id')->take(4)->reverse() as $package)
+                    <div class="col-lg-3">
+                        <div class="card shadow-lg mb-4 border-0">
+                            <div class="card-header border-bottom-0 pt-7 pb-5">
+                                <div class="d-flex justify-content-center">
+                                <span class="price_monthly">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold ">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Per Month')}}</span>
+                                </span>
+                                    <span class="price_quarterly" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                </span>
+                                    <span class="price_half_year" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                </span>
+                                    <span class="price_yearly" style="display: none">
+                                    <h5 class="fw-bold text-center">{{$package->name}}</h5>
+                                    <h1 class="fw-bold">${{number_format($package->yearly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                </span>
+                                </div>
+                            </div>
+                            <div class="card-body mx-auto">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="text-700 py-2 text-secondary">{{$package->users}} {{__('portal.Users')}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <!-- end of .container-->
@@ -614,6 +669,7 @@
         </div>
         <!-- end of .container-->
 
+        </div>
     </section>
     <!-- <section> close ============================-->
     <!-- ============================================-->
@@ -630,6 +686,76 @@
 <!-- ===============================================-->
 <!--    JavaScripts-->
 <!-- ===============================================-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function package_details(id){
+        /* 1 for monthly */
+        if (id === 1){
+            $('.price_quarterly').hide()
+            $('.duration_quarterly').hide()
+            $('.price_half_year').hide()
+            $('.duration_half_year').hide()
+            $('.price_yearly').hide()
+            $('.duration_yearly').hide()
+
+            $('.price_monthly').show()
+            $('.duration_monthly').show()
+            $( "#MonthlyTab" ).addClass("active");
+            $( "#QuarterlyTab" ).removeClass("active");
+            $( "#6MonthsTab" ).removeClass("active");
+            $( "#YearlyTab" ).removeClass("active");
+        }
+        /* 2 for quarterly */
+        if (id === 2){
+            $('.price_monthly').hide()
+            $('.duration_monthly').hide()
+            $('.price_half_year').hide()
+            $('.duration_half_year').hide()
+            $('.price_yearly').hide()
+            $('.duration_yearly').hide()
+
+            $('.price_quarterly').show()
+            $('.duration_quarterly').show()
+            $( "#QuarterlyTab" ).addClass("active");
+            $( "#MonthlyTab" ).removeClass("active");
+            $( "#6MonthsTab" ).removeClass("active");
+            $( "#YearlyTab" ).removeClass("active");
+        }
+        /* 3 for half year */
+        if (id === 3){
+            $('.price_monthly').hide()
+            $('.duration_monthly').hide()
+            $('.price_quarterly').hide()
+            $('.duration_quarterly').hide()
+            $('.price_yearly').hide()
+            $('.duration_yearly').hide()
+
+            $('.price_half_year').show()
+            $('.duration_half_year').show()
+            $( "#6MonthsTab" ).addClass("active");
+            $( "#MonthlyTab" ).removeClass("active");
+            $( "#QuarterlyTab" ).removeClass("active");
+            $( "#YearlyTab" ).removeClass("active");
+        }
+        /* 4 for yearly */
+        if (id === 4){
+            $('.price_monthly').hide()
+            $('.duration_monthly').hide()
+            $('.price_quarterly').hide()
+            $('.duration_quarterly').hide()
+            $('.price_half_year').hide()
+            $('.duration_half_year').hide()
+
+            $('.price_yearly').show()
+            $('.duration_yearly').show()
+            $( "#YearlyTab" ).addClass("active");
+            $( "#MonthlyTab" ).removeClass("active");
+            $( "#QuarterlyTab" ).removeClass("active");
+            $( "#6MonthsTab" ).removeClass("active");
+        }
+    }
+</script>
+
 <script src="{{url('applab/public/vendors/@popperjs/popper.min.js')}}"></script>
 <script src="{{url('applab/public/vendors/bootstrap/bootstrap.min.js')}}"></script>
 <script src="{{url('applab/public/vendors/is/is.min.js')}}"></script>

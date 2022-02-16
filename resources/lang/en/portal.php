@@ -107,6 +107,9 @@ return [
     'Quarterly' => 'Quarterly',
     '6 months' => '6 months',
     'Yearly' => 'Yearly',
+    'Month' => 'Month',
+    'Quarter' => 'Quarter',
+    'Year' => 'Year',
     'Users' => 'Users',
 
 ];
