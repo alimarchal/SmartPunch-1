@@ -26,7 +26,9 @@
     <!-- App Css-->
     <link href="{{url('Horizontal/dist/assets/css/app-dark.min.css')}}" id="app-stylesheet" rel="stylesheet" type="text/css"/>
 
+    @yield('javascript')
     @yield('css')
+    @yield('custom_styles')
 
 </head>
 
