@@ -40,9 +40,8 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
         Route::prefix('business')->group(function () {
             Route::get('/', [BusinessController::class, 'index']);
             Route::post('/', [BusinessController::class, 'store']);
-            Route::get('/{id}', [BusinessController::class, 'show']);
             Route::put('/{id}', [BusinessController::class, 'update']);
-            Route::delete('/{id}', [BusinessController::class, 'destroy']);
+            Route::post('/update-package', [BusinessController::class, 'packageUpdate']);
         });
 
         // Packages APIs

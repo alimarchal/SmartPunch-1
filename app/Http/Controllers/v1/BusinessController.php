@@ -3,21 +3,32 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PackageUpdate;
 use App\Models\Business;
+use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
+use App\Models\IbrIndirectCommission;
 use App\Models\Package;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
     public function index(): JsonResponse
     {
-        $business = Business::paginate(15);
-        return response()->json($business);
+        $business = Business::firstWhere('user_id', auth()->id());
+
+        if (!empty($business)) {
+            return response()->json($business);
+        }
+        else {
+            return response()->json(['error' => 'Not Found!'], 404);
+        }
     }
 
     public function store(Request $request): JsonResponse
@@ -44,23 +55,32 @@ class BusinessController extends Controller
             'company_logo' => $request->company_logo,
             'ibr' => $request->ibr,
         ];
-        $business = Business::create($data);
-        User::where('id', auth()->id())->update(['business_id' => $business->id]);
+        $business = \DB::transaction(function () use ($data){
+            $business = Business::create($data);
+            User::where('id', auth()->id())->update(['business_id' => $business->id]);
+            $transaction =  Transaction::create([
+                'business_id' => $business->id,
+                'package_id' => 9,
+                'amount' => 0,
+                'status' => 1,
+            ]);
+
+            $transaction->businessPackage()->create([
+                'business_id' => $transaction->business_id,
+                'transaction_id' => $transaction->id,
+                'package_id' => $transaction->package_id,
+                'package_amount' => $transaction->amount,
+                'start_date' => Carbon::now(),
+                'end_date' => Carbon::now()->addMonthNoOverflow(3),
+            ]);
+
+            return $business;
+        });
         if ($business->wasRecentlyCreated) {
             return response()->json($business, 201);
         }
         else {
-            return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
-        }
-    }
-
-    public function show($id): JsonResponse
-    {
-        $business = Business::find($id);
-        if (!empty($business)) {
-            return response()->json($business, 200);
-        } else {
-            return response()->json(['message' => 'Not Found!'], 404);
+            return response()->json(['message' => 'There are some internal error to proceeding your request'], 500);
         }
     }
 
@@ -83,14 +103,73 @@ class BusinessController extends Controller
         }
     }
 
-    public function destroy($id): JsonResponse
+    public function packageUpdate(PackageUpdate $request): JsonResponse
     {
-        $business = Business::find($id);
-        if (empty($business)) {
-            return response()->json(['message' => 'Not Found!'], 404);
-        } else {
-            $business = $business->delete();
-            return response()->json($business);
+        $data = [
+            'business_id' => auth()->user()->business_id,
+            'package_id' => $request->package_id,
+            'package_type' => $request->package_type,
+            'card_number' => $request->card_number,
+            'cvv' => $request->cvv,
+            'card_valid_from' => $request->card_valid_from,
+            'card_valid_to' => $request->card_valid_to,
+            'amount' => $request->amount,
+            'bank_name' => $request->bank_name,
+        ];
+
+        $businessPackage = DB::transaction(function () use ($data, $request) {
+            $previousTransaction = auth()->user()->business->transactions()->where('status', 1)->first();
+            $previousTransaction->update(['status' => 0]);
+            $previousTransaction->businessPackage()->where('status', 1)->update(['status' => 0]);
+            $transaction = Transaction::create($data);
+
+            if ($request->package_type == 1)    /* 1 => monthly */{
+                $end_date = Carbon::now()->addMonthNoOverflow();
+            }
+            if ($request->package_type == 2)    /* 2 => quarterly */{
+                $end_date = Carbon::now()->addMonthsNoOverflow(4);
+            }
+            if ($request->package_type == 3)    /* 3 => half year */{
+                $end_date = Carbon::now()->addMonthsNoOverflow(6);
+            }
+            if ($request->package_type == 4)    /* 4 => Year */{
+                $end_date = Carbon::now()->addYearNoOverflow();
+            }
+
+            $businessPackage = $transaction->businessPackage()->create([
+                'business_id' => $transaction->business_id,
+                'transaction_id' => $transaction->id,
+                'package_id' => $transaction->package_id,
+                'package_amount' => $transaction->amount,
+                'start_date' => Carbon::now(),
+                'end_date' => $end_date,
+            ]);
+
+            if (auth()->user()->business->ibr)
+            {
+                $ibr = Ibr::firstWhere('ibr_no', auth()->user()->business->ibr);
+                $tenPercentOfAmount = $transaction->amount * 0.1;
+
+                IbrDirectCommission::create([
+                    'ibr_no' => $ibr->ibr_no,
+                    'business_id' => $transaction->business_id,
+                    'amount' => $tenPercentOfAmount,
+                ]);
+                $parentIbrReferences = Ibr::with('parentIbrReference')->where('ibr_no', $ibr->ibr_no)->get();
+            }
+
+            return $businessPackage;
+        });
+
+        if ($businessPackage->wasRecentlyCreated) {
+            /* status 201 => created */
+            return response()->json([
+                'success' => 'Business package updated successfully!',
+                'businessPackage' => $businessPackage
+            ], 201);
+        }
+        else {
+            return response()->json(['message' => 'There are some internal error to proceeding your request. Try again later'], 500);
         }
     }
 }
