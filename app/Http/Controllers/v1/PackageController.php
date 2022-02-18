@@ -12,7 +12,6 @@ class PackageController extends Controller
     public function index(): JsonResponse
     {
         $packages = Package::where('status',1)->get()->take(8);
-
         return response()->json(['packages' => $packages]);
     }
 }

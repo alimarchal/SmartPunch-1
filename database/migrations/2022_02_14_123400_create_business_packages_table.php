@@ -18,6 +18,7 @@ class CreateBusinessPackagesTable extends Migration
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('package_type')->nullable();    /* null => trail package, 1 => monthly, 2 => quarterly, 3 => half year, 4 => yearly  */
             $table->integer('package_amount');
             $table->dateTime('start_date');
             $table->dateTime('end_date');

@@ -12,7 +12,7 @@ class BusinessPackages extends Model
     use HasFactory;
 
     protected $fillable = [
-        'business_id', 'transaction_id', 'package_id', 'package_amount', 'start_date', 'end_date', 'status'
+        'business_id', 'transaction_id', 'package_id', 'package_type', 'package_amount', 'start_date', 'end_date', 'status'
     ];
 
     public function business(): HasOne
