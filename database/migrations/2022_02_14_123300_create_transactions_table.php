@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('package_type')->nullable();  /* null => trail package, 1 => monthly, 2 => quarterly, 3 => half year, 4 => yearly  */
             $table->string('card_number')->nullable();
             $table->tinyInteger('cvv')->nullable();
             $table->date('card_valid_from')->nullable();

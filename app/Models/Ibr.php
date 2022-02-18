@@ -24,6 +24,34 @@ class Ibr extends Authenticatable
         'remember_token'
     ];
 
+    /* Relation for IBRs having child IBRs start */
+    public function ibr(): HasMany
+    {
+        // This relationship will only return one level of child items
+        return $this->hasMany(Ibr::class,'referred_by','ibr_no');
+    }
+
+    public function ibrReferred(): HasMany
+    {
+        // This is method where we implement recursive relationship
+        return $this->hasMany(Ibr::class,'referred_by', 'ibr_no')->with('ibr');
+    }
+    /* Relation for IBRs having child IBRs end */
+
+    /* Relation for IBRs having parent IBRs start */
+    public function parentIbr(): HasMany
+    {
+        // This relationship will only return one level of parent ibr
+        return $this->hasMany(Ibr::class,'ibr_no','referred_by')->select('id','ibr_no','referred_by');
+    }
+
+    public function parentIbrReference(): HasMany
+    {
+        // This is method where we implement recursive relationship
+        return $this->hasMany(Ibr::class,'ibr_no', 'referred_by')->with('parentIbr');
+    }
+    /* Relation for IBRs having parent IBRs end */
+
     public function directCommissions(): HasMany
     {
         return $this->hasMany(IbrDirectCommission::class);

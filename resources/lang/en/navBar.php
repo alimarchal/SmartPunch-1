@@ -22,6 +22,7 @@ return [
     'Reports' => 'Reports',
     'Business' => 'Business',
     'Businesses' => 'Businesses',
+    'Package' => 'Package',
     'Referrals' => 'Referrals',
     'IBR' => 'IBR',
     'My referred businesses' => 'My referred businesses',
