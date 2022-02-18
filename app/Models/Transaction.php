@@ -12,7 +12,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'business_id', 'package_id', 'card_number', 'cvv', 'card_valid_from', 'card_valid_to', 'amount', 'bank_name', 'status'
+        'business_id', 'package_id', 'package_type', 'card_number', 'cvv', 'card_valid_from', 'card_valid_to', 'amount', 'bank_name', 'status'
     ];
 
     public function business(): HasOne

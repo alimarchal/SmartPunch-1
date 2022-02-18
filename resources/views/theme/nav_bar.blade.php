@@ -135,6 +135,14 @@
                         </a>
                     @endcan
 
+                    @hasrole('admin')
+                    <!-- item-->
+                        <a href="{{route('package.index')}}" class="dropdown-item notify-item">
+                            <i class="mdi mdi-account-cash-outline"></i>
+                            <span>{{__('navBar.Package')}}</span>
+                        </a>
+                    @endhasrole
+
                     <div class="dropdown-divider"></div>
 
                     <!-- item-->

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +43,12 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
         Route::post('business-create', [BusinessController::class, 'store']);
     });
 
+    Route::prefix('package')->middleware('permission:view business')->group(function () {
+        Route::get('/', [PackageController::class, 'index'])->name('package.index');
+    });
+
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
-    Route::middleware(['businessCheck'])->group(function () {
+    Route::middleware(['businessCheck', 'package_expired'])->group(function () {
         Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
         /* Business Routes Start */
@@ -98,11 +103,6 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             });
         });
         /* Schedule Routes End */
-    });
-
-    Route::get('/packages', function (){
-        $packages = \App\Models\Package::get()->take(8);
-        return view('package.index', compact('packages'));
     });
 
 // Report
