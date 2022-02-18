@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class BusinessController extends Controller
+class trBusinessController extends Controller
 {
     public function index(): JsonResponse
     {
@@ -103,6 +103,8 @@ class BusinessController extends Controller
         }
     }
 
+
+
     public function packageUpdate(PackageUpdate $request): JsonResponse
     {
         $data = [
@@ -155,6 +157,7 @@ class BusinessController extends Controller
                     'business_id' => $transaction->business_id,
                     'amount' => $tenPercentOfAmount,
                 ]);
+
                 $parentIbrReferences = Ibr::with('parentIbrReference')->where('ibr_no', $ibr->ibr_no)->get();
             }
 
@@ -171,5 +174,11 @@ class BusinessController extends Controller
         else {
             return response()->json(['message' => 'There are some internal error to proceeding your request. Try again later'], 500);
         }
+    }
+
+
+    public static function get_parent()
+    {
+
     }
 }
