@@ -401,7 +401,7 @@
 
             },
             title: {
-                text: 'My Earnings as of {{date('d-M-Y')}} Month-wise',
+                text: 'My Earnings direct commissions as of <br> {{date('d-M-Y')}} month-wise',
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -425,12 +425,10 @@
             series: [{
                 name: 'Share',
                 data: [
-                    { name: 'January', y: 61.41 },
-                    { name: 'February', y: 11.84 },
-                    { name: 'March', y: 10.85 },
-                    { name: 'April', y: 4.67 },
-                    { name: 'May', y: 4.18 },
-                    { name: 'June', y: 7.05 }
+
+                    @foreach($ibr_direct_com as $ibr_dc)
+                        { name: '{{$ibr_dc->month_year}}', y: {{$ibr_dc->total}} },
+                    @endforeach
                 ]
             }]
         });
