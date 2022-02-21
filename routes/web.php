@@ -21,37 +21,12 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-//Route::get('/ibrs', function () {
-//
-//
-//    function get_parent($parent_id, $ind)
-//    {
-//
-//        echo $parent_id . " | " .  $ind . ": ";
-//        $ibr = \App\Models\Ibr::find($parent_id);
-//
-//        echo $ibr->ibr_no . " =>  ParentID: " . $ibr->parent_id . "<hr>";
-//
-//        if ($ibr->parent_id == 0)
-//        {
-//            echo  "Reached Top Parent";
-//        } else
-//        {
-//            $ind++;
-//            get_parent($ibr->parent_id,$ind);
-//        }
-//
-//    }
-//
-//    $ind = 0;
-//    get_parent(4, $ind);
-//
-//});
 
 Route::get('/', function () {
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
 })->name('home');
+
 /*
 Route::get('/config-clear', function() {
     Artisan::call('config:clear');
@@ -62,6 +37,7 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
+
 Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */
