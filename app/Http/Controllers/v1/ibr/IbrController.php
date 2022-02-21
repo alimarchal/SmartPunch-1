@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v1\ibr;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Ibr;
+use App\Models\IbrDirectCommission;
+use App\Models\IbrIndirectCommission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,4 +59,34 @@ class IbrController extends Controller
         Ibr::where('id', auth()->guard('ibr_api')->id())->update(['password' => Hash::make($request->password)]);
         return response()->json(['Success' => 'Profile updated successfully!!']);
     }
+
+    public function directCommissions(): JsonResponse
+    {
+        $directCommissions = IbrDirectCommission::where([
+            'ibr_no' => auth()->guard('ibr_api')->user()->ibr_no,
+            ])
+            ->get();
+
+        if (count($directCommissions) > 0){
+            return response()->json(['DirectCommissions' => $directCommissions]);
+        }
+        else{
+            return response()->json(['data' => 'No data found'], 404);
+        }
+    }
+
+    public function inDirectCommissions(): JsonResponse
+    {
+        $inDirectCommissions = IbrIndirectCommission::where([
+            'ibr_no' => auth()->guard('ibr_api')->user()->ibr_no,
+        ])->get();
+
+        if (count($inDirectCommissions) > 0){
+            return response()->json(['InDirectCommissions' => $inDirectCommissions]);
+        }
+        else{
+            return response()->json(['data' => 'No data found'], 404);
+        }
+    }
+
 }
