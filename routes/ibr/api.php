@@ -43,5 +43,13 @@ Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
         /* Profile Update Routes */
         Route::post('profile/update/', [IbrController::class, 'profileUpdate']);
         /* Profile Update Routes */
+
+        /* Direct Commission Routes */
+        Route::get('direct-commissions', [IbrController::class, 'directCommissions']);
+        /* Direct Commission Routes */
+
+        /* Direct Commission Routes */
+        Route::get('indirect-commissions', [IbrController::class, 'inDirectCommissions']);
+        /* Direct Commission Routes */
     });
 });
