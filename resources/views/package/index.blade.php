@@ -42,10 +42,26 @@
                     <div class="inner-box card-box">
                         <div class="plan-header p-3 text-center">
                             <h3 class="plan-title">{{$package->name}}</h3>
-                            <h2 class="plan-price font-weight-normal price_monthly">${{number_format($package->monthly)}}</h2>
-                            <h2 class="plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}}</h2>
-                            <h2 class="plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}}</h2>
-                            <h2 class="plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}}</h2>
+                            <span class="flex-row">
+                                @php $cost = $package->users * 5; @endphp
+                                <h4 class="flex-row"><span class="price_monthly" style="text-decoration: line-through;">${{number_format($cost)}}</span></h4>
+                                <h2 class="flex-row plan-price font-weight-normal price_monthly" >${{number_format($package->monthly)}}</h2>
+                            </span>
+                            <span class="flex-row">
+                                @php $cost = 3 * ($package->users * 5); @endphp
+                                <h4 class="flex-row"><span class="price_quarterly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                <h2 class="flex-row plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}}</h2>
+                            </span>
+                            <span class="flex-row">
+                                @php $cost = 6 * ($package->users * 5); @endphp
+                                <h4 class="flex-row"><span class="price_half_year" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                <h2 class="flex-row plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}}</h2>
+                            </span>
+                            <span class="flex-row price_yearly">
+                                @php $cost = 12 * ($package->users * 5); @endphp
+                                <h4 class="flex-row"><span class="price_yearly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                <h2 class="flex-row plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}}</h2>
+                            </span>
                             <div class="plan-duration duration_monthly">{{__('portal.Per Month')}}</div>
                             <div class="plan-duration duration_quarterly" style="display: none">{{__('portal.Quarterly')}}</div>
                             <div class="plan-duration duration_half_year" style="display: none">{{__('portal.6 months')}}</div>
@@ -78,17 +94,33 @@
                         <div class="inner-box card-box">
                             <div class="plan-header p-3 text-center">
                                 <h3 class="plan-title">{{$package->name}}</h3>
-                                <h2 class="plan-price font-weight-normal price_monthly">${{number_format($package->monthly)}}</h2>
-                                <h2 class="plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}}</h2>
-                                <h2 class="plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}}</h2>
-                                <h2 class="plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}}</h2>
+                                <span class="flex-row">
+                                    @php $cost = $package->users * 5; @endphp
+                                    <h4 class="flex-row"><span class="price_monthly" style="text-decoration: line-through;">${{number_format($cost)}}</span></h4>
+                                    <h2 class="flex-row plan-price font-weight-normal price_monthly" >${{number_format($package->monthly)}}</h2>
+                                </span>
+                                <span class="flex-row">
+                                    @php $cost = 3 * ($package->users * 5); @endphp
+                                    <h4 class="flex-row"><span class="price_quarterly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                    <h2 class="flex-row plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}}</h2>
+                                </span>
+                                <span class="flex-row">
+                                    @php $cost = 6 * ($package->users * 5); @endphp
+                                    <h4 class="flex-row"><span class="price_half_year" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                    <h2 class="flex-row plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}}</h2>
+                                </span>
+                                <span class="flex-row price_yearly">
+                                    @php $cost = 12 * ($package->users * 5); @endphp
+                                    <h4 class="flex-row"><span class="price_yearly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                    <h2 class="flex-row plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}}</h2>
+                                </span>
                                 <div class="plan-duration duration_monthly">{{__('portal.Per Month')}}</div>
                                 <div class="plan-duration duration_quarterly" style="display: none">{{__('portal.Quarterly')}}</div>
                                 <div class="plan-duration duration_half_year" style="display: none">{{__('portal.6 months')}}</div>
                                 <div class="plan-duration duration_yearly" style="display: none">{{__('portal.Yearly')}}</div>
                             </div>
                             <ul class="plan-stats list-unstyled text-center p-3 mb-0">
-                                <li>{{$package->users}} {{__('portal.Users')}}</li>
+                                <li>{{$package->users}}@if($package->id == 8)+ @endif {{__('portal.Users')}}</li>
                             </ul>
 
                             <div class="text-center">
