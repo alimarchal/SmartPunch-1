@@ -5,12 +5,14 @@ namespace App\Http\Controllers\ibr;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Ibr;
+use App\Models\IbrDirectCommission;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +25,17 @@ class IbrController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
-        return view('ibr.dashboard');
+//        DB::enableQueryLog();
+        $ibr_direct_com = IbrDirectCommission::select("id",
+            DB::raw("(sum(amount)) as total"),
+            DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
+            ->where('ibr_no', \auth()->user()->id)
+            ->orderBy('created_at')
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
+            ->get();
+
+//        dd(DB::getQueryLog());
+        return view('ibr.dashboard', compact('ibr_direct_com'));
     }
 
     public function business_referrals(): Factory|View|Application
