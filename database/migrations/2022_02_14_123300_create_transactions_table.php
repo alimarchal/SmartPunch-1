@@ -24,7 +24,6 @@ class CreateTransactionsTable extends Migration
             $table->date('card_valid_to')->nullable();
             $table->integer('amount');
             $table->string('bank_name')->nullable();
-            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
