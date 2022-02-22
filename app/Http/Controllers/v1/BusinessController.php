@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageUpdate;
 use App\Models\Business;
+use App\Models\BusinessPackages;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
 use App\Models\IbrIndirectCommission;
@@ -105,18 +106,28 @@ class BusinessController extends Controller
 
     public function packageUpdate(PackageUpdate $request): JsonResponse
     {
-        $packageAmount = Package::firstWhere('id', $request->package_id);
+        $previousBusinessPackage = BusinessPackages::with('package')->firstWhere(['business_id' => auth()->user()->business_id, 'status' => 1]);
+        $package = Package::firstWhere('id', $request->package_id);
+
+        /* If a users' employees count is greater than selected package users he will be redirected back */
+        if ($previousBusinessPackage->package->users > $package->users){
+            $employees = User::where('business_id', auth()->user()->business_id)->get()->except(['id' => auth()->id()]);
+            if ($employees->count() > $package->users){
+                return response()->json(['error' => 'Your users number exceed to selected package users number.']);
+            }
+        }
+
         if ($request->package_type == 1)    /* 1 => monthly */{
-            $request->merge(['amount' => $packageAmount->monthly]);
+            $request->merge(['amount' => $package->monthly]);
         }
         if ($request->package_type == 2)    /* 2 => quarterly */{
-            $request->merge(['amount' => $packageAmount->quarterly]);
+            $request->merge(['amount' => $package->quarterly]);
         }
         if ($request->package_type == 3)    /* 3 => half year */{
-            $request->merge(['amount' => $packageAmount->half_year]);
+            $request->merge(['amount' => $package->half_year]);
         }
         if ($request->package_type == 4)    /* 4 => Year */{
-            $request->merge(['amount' => $packageAmount->yearly]);
+            $request->merge(['amount' => $package->yearly]);
         }
 
         $data = [
@@ -129,52 +140,67 @@ class BusinessController extends Controller
             'card_valid_to' => $request->card_valid_to,
             'amount' => $request->amount,
             'bank_name' => $request->bank_name,
-            'status' => 1,
         ];
 
-        $businessPackage = DB::transaction(function () use ($data, $request) {
-            $previousTransaction = auth()->user()->business->transactions()->where('status', 1)->first();
-            $previousTransaction->update(['status' => 0]);
-            $previousTransaction->businessPackage()->where('status', 1)->update(['status' => 0]);
+        $businessPackage = DB::transaction(function () use ($data, $request, $previousBusinessPackage) {
             $transaction = Transaction::create($data);
 
             if ($request->package_type == 1)    /* 1 => monthly */{
-                $end_date = Carbon::now()->addMonthNoOverflow();
+                $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthNoOverflow();
             }
             if ($request->package_type == 2)    /* 2 => quarterly */{
-                $end_date = Carbon::now()->addMonthsNoOverflow(4);
+                $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthsNoOverflow(4);
             }
             if ($request->package_type == 3)    /* 3 => half year */{
-                $end_date = Carbon::now()->addMonthsNoOverflow(6);
+                $date = Carbon::parse($previousBusinessPackage->start_date);
+                $difference = $date->diffInMonths(Carbon::now());
+                if ($difference < 1)   /* Add 2 more months with addition of 6 months if user upgrades to 6 months package within first month of registration to package's end date */{
+                    $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthsNoOverflow(8);
+                }
+                if ($difference >= 1 && $difference < 3)   /* Add 1 more month with addition of 6 months if user upgrades to 6 months package after first month but before finishing trial package of registration to package's end date */{
+                    $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthsNoOverflow(7);
+                }
+                if ($difference >= 3)   /* Simply add 6 months to package's end date */{
+                    $end_date = Carbon::now()->addMonthsNoOverflow(6);
+                }
             }
             if ($request->package_type == 4)    /* 4 => Year */{
-                $end_date = Carbon::now()->addYearNoOverflow();
+                $date = Carbon::parse($previousBusinessPackage->start_date);
+                $difference = $date->diffInMonths(Carbon::now());
+                if ($difference < 1)   /* Add 3 more months with addition of 12 months if user upgrades to a yearly package within first month of registration to package's end date */{
+                    $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthsNoOverflow(15);
+                }
+                if ($difference >= 1 && $difference < 3)   /* Add 1 more months with addition of 12 months if user upgrades to a yearly package after first month but before finishing trial package i.e 3 months of registration to package's end date */{
+                    $end_date = Carbon::parse($previousBusinessPackage->end_date)->addMonthsNoOverflow(13);
+                }
+                if ($difference >= 3)   /* Simply add 1 year to package end date */{
+                    $end_date = Carbon::parse($previousBusinessPackage->end_date)->addYearNoOverflow();
+                }
             }
 
-            $businessPackage = $transaction->businessPackage()->create([
-                'business_id' => $transaction->business_id,
+            $businessPackage = $previousBusinessPackage->update([
                 'transaction_id' => $transaction->id,
                 'package_id' => $transaction->package_id,
                 'package_type' => $request->package_type,
                 'package_amount' => $transaction->amount,
-                'start_date' => Carbon::now(),
                 'end_date' => $end_date,
             ]);
 
+            /* Calculating IBR commissions if user has used any IBR reference */
             if (auth()->user()->business->ibr)
             {
                 $ibr = Ibr::firstWhere('ibr_no', auth()->user()->business->ibr);
                 $tenPercentOfAmount = $transaction->amount * 0.1;
 
-                IbrDirectCommission::create([
+                $directCommission = IbrDirectCommission::create([
                     'ibr_no' => $ibr->ibr_no,
-                    'business_id' => $transaction->business_id,
+                    'transaction_id' => $transaction->id,
                     'amount' => $tenPercentOfAmount,
                 ]);
 
                 $businessID = auth()->user()->business;
                 $amount = $tenPercentOfAmount;
-                $this->getTopIBRParent($ibr, $amount, $businessID);
+                $this->getTopIBRParent($ibr, $amount, $businessID, $directCommission);
             }
 
             return $businessPackage;
@@ -192,7 +218,7 @@ class BusinessController extends Controller
         }
     }
 
-    function getTopIBRParent($ibr, $amount, $businessID)
+    function getTopIBRParent($ibr, $amount, $businessID, $directCommission)
     {
         if ($ibr->referred_by == null)
         {
@@ -204,11 +230,12 @@ class BusinessController extends Controller
         IbrIndirectCommission::create([
             'ibr_no' => $parentIBR->ibr_no,
             'referencee_ire_no' => $parentIBR->referred_by,
+            'ibr_direct_commission_id' => $directCommission->id,
             'business_id' => $businessID,
             'amount' => $tenPercentOfAmountAfter,
         ]);
 
-        return $this->getTopIBRParent($parentIBR, $tenPercentOfAmountAfter, $businessID);
+        return $this->getTopIBRParent($parentIBR, $tenPercentOfAmountAfter, $businessID,$directCommission);
     }
 
 }
