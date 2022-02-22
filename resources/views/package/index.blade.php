@@ -97,22 +97,22 @@
                                 <span class="flex-row">
                                     @php $cost = $package->users * 5; @endphp
                                     <h4 class="flex-row"><span class="price_monthly" style="text-decoration: line-through;">${{number_format($cost)}}</span></h4>
-                                    <h2 class="flex-row plan-price font-weight-normal price_monthly" >${{number_format($package->monthly)}}</h2>
+                                    <h2 class="flex-row plan-price font-weight-normal price_monthly" >${{number_format($package->monthly)}} @if($package->id == 8) <small>+ $5</small> @endif</h2>
                                 </span>
                                 <span class="flex-row">
                                     @php $cost = 3 * ($package->users * 5); @endphp
                                     <h4 class="flex-row"><span class="price_quarterly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
-                                    <h2 class="flex-row plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}}</h2>
+                                    <h2 class="flex-row plan-price font-weight-normal price_quarterly" style="display: none">${{number_format($package->quarterly)}} @if($package->id == 8) <small>+ $5</small> @endif</h2>
                                 </span>
                                 <span class="flex-row">
                                     @php $cost = 6 * ($package->users * 5); @endphp
                                     <h4 class="flex-row"><span class="price_half_year" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
-                                    <h2 class="flex-row plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}}</h2>
+                                    <h2 class="flex-row plan-price font-weight-normal price_half_year" style="display: none">${{number_format($package->half_year)}} @if($package->id == 8) <small>+ $5</small> @endif</h2>
                                 </span>
                                 <span class="flex-row price_yearly">
                                     @php $cost = 12 * ($package->users * 5); @endphp
                                     <h4 class="flex-row"><span class="price_yearly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
-                                    <h2 class="flex-row plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}}</h2>
+                                    <h2 class="flex-row plan-price font-weight-normal price_yearly" style="display: none">${{number_format($package->yearly)}} @if($package->id == 8) <small>+ $5</small> @endif </h2>
                                 </span>
                                 <div class="plan-duration duration_monthly">{{__('portal.Per Month')}}</div>
                                 <div class="plan-duration duration_quarterly" style="display: none">{{__('portal.Quarterly')}}</div>
