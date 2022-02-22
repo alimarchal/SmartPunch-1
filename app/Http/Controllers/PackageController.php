@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ibr;
 use App\Models\Package;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {

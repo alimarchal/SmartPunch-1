@@ -14,6 +14,6 @@ class Package extends Model
 
     public function businessPackage(): HasMany
     {
-        return $this->hasMany(BusinessPackages::class);
+        return $this->hasMany(BusinessPackages::class,'package_id','id');
     }
 }

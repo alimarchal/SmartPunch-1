@@ -21,12 +21,10 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-
 Route::get('/', function () {
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
 })->name('home');
-
 /*
 Route::get('/config-clear', function() {
     Artisan::call('config:clear');
@@ -37,7 +35,6 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
-
 Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */
@@ -52,9 +49,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
 
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
     Route::middleware(['businessCheck', 'package_expired'])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
 
         /* Business Routes Start */
         Route::prefix('business')->group(function () {

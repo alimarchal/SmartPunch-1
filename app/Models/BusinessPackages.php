@@ -22,7 +22,7 @@ class BusinessPackages extends Model
 
     public function package(): HasOne
     {
-        return $this->hasOne(Package::class);
+        return $this->hasOne(Package::class,'id','package_id');
     }
 
     public function transactions(): HasMany

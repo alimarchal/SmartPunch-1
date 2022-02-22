@@ -11,7 +11,7 @@ class IbrIndirectCommission extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ibr_no', 'referencee_ire_no', 'amount', 'status'
+        'ibr_no', 'referencee_ire_no', 'ibr_direct_commission_id', 'amount', 'status'
     ];
 
     public function business(): BelongsTo
@@ -22,5 +22,10 @@ class IbrIndirectCommission extends Model
     public function ibr(): BelongsTo
     {
         return $this->belongsTo(Ibr::class);
+    }
+
+    public function directCommission(): BelongsTo
+    {
+        return $this->belongsTo(IbrDirectCommission::class);
     }
 }

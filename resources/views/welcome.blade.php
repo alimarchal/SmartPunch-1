@@ -352,20 +352,39 @@
                         <div class="card-header border-bottom-0 pt-7 pb-5">
                             <div class="d-flex justify-content-center">
                                 <span class="price_monthly text-center">
+                                    @php $cost = $package->users * 5; @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center ">{{__('portal.Per Month')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_monthly" style="text-decoration: line-through;">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center ">{{__('portal.Per Month')}}</span>
+                                    </span>
                                 </span>
+
                                 <span class="price_quarterly" style="display: none">
+                                    @php $cost = 3 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_quarterly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                    </span>
                                 </span>
+
                                 <span class="price_half_year" style="display: none">
+                                    @php $cost = 6 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_half_year" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                    </span>
                                 </span>
+
                                 <span class="price_yearly" style="display: none">
+                                    @php $cost = 12 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->yearly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_yearly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->yearly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -393,27 +412,47 @@
                         <div class="card shadow-lg mb-4 border-0">
                             <div class="card-header border-bottom-0 pt-7 pb-5">
                                 <div class="d-flex justify-content-center">
-                                <span class="price_monthly">
+                                <span class="price_monthly text-center">
+                                    @php $cost = $package->users * 5; @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold ">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Per Month')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_monthly" style="text-decoration: line-through;">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->monthly)}}</h1><span class="d-flex justify-content-center ">{{__('portal.Per Month')}}</span>
+                                    </span>
                                 </span>
+
                                     <span class="price_quarterly" style="display: none">
+                                    @php $cost = 3 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_quarterly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->quarterly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Quarter')}}</span>
+                                    </span>
                                 </span>
+
                                     <span class="price_half_year" style="display: none">
+                                    @php $cost = 6 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_half_year" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="row fw-bold">${{number_format($package->half_year)}}</h1><span class="d-flex justify-content-center">{{__('portal.6 months')}}</span>
+                                    </span>
                                 </span>
+
                                     <span class="price_yearly" style="display: none">
+                                    @php $cost = 12 * ($package->users * 5); @endphp
                                     <h5 class="fw-bold text-center">{{$package->name}}</h5>
-                                    <h1 class="fw-bold">${{number_format($package->yearly)}}</h1><span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                    <span class="flex-row">
+                                        <h4 class="row text-center"><span class="price_yearly" style="text-decoration: line-through; display: none">${{number_format($cost)}}</span></h4>
+                                        <h1 class="flex-row fw-bold">${{number_format($package->yearly)}} @if($package->id == 8) <small>+ $5</small> @endif</h1>
+                                        <span class="d-flex justify-content-center">{{__('portal.Year')}}</span>
+                                    </span>
                                 </span>
                                 </div>
                             </div>
                             <div class="card-body mx-auto">
                                 <ul class="list-unstyled mb-4">
-                                    <li class="text-700 py-2 text-secondary">{{$package->users}} {{__('portal.Users')}}</li>
+                                    <li class="text-700 py-2 text-secondary">{{$package->users}}@if($package->id == 8)+ @endif {{__('portal.Users')}}</li>
                                 </ul>
                             </div>
                         </div>

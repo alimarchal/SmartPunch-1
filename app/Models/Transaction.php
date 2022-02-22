@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Transaction extends Model
@@ -30,5 +31,10 @@ class Transaction extends Model
     {
         return $this->belongsTo(BusinessPackages::class);
 //        return $this->belongsTo(BusinessPackages::class,'id','transaction_id');
+    }
+
+    public function directCommissions(): HasOne
+    {
+        return $this->hasOne(IbrDirectCommission::class);
     }
 }
