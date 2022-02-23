@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
+use App\Models\IbrIndirectCommission;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -25,17 +26,28 @@ class IbrController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
-//        DB::enableQueryLog();
-        $ibr_direct_com = IbrDirectCommission::select("id",
+
+        $ibr_direct_com = IbrDirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
-            ->where('ibr_no', \auth()->user()->id)
+            ->where('ibr_no', \auth()->user()->ibr_no)
+            ->orderBy('created_at')
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
+            ->get();
+
+
+//        DB::enableQueryLog();
+
+        $ibr_in_direct_com = IbrIndirectCommission::select("ibr_no",
+            DB::raw("(sum(amount)) as total"),
+            DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
+            ->where('ibr_no', \auth()->user()->ibr_no)
             ->orderBy('created_at')
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
 //        dd(DB::getQueryLog());
-        return view('ibr.dashboard', compact('ibr_direct_com'));
+        return view('ibr.dashboard', compact('ibr_direct_com','ibr_in_direct_com'));
     }
 
     public function business_referrals(): Factory|View|Application

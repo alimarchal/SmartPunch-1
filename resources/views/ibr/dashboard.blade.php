@@ -7,12 +7,12 @@
 @endsection
 
 
-@section('custom_styles')
-    <style>
-        .highcharts-credits {
-            visibility: hidden!important;
-        }
-    </style>
+@section('css')
+        <style>
+            .highcharts-credits {
+                visibility: hidden!important;
+            }
+        </style>
 @endsection
 
 @section('body')
@@ -54,8 +54,11 @@
     </div>
 
 
+
     <hr>
-    <!-- end row -->
+
+
+
 
     <div class="row">
         <div class="col-xl-4">
@@ -137,9 +140,6 @@
         </div><!-- end col -->
 
     </div>
-    <!-- end row -->
-
-
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card-box widget-user">
@@ -202,9 +202,6 @@
         </div><!-- end col -->
 
     </div>
-    <!-- end row -->
-
-
     <div class="row">
         <div class="col-xl-4">
             <div class="card-box">
@@ -230,7 +227,7 @@
 
                     <div class="inbox-item">
                         <a href="#">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-1.jpg" class="rounded-circle" alt=""></div>
+                            <div class="inbox-item-img"><img src="{{url('Horizontal/dist/assets/images/users/user-1.jpg')}}" class="rounded-circle" alt=""></div>
                             <h5 class="inbox-item-author mt-0 mb-1">Chadengle</h5>
                             <p class="inbox-item-text">Hey! there I'm available...</p>
                             <p class="inbox-item-date">13:40 PM</p>
@@ -239,7 +236,7 @@
 
                     <div class="inbox-item">
                         <a href="#">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-2.jpg" class="rounded-circle" alt=""></div>
+                            <div class="inbox-item-img"><img src="{{url('Horizontal/dist/assets/images/users/user-2.jpg')}}" class="rounded-circle" alt=""></div>
                             <h5 class="inbox-item-author mt-0 mb-1">Tomaslau</h5>
                             <p class="inbox-item-text">I've finished it! See you so...</p>
                             <p class="inbox-item-date">13:34 PM</p>
@@ -248,7 +245,7 @@
 
                     <div class="inbox-item">
                         <a href="#">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-3.jpg" class="rounded-circle" alt=""></div>
+                            <div class="inbox-item-img"><img src="{{url('Horizontal/dist/assets/images/users/user-3.jpg')}}" class="rounded-circle" alt=""></div>
                             <h5 class="inbox-item-author mt-0 mb-1">Stillnotdavid</h5>
                             <p class="inbox-item-text">This theme is awesome!</p>
                             <p class="inbox-item-date">13:17 PM</p>
@@ -257,7 +254,7 @@
 
                     <div class="inbox-item">
                         <a href="#">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-4.jpg" class="rounded-circle" alt=""></div>
+                            <div class="inbox-item-img"><img src="{{url('Horizontal/dist/assets/images/users/user-4.jpg')}}" class="rounded-circle" alt=""></div>
                             <h5 class="inbox-item-author mt-0 mb-1">Kurafire</h5>
                             <p class="inbox-item-text">Nice to meet you</p>
                             <p class="inbox-item-date">12:20 PM</p>
@@ -266,7 +263,7 @@
 
                     <div class="inbox-item">
                         <a href="#">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-5.jpg" class="rounded-circle" alt=""></div>
+                            <div class="inbox-item-img"><img src="{{url('Horizontal/dist/assets/images/users/user-5.jpg')}}" class="rounded-circle" alt=""></div>
                             <h5 class="inbox-item-author mt-0 mb-1">Shahedk</h5>
                             <p class="inbox-item-text">Hey! there I'm available...</p>
                             <p class="inbox-item-date">10:15 AM</p>
@@ -367,28 +364,12 @@
         </div><!-- end col -->
 
     </div>
-    <!-- end row -->
 
 @endsection
 @section('scripts')
 
     <script>
-        // Radialize the colors
-        Highcharts.setOptions({
-            colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
-                return {
-                    radialGradient: {
-                        cx: 0.5,
-                        cy: 0.3,
-                        r: 0.7
-                    },
-                    stops: [
-                        [0, color],
-                        [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
-                    ]
-                };
-            })
-        });
+
 
         // Build the chart
         Highcharts.chart('container', {
@@ -426,9 +407,11 @@
                 name: 'Share',
                 data: [
 
-                        @foreach($ibr_direct_com as $ibr_dc)
-                    { name: '{{$ibr_dc->month_year}}', y: {{$ibr_dc->total}} },
-                    @endforeach
+                @foreach($ibr_direct_com as $ibr_dc)
+                    {
+                        name: '{{$ibr_dc->month_year}}', y: {{$ibr_dc->total}}
+                    },
+                @endforeach
                 ]
             }]
         });
@@ -442,28 +425,25 @@
                 type: 'column'
             },
             title: {
-                text: 'Earning Quarter Wise'
+                text: 'Earning Indirect Commissions'
             },
 
             xAxis: {
                 categories: [
-                    'Jan-Mar',
-                    'Apr-Jun',
-                    'Jul-Sep',
-                    'Oct-Dec',
+                    @foreach($ibr_in_direct_com as $ibr) '{{$ibr->month_year}}', @endforeach
                 ],
                 crosshair: true
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Earning (thousands)'
+                    text: 'Earning (rupees)'
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} thousand</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -474,23 +454,13 @@
                     borderWidth: 0
                 }
             },
-            series: [{
-                name: '1st Qtr',
-                data: [49.9, 71.5, 106.4, 129.2,]
+            series: [
+                {
+                    name: 'Total',
+                    data: [@foreach($ibr_in_direct_com as $ibr) {{$ibr->total}}, @endforeach]
 
-            }, {
-                name: '2nd Qtr',
-                data: [83.6, 78.8, 98.5, 93.4, ]
-
-            }, {
-                name: '3rd Qtr',
-                data: [48.9, 38.8, 39.3, 41.4,]
-
-            }, {
-                name: '4th Qtr',
-                data: [42.4, 33.2, 34.5, 39.7, ]
-
-            }]
+                },
+            ]
         });
 
 
