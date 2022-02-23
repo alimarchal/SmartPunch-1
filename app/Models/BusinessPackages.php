@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -15,9 +16,9 @@ class BusinessPackages extends Model
         'business_id', 'transaction_id', 'package_id', 'package_type', 'package_amount', 'start_date', 'end_date', 'status'
     ];
 
-    public function business(): HasOne
+    public function business(): BelongsTo
     {
-        return $this->hasOne(Business::class);
+        return $this->belongsTo(Business::class);
     }
 
     public function package(): HasOne

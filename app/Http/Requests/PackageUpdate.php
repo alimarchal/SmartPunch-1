@@ -29,7 +29,7 @@ class PackageUpdate extends FormRequest
             'package_id' => 'required',
             'package_type' => 'required',
             'card_number' => 'required',
-            'cvv' => 'required',
+//            'cvv' => 'required',
             'card_valid_from' => 'required',
             'card_valid_to' => 'required',
 //            'amount' => 'required',

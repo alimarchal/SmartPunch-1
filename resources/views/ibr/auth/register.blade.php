@@ -10,6 +10,12 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{url('logo.png')}}">
 
+    {{-- select2 scripts start --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {{-- select2 scripts end --}}
+
     <!-- Bootstrap Css -->
     <link href="{{url('Horizontal/dist/assets/css/bootstrap-dark.min.css')}}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -114,9 +120,11 @@
 
                                 <div class="form-group">
                                     <label for="country_of_business">{{__('register.Country of business')}}</label>
-                                    <select name="country_of_business" id="country_of_business" class="custom-select @error('country_of_business') parsley-error @enderror" required>
+                                    <select name="country_of_business" id="country_of_business" class="custom-select countries @error('country_of_business') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
-                                        <option {{(old('country_of_business') == 1 ? 'selected' : '')}} value="1">Saudi Arabia</option>
+                                        @foreach($countries as $country)
+                                        <option {{(old('country_of_business') == 1 ? 'selected' : '')}} value="{{$country->country_id}}">{{$country->country_name}}</option>
+                                        @endforeach
                                     </select>
                                     @error('country_of_business')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('country_of_business') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -125,9 +133,11 @@
 
                                 <div class="form-group">
                                     <label for="country_of_bank">{{__('register.Country of bank')}}</label>
-                                    <select name="country_of_bank" id="country_of_bank" class="custom-select @error('country_of_bank') parsley-error @enderror" required>
+                                    <select name="country_of_bank" id="country_of_bank" class="custom-select countries @error('country_of_bank') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
-                                        <option {{(old('country_of_bank') == 1 ? 'selected' : '')}} value="1">Al Bank</option>
+                                        @foreach($countries as $country)
+                                        <option {{(old('country_of_bank') == 1 ? 'selected' : '')}} value="{{$country->country_id}}">{{$country->country_name}}</option>
+                                        @endforeach
                                     </select>
                                     @error('country_of_bank')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('country_of_bank') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -208,6 +218,16 @@
         </div>
         <!-- end container -->
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <script>
+        $(document).ready(function() {
+            $('.countries').select2();
+        });
+        $(document).ready(function() {
+            $('.countries').select2();
+        });
+    </script>
 
 <!-- Vendor js -->
 <script src="{{url('Horizontal/dist/assets/js/vendor.min.js')}}"></script>

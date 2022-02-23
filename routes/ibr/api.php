@@ -48,8 +48,24 @@ Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
         Route::get('direct-commissions', [IbrController::class, 'directCommissions']);
         /* Direct Commission Routes */
 
-        /* Direct Commission Routes */
+        /* Indirect Commission Routes */
         Route::get('indirect-commissions', [IbrController::class, 'inDirectCommissions']);
-        /* Direct Commission Routes */
+        /* Indirect Commission Routes */
+
+        /* Dashboard related routes start */
+
+        /* My earnings Route */
+        Route::get('earnings', [IbrController::class, 'myEarnings']);
+        /* My earnings Route */
+
+        /* My clients Route */
+        Route::get('clients', [IbrController::class, 'myClients']);
+        /* My clients Route */
+
+        /* My network Route */
+        Route::get('network', [IbrController::class, 'myNetworks']);
+        /* My network Route */
+
+        /* Dashboard related routes end */
     });
 });

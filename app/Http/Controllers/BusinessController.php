@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Business;
 use App\Models\Office;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
-    public function index()
+    public function index(): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('view business'))
         {
@@ -23,7 +24,7 @@ class BusinessController extends Controller
         return redirect()->back();
     }
 
-    public function create()
+    public function create(): View
     {
         return view('business.create');
     }
@@ -57,7 +58,7 @@ class BusinessController extends Controller
         return redirect()->route('dashboard')->with('success', 'Business details added successfully!');
     }
 
-    public function edit($businessID)
+    public function edit($businessID): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('update business'))
         {

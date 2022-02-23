@@ -19,6 +19,11 @@ class Business extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function activeUsers(): HasMany
+    {
+        return $this->hasMany(User::class)->where('status',1)->where('user_role', '!=','2');
+    }
+
     public function offices(): HasMany
     {
         return $this->hasMany(Office::class);
@@ -29,9 +34,9 @@ class Business extends Model
         return $this->hasMany(Schedule::class);
     }
 
-    public function businessPackages(): HasMany
+    public function businessPackages(): HasOne
     {
-        return $this->hasMany(BusinessPackages::class);
+        return $this->hasOne(BusinessPackages::class);
     }
 
     public function transactions(): HasMany
