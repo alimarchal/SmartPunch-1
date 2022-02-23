@@ -36,6 +36,7 @@ class IbrController extends Controller
             ->get();
 
 
+
 //        DB::enableQueryLog();
 
         $ibr_in_direct_com = IbrIndirectCommission::select("ibr_no",
