@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,17 @@ class Ibr extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    /* Accessor for displaying country name */
+    protected function countryOfBusiness(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => \DB::table('countries')
+                ->select('country_name')
+                ->where('id', $value)
+                ->value('country_name')
+        );
+    }
 
     /* Relation for IBRs having child IBRs start */
     public function ibr(): HasMany

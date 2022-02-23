@@ -7,6 +7,7 @@ use App\Models\Business;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
 use App\Models\IbrIndirectCommission;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,5 +89,49 @@ class IbrController extends Controller
             return response()->json(['data' => 'No data found'], 404);
         }
     }
+
+    /* Functions for dashboard start */
+    public function myEarnings(): JsonResponse
+    {
+        $directCommissions = IbrDirectCommission::with('inDirectCommissions')
+            ->where('ibr_no' , 'IBR4')
+            ->whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->get();
+
+        $inDirectCommissions = $directCommissions->pluck('inDirectCommissions');
+
+        return response()->json([
+            'directCommissions' => $directCommissions,
+            'inDirectCommissions' => $inDirectCommissions,
+        ]);
+    }
+
+    public function myClients(): JsonResponse
+    {
+        $clients = Business::with('businessPackages', 'coupon')
+            ->withCount('activeUsers')
+            ->where('ibr', auth()->guard('ibr_api')->user()->ibr_no)->get();
+
+        return response()->json(['clients' => $clients]);
+    }
+
+    public function myNetworks(): JsonResponse
+    {
+        $network['ibr'] = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)
+            ->withCount('ibrReferred')
+            ->get()
+            ->toArray();
+
+        $directIBRs['directIBRs'] = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)->count();
+        $directClients['directClients'] = Business::where('ibr', auth()->guard('ibr_api')->user()->ibr_no)->count();
+        $directIncome['directIncome'] = IbrDirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)->sum('amount');
+        $inDirectIncome['inDirectIncome'] = IbrIndirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)->sum('amount');
+
+        $data = array_merge($network, $directIBRs, $directClients, $directIncome, $inDirectIncome);
+
+        return response()->json(['data' => $data]);
+    }
+    /* Functions for dashboard start */
 
 }

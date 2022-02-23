@@ -135,7 +135,6 @@ class BusinessController extends Controller
             'package_id' => $request->package_id,
             'package_type' => $request->package_type,
             'card_number' => $request->card_number,
-            'cvv' => $request->cvv,
             'card_valid_from' => $request->card_valid_from,
             'card_valid_to' => $request->card_valid_to,
             'amount' => $request->amount,
@@ -218,6 +217,7 @@ class BusinessController extends Controller
         }
     }
 
+    /* Recursion function to calculate indirect commissions */
     function getTopIBRParent($ibr, $amount, $businessID, $directCommission)
     {
         if ($ibr->referred_by == null)

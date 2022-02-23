@@ -7,6 +7,7 @@ use App\Http\Requests\IbrStoreRequest;
 use App\Mail\ibr\verifyEmail;
 use App\Models\Ibr;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,12 +17,13 @@ use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
-    public function register()
+    public function register(): View
     {
-        return view('ibr.auth.register');
+        $countries = \DB::table('countries')->get();
+        return view('ibr.auth.register', compact('countries'));
     }
 
-    public function store(IbrStoreRequest $request)
+    public function store(IbrStoreRequest $request): RedirectResponse
     {
         if (!is_null($request->referred_by))
         {
@@ -61,7 +63,7 @@ class RegisterController extends Controller
         return redirect()->route('ibr.ibrEmailVerify');
     }
 
-    public function email_verify()
+    public function email_verify(): View|RedirectResponse
     {
         if (\auth()->guard('ibr')->user()->verified == 1) {
             return redirect()->route('ibr.dashboard');
