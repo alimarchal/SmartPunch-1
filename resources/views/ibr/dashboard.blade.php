@@ -8,11 +8,11 @@
 
 
 @section('css')
-        <style>
-            .highcharts-credits {
-                visibility: hidden!important;
-            }
-        </style>
+    <style>
+        .highcharts-credits {
+            visibility: hidden !important;
+        }
+    </style>
 @endsection
 
 @section('body')
@@ -371,15 +371,12 @@
     <script>
 
 
-        // Build the chart
         Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie',
-                height: 400,
-
+                type: 'pie'
             },
             title: {
                 text: 'My Earnings direct commissions as of <br> {{date('d-M-Y')}} month-wise',
@@ -398,20 +395,27 @@
                     cursor: 'pointer',
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        connectorColor: 'silver'
+                        format: '<b>{point.name}</b>'
                     }
                 }
             },
             series: [{
-                name: 'Share',
+                name: 'Total Percentage',
+                colorByPoint: true,
                 data: [
-
-                @foreach($ibr_direct_com as $ibr_dc)
                     {
-                        name: '{{$ibr_dc->month_year}}', y: {{$ibr_dc->total}}
+                        name: 'Direct: {{$ibr_direct_com->sum('total')}}',
+                        y: {{$ibr_direct_com->sum('total')}},
+                        selected: true
                     },
-                @endforeach
+
+
+                    {
+                        name: 'Indirect: {{$ibr_in_direct_com->sum('total')}}',
+                        y: {{$ibr_in_direct_com->sum('total')}},
+                        sliced: true,
+                        selected: true
+                    },
                 ]
             }]
         });
@@ -425,7 +429,7 @@
                 type: 'column'
             },
             title: {
-                text: 'Earning Indirect Commissions'
+                text: 'Earning'
             },
 
             xAxis: {
@@ -456,7 +460,7 @@
             },
             series: [
                 {
-                    name: 'Total',
+                    name: 'Indirect',
                     data: [@foreach($ibr_in_direct_com as $ibr) {{$ibr->total}}, @endforeach]
 
                 },
