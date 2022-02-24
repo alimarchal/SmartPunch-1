@@ -1,11 +1,15 @@
 @extends('ibr.layout.master')
 
-@section('header')
+@section('custom_styles')
     <style>
         .highcharts-credits {
             visibility: hidden !important;
         }
     </style>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
 @endsection
 
 @section('body')
@@ -41,6 +45,14 @@
 
     <hr>
 
+    <div class="raw">
+        <div class="col-xl-6 col-md-6">
+            <div id="container_2" style="border-radius: 5px;"></div>
+        </div>
+    </div>
+
+
+    <hr>
     <div class="row">
         <div class="col-xl-4">
             <div class="card-box">
@@ -351,7 +363,7 @@
 
 @section('scripts')
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+
 {{--    <script src="https://code.highcharts.com/modules/exporting.js"></script>--}}
 {{--    <script src="https://code.highcharts.com/modules/export-data.js"></script>--}}
 {{--    <script src="https://code.highcharts.com/modules/accessibility.js"></script>--}}
@@ -460,6 +472,53 @@
 
                 },
             ]
+        });
+
+
+        Highcharts.chart('container_2', {
+            chart: {
+                type: 'spline',
+            },
+            title: {
+                text: 'Monthly Business Registered'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Total'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value ;
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        radius: 4,
+                        lineColor: '#666666',
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [  {
+                name: 'Business Registered',
+                marker: {
+                    symbol: 'diamond'
+                },
+                data: [{
+                    y: 3.9,
+
+                }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            }]
         });
 
 

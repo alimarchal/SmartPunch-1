@@ -27,7 +27,6 @@ class IbrController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
-//dd(Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3));
         $ibr_direct_com = IbrDirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
@@ -36,36 +35,31 @@ class IbrController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
-
-
-//        DB::enableQueryLog();
-
         $ibr_in_direct_com = IbrIndirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
             ->where('ibr_no', \auth()->user()->ibr_no)
-            ->whereMonth('created_at','<', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
-            ->orWhereMonth('created_at','>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
+            ->whereMonth('created_at', '<', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
+            ->orWhereMonth('created_at', '>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
             ->orderBy('created_at')
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
-//        dd(DB::getQueryLog());
-        return view('ibr.dashboard', compact('ibr_direct_com','ibr_in_direct_com'));
+        return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com'));
     }
 
     public function business_referrals(): Factory|View|Application
     {
         $referrals = Business::with('user')->where('ibr', auth()->guard('ibr')->user()->ibr_no)
-                        ->get();
+            ->get();
         return view('ibr.referrals.businessReferrals', compact('referrals'));
     }
 
     public function ibr_referrals(): Factory|View|Application
     {
         $referrals = Ibr::where('referred_by', auth()->guard('ibr')->user()->ibr_no)
-                        ->select(['name', 'email', 'mobile_number'])
-                        ->get();
+            ->select(['name', 'email', 'mobile_number'])
+            ->get();
         return view('ibr.referrals.ibrReferrals', compact('referrals'));
     }
 
@@ -76,20 +70,18 @@ class IbrController extends Controller
 
     public function profileUpdate(Request $request): RedirectResponse
     {
-        Validator::make($request->all(),[
+        Validator::make($request->all(), [
             'password' => ['required', 'confirmed'],
             'current_password' => ['required'],
         ])->validate();
 
-        if ($request->current_password != ''){
-            if (!(Hash::check($request->get('current_password'), Auth::guard('ibr')->user()->getAuthPassword())))
-            {
+        if ($request->current_password != '') {
+            if (!(Hash::check($request->get('current_password'), Auth::guard('ibr')->user()->getAuthPassword()))) {
                 return redirect()->back()->with('error', 'Current password not matched');
             }
         }
-        if ($request->password != ''){
-            if (strcmp($request->get('current_password'),$request->get('password'))==0)
-            {
+        if ($request->password != '') {
+            if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
                 return redirect()->back()->with('error', 'Your current password cannot be same to new password');
             }
         }
