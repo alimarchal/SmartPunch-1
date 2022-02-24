@@ -27,6 +27,7 @@ class CreateIbrsTable extends Migration
             $table->string('remember_token')->nullable();
             $table->integer('gender'); /* 1 for Male, 2 for Female, 3 Other */
             $table->integer('country_of_business');
+            $table->integer('city_of_business');
             $table->integer('country_of_bank');
             $table->integer('bank');
             $table->string('iban');

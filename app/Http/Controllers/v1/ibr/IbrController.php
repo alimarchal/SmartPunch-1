@@ -125,8 +125,12 @@ class IbrController extends Controller
 
         $directIBRs['directIBRs'] = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)->count();
         $directClients['directClients'] = Business::where('ibr', auth()->guard('ibr_api')->user()->ibr_no)->count();
-        $directIncome['directIncome'] = IbrDirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)->sum('amount');
-        $inDirectIncome['inDirectIncome'] = IbrIndirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)->sum('amount');
+        $directIncome['directIncome'] = IbrDirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)
+                                            ->whereMonth('created_at', Carbon::now()->month)
+                                            ->sum('amount');
+        $inDirectIncome['inDirectIncome'] = IbrIndirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)
+                                            ->whereMonth('created_at', Carbon::now()->month)
+                                            ->sum('amount');
 
         $data = array_merge($network, $directIBRs, $directClients, $directIncome, $inDirectIncome);
 

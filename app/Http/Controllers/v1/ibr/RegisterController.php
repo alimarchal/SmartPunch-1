@@ -41,6 +41,7 @@ class RegisterController extends Controller
             'dob' => $request->dob,
             'gender' => $request->gender,
             'country_of_business' => $request->country_of_business,
+            'city_of_business' => $request->city_of_business,
             'country_of_bank' => $request->country_of_bank,
             'bank' => $request->bank,
             'iban' => $request->iban,

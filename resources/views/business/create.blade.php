@@ -11,6 +11,12 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{url('logo.png')}}">
 
+    {{-- select2 scripts start --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {{-- select2 scripts end --}}
+
     <!-- Bootstrap Css -->
     <link href="{{url('Horizontal/dist/assets/css/bootstrap-dark.min.css')}}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css"/>
     <!-- Icons Css -->
@@ -126,11 +132,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="pass1">{{__('portal.Country Name')}} *</label>
+                                    <label for="country_name">{{__('portal.Country Name')}} *</label>
 
-                                    <select class="custom-select" name="country_name">
+                                    <select class="custom-select" name="country_name" id="country_name">
                                         <option value="" selected>{{__('portal.Select')}}</option>
-                                        <option {{old('country_name') == 1 ? 'selected' : ''}} value="1">Saudi Arabia</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                        @endforeach
                                     </select>
 
                                     @error('country_name')
@@ -139,11 +147,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="pass1">{{__('portal.City Name')}} *</label>
+                                    <label for="city_name">{{__('portal.City Name')}} *</label>
 
-                                    <select class="custom-select" name="city_name" required>
+                                    <select class="custom-select" name="city_name" id="city_name">
                                         <option value="" selected>{{__('portal.Select')}}</option>
-                                        <option {{old('city_name') == 1 ? 'selected' : ''}} value="1">Riyadh</option>
                                     </select>
 
                                     @error('city_name')
@@ -218,6 +225,39 @@
 
 </div>
 <!-- END wrapper -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<script>
+
+    $(document).ready(function() {
+        $('#city_name').select2();
+    });
+
+    $("#country_name").select2().on("change", function () {
+        let option = '';
+        $('#city_name').prop('disabled', true);
+        $.ajax({
+            url: "{{route('ibr.search-cities')}}",
+            method: 'post',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                id: $('#country_name').val(),
+            },
+            success: function(result){
+                $('#city_name').prop('disabled', false);
+                $('#city_name').empty();
+                $('#city_name').append(' <option disabled selected value="">Select</option>');
+                result.cities.forEach(function (city, index) {
+                    option = "<option value='" + city.id + "'>" + city.name + "</option>"
+                    $('#city_name').append(option);
+                });
+            },
+            error: function(result){
+                console.log('error');
+            }
+        });
+    });
+</script>
 
 <!-- Vendor js -->
 <script src="{{url('Horizontal/dist/assets/js/vendor.min.js')}}"></script>

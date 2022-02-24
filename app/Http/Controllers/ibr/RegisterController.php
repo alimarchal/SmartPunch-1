@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ibr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IbrStoreRequest;
 use App\Mail\ibr\verifyEmail;
+use App\Models\City;
 use App\Models\Ibr;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -43,6 +44,7 @@ class RegisterController extends Controller
             'dob' => $request->dob,
             'gender' => $request->gender,
             'country_of_business' => $request->country_of_business,
+            'city_of_business' => $request->city_of_business,
             'country_of_bank' => $request->country_of_bank,
             'bank' => $request->bank,
             'iban' => $request->iban,
@@ -61,6 +63,12 @@ class RegisterController extends Controller
 
         \auth()->guard('ibr')->login($ibr);
         return redirect()->route('ibr.ibrEmailVerify');
+    }
+
+    public function searchCities(Request $request): JsonResponse
+    {
+        $cities = City::where('country_id', $request->id)->get();
+        return response()->json(['cities' => $cities]);
     }
 
     public function email_verify(): View|RedirectResponse

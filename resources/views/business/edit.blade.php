@@ -1,5 +1,13 @@
 @extends('theme.master')
 
+@section('header')
+    {{-- select2 scripts start --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {{-- select2 scripts end --}}
+@endsection
+
 @section('body')
 
     <div class="row">
@@ -26,11 +34,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.Country Name')}} *</label>
+                        <label for="country_name">{{__('portal.Country Name')}} *</label>
 
-                        <select class="custom-select" name="country_name">
+                        <select class="custom-select" name="country_name" id="country_name">
                             <option value="" selected>{{__('portal.Select')}}</option>
-                            <option {{$business->country_name == 1 ? 'selected' : ''}} value="1">Saudi Arabia</option>
+                            @foreach($countries as $country)
+                                <option {{$business->country_name == $country->id ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
                         </select>
 
                         @error('country_name')
@@ -39,11 +49,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.City Name')}} *</label>
+                        <label for="city_name">{{__('portal.City Name')}} *</label>
 
-                        <select class="custom-select" name="city_name" required>
+                        <select class="custom-select" name="city_name" id="city_name" required>
                             <option value="" selected>{{__('portal.Select')}}</option>
-                            <option {{$business->city_name == 1 ? 'selected' : ''}} value="1">Riyadh</option>
+                            @php $cities = \App\Models\City::where('country_id', $business->country_name)->get(); @endphp
+                            @foreach($cities as $city)
+                                <option {{$business->city_name == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name}}</option>
+                            @endforeach
                         </select>
 
                         @error('city_name')
@@ -86,4 +99,39 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <script>
+
+        $(document).ready(function() {
+            $('#city_name').select2();
+        });
+
+        $("#country_name").select2().on("change", function () {
+            let option = '';
+            $('#city_name').prop('disabled', true);
+            $.ajax({
+                url: "{{route('ibr.search-cities')}}",
+                method: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id: $('#country_name').val(),
+                },
+                success: function(result){
+                    $('#city_name').prop('disabled', false);
+                    $('#city_name').empty();
+                    $('#city_name').append(' <option disabled selected value="">Select</option>');
+                    result.cities.forEach(function (city, index) {
+                        option = "<option value='" + city.id + "'>" + city.name + "</option>"
+                        $('#city_name').append(option);
+                    });
+                },
+                error: function(result){
+                    console.log('error');
+                }
+            });
+        });
+    </script>
 @endsection

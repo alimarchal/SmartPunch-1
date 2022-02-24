@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\Country;
 use App\Models\Office;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -26,7 +27,8 @@ class BusinessController extends Controller
 
     public function create(): View
     {
-        return view('business.create');
+        $countries = Country::get();
+        return view('business.create', compact('countries'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -62,9 +64,9 @@ class BusinessController extends Controller
     {
         if (auth()->user()->hasPermissionTo('update business'))
         {
+            $countries = Country::get();
             $business = Business::firstWhere('id', decrypt($businessID));
-
-            return view('business.edit', compact('business'));
+            return view('business.edit', compact('business', 'countries'));
         }
 
         return redirect()->back();

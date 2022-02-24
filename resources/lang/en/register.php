@@ -27,6 +27,7 @@ return [
     'Gender' => 'Gender',
     'Select' => 'Select',
     'Country of business' => 'Country of business',
+    'City of business' => 'City of business',
     'Country of bank' => 'Country of bank',
     'Bank' => 'Bank',
     'IBAN' => 'IBAN',

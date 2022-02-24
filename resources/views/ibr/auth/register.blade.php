@@ -95,7 +95,7 @@
 
                                 <div class="form-group">
                                     <label for="password">{{__('register.Confirm Password')}}</label>
-                                    <input class="form-control" type="password" name="password_confirmation" id="password" placeholder="{{__('register.Confirm Password')}}" required>
+                                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="{{__('register.Confirm Password')}}" required>
                                 </div>
 
                                 <div class="form-group">
@@ -123,7 +123,7 @@
                                     <select name="country_of_business" id="country_of_business" class="custom-select countries @error('country_of_business') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         @foreach($countries as $country)
-                                        <option {{(old('country_of_business') == 1 ? 'selected' : '')}} value="{{$country->country_id}}">{{$country->country_name}}</option>
+                                        <option value="{{$country->id}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('country_of_business')
@@ -132,11 +132,21 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="city_of_business">{{__('register.City of business')}}</label>
+                                    <select name="city_of_business" id="city_of_business" class="custom-select @error('city_of_business') parsley-error @enderror" disabled>
+                                        <option value="" selected>{{__('register.Select')}}</option>
+                                    </select>
+                                    @error('city_of_business')
+                                    <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('city_of_business') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
                                     <label for="country_of_bank">{{__('register.Country of bank')}}</label>
-                                    <select name="country_of_bank" id="country_of_bank" class="custom-select countries @error('country_of_bank') parsley-error @enderror" required>
+                                    <select name="country_of_bank" id="country_of_bank" class="custom-select countries_of_bank @error('country_of_bank') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         @foreach($countries as $country)
-                                        <option {{(old('country_of_bank') == 1 ? 'selected' : '')}} value="{{$country->country_id}}">{{$country->country_name}}</option>
+                                        <option {{(old('country_of_bank') == 1 ? 'selected' : '')}} value="{{$country->id}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('country_of_bank')
@@ -222,10 +232,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script>
         $(document).ready(function() {
-            $('.countries').select2();
+            $('.countries_of_bank').select2();
         });
-        $(document).ready(function() {
-            $('.countries').select2();
+
+        $("#country_of_business").select2().on("change", function () {
+            let option = '';
+            $('#city_of_business').prop('disabled', true);
+            $.ajax({
+                url: "{{route('ibr.search-cities')}}",
+                method: 'post',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id: $('#country_of_business').val(),
+                },
+                success: function(result){
+                    $('#city_of_business').prop('disabled', false);
+                    $('#city_of_business').empty();
+                    $('#city_of_business').append(' <option disabled selected value="">Select</option>');
+                    result.cities.forEach(function (city, index) {
+                        option = "<option value='" + city.id + "'>" + city.name + "</option>"
+                        $('#city_of_business').append(option);
+                    });
+                },
+                error: function(result){
+                    console.log('error');
+                }
+            });
         });
     </script>
 

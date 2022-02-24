@@ -1,13 +1,6 @@
 @extends('ibr.layout.master')
-@section('javascript')
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-@endsection
 
-
-@section('css')
+@section('header')
     <style>
         .highcharts-credits {
             visibility: hidden !important;
@@ -22,13 +15,6 @@
         <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between">
                 <h4 class="page-title">Dashboard</h4>
-
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Adminto</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
 
             </div>
         </div>
@@ -53,12 +39,7 @@
 
     </div>
 
-
-
     <hr>
-
-
-
 
     <div class="row">
         <div class="col-xl-4">
@@ -366,20 +347,30 @@
     </div>
 
 @endsection
+
+
 @section('scripts')
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+{{--    <script src="https://code.highcharts.com/modules/exporting.js"></script>--}}
+{{--    <script src="https://code.highcharts.com/modules/export-data.js"></script>--}}
+{{--    <script src="https://code.highcharts.com/modules/accessibility.js"></script>--}}
 
     <script>
 
 
         Highcharts.chart('container', {
             chart: {
-                plotBackgroundColor: null,
+                backgroundColor: '#282e38',
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie'
             },
             title: {
-                text: 'My Earnings direct commissions as of <br> {{date('d-M-Y')}} month-wise',
+                text: 'My Earnings',
+                style: {
+                    color: '#ffffff',
+                }
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -404,14 +395,14 @@
                 colorByPoint: true,
                 data: [
                     {
-                        name: 'Direct: {{$ibr_direct_com->sum('total')}}',
+                        name: 'Direct: $ {{$ibr_direct_com->sum('total')}}',
                         y: {{$ibr_direct_com->sum('total')}},
                         selected: true
                     },
 
 
                     {
-                        name: 'Indirect: {{$ibr_in_direct_com->sum('total')}}',
+                        name: 'Indirect: ${{$ibr_in_direct_com->sum('total')}}',
                         y: {{$ibr_in_direct_com->sum('total')}},
                         sliced: true,
                         selected: true
@@ -426,10 +417,14 @@
 
         Highcharts.chart('container_1', {
             chart: {
+                backgroundColor: '#282e38',
                 type: 'column'
             },
             title: {
-                text: 'Earning'
+                text: 'Earning trend',
+                style: {
+                    color: '#ffffff',
+                }
             },
 
             xAxis: {

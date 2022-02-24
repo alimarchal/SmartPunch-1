@@ -10,6 +10,7 @@ Route::middleware('ibr_authenticated')->prefix('ibr/')->name('ibr.')->group(func
 
     Route::get('register', [RegisterController::class, 'register'])->name('register');
     Route::post('register', [RegisterController::class, 'store']);
+    Route::post('/search-cities', [RegisterController::class, 'searchCities'])->name('search-cities');
     Route::get('login', [LoginController::class, 'login_view'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
     Route::get('forgot-password', [LoginController::class, 'forgot_password_view'])->name('forgotPassword');

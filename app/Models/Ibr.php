@@ -16,7 +16,7 @@ class Ibr extends Authenticatable
     protected $guarded = ['id'];
     protected $fillable = [
         'ibr_no', 'referred_by', 'name', 'email', 'email_verified_at', 'verify_token', 'verified', 'otp',
-        'password', 'gender', 'country_of_business', 'country_of_bank', 'bank', 'iban', 'currency',
+        'password', 'gender', 'country_of_business', 'city_of_business', 'country_of_bank', 'bank', 'iban', 'currency',
         'mobile_number', 'dob', 'mac_address', 'device_name', 'rtl', 'status'
     ];
 
@@ -29,10 +29,9 @@ class Ibr extends Authenticatable
     protected function countryOfBusiness(): Attribute
     {
         return new Attribute(
-            get: fn($value) => \DB::table('countries')
-                ->select('country_name')
-                ->where('id', $value)
-                ->value('country_name')
+            get: fn($value) => Country::where('id', $value)
+                ->select('name')
+                ->value('name')
         );
     }
 

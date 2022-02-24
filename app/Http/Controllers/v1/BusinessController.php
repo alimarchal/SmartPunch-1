@@ -22,7 +22,7 @@ class BusinessController extends Controller
 {
     public function index(): JsonResponse
     {
-        $business = Business::firstWhere('user_id', auth()->id());
+        $business = Business::firstWhere('id', auth()->user()->business_id);
 
         if (!empty($business)) {
             return response()->json($business);
@@ -94,7 +94,8 @@ class BusinessController extends Controller
 
         if (empty($business)) {
             return response()->json(['message' => 'Not Found!'], 404);
-        } else {
+        }
+        else {
             if ($request->has('company_logo_url')) {
                 $path = $request->file('company_logo_url')->store('', 'public');
                 $request->merge(['company_logo' => $path]);
@@ -229,7 +230,7 @@ class BusinessController extends Controller
         $tenPercentOfAmountAfter = $amount * 0.1;
         IbrIndirectCommission::create([
             'ibr_no' => $parentIBR->ibr_no,
-            'referencee_ire_no' => $parentIBR->referred_by,
+            'referred_by' => $parentIBR->referred_by,
             'ibr_direct_commission_id' => $directCommission->id,
             'business_id' => $businessID,
             'amount' => $tenPercentOfAmountAfter,

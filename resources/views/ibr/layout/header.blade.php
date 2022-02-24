@@ -28,7 +28,5 @@
 
     @yield('css')
 
-    @yield('javascript')
-
 </head>
 
