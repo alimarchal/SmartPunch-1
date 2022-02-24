@@ -29,10 +29,8 @@ class PackageUpdate extends FormRequest
             'package_id' => 'required',
             'package_type' => 'required',
             'card_number' => 'required',
-//            'cvv' => 'required',
             'card_valid_from' => 'required',
             'card_valid_to' => 'required',
-//            'amount' => 'required',
             'bank_name' => 'required',
         ];
     }
@@ -44,10 +42,8 @@ class PackageUpdate extends FormRequest
             'package_id' => 'Package ID is required',
             'package_type' => 'Package type is required',
             'card_number' => 'Card number is required',
-            'cvv' => 'Card\'s cvv is required',
             'card_valid_from' => 'Card\'s issue date is required',
             'card_valid_to' => 'Card\'s expiry date is required',
-            'amount' => 'Total amount is required',
             'bank_name' => 'Bank name is required',
         ];
     }

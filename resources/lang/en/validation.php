@@ -178,10 +178,13 @@ return [
             'date' => 'Date of birth must be a validate date',
         ],
         'country_of_business' => [
-            'required' => 'Please select a country of business',
+            'required' => 'Please select country of business',
+        ],
+        'city_of_business' => [
+            'required' => 'Please select city of business',
         ],
         'country_of_bank' => [
-            'required' => 'Please select a country of bank',
+            'required' => 'Please select country of bank',
         ],
         'bank' => [
             'required' => 'Please select a bank',
