@@ -28,5 +28,7 @@
 
     @yield('css')
 
+    @yield('custom_styles')
+
 </head>
 
