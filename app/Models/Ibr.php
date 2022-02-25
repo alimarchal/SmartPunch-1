@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,7 +46,7 @@ class Ibr extends Authenticatable
     public function ibrReferred(): HasMany
     {
         // This is method where we implement recursive relationship
-        return $this->hasMany(Ibr::class,'referred_by', 'ibr_no')->with('ibr');
+        return $this->ibr()->with('ibrReferred');
     }
     /* Relation for IBRs having child IBRs end */
 
@@ -59,9 +60,29 @@ class Ibr extends Authenticatable
     public function parentIbrReference(): HasMany
     {
         // This is method where we implement recursive relationship
-        return $this->hasMany(Ibr::class,'ibr_no', 'referred_by')->with('parentIbr');
+        return $this->parentIbr()->with('parentIbrReference');
     }
     /* Relation for IBRs having parent IBRs end */
+
+    public function directReferrals(): HasMany
+    {
+        return $this->hasMany(Ibr::class,'referred_by','ibr_no');
+    }
+
+    public function directClients(): HasMany
+    {
+        return $this->hasMany(Business::class,'ibr','ibr_no');
+    }
+
+    public function directMonthlyIncome(): HasMany
+    {
+        return $this->hasMany(IbrDirectCommission::class,'ibr_no','ibr_no')->whereMonth('created_at', Carbon::now()->month);
+    }
+
+    public function inDirectMonthlyIncome(): HasMany
+    {
+        return $this->hasMany(IbrIndirectCommission::class,'ibr_no','ibr_no')->whereMonth('created_at', Carbon::now()->month);
+    }
 
     public function directCommissions(): HasMany
     {
