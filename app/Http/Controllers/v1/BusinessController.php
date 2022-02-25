@@ -63,7 +63,6 @@ class BusinessController extends Controller
                 'business_id' => $business->id,
                 'package_id' => 9,
                 'amount' => 0,
-                'status' => 1,
             ]);
 
             $transaction->businessPackage()->create([
@@ -142,7 +141,7 @@ class BusinessController extends Controller
             'bank_name' => $request->bank_name,
         ];
 
-        $businessPackage = DB::transaction(function () use ($data, $request, $previousBusinessPackage) {
+        $transaction = DB::transaction(function () use ($data, $request, $previousBusinessPackage) {
             $transaction = Transaction::create($data);
 
             if ($request->package_type == 1)    /* 1 => monthly */{
@@ -178,7 +177,7 @@ class BusinessController extends Controller
                 }
             }
 
-            $businessPackage = $previousBusinessPackage->update([
+            $previousBusinessPackage->update([
                 'transaction_id' => $transaction->id,
                 'package_id' => $transaction->package_id,
                 'package_type' => $request->package_type,
@@ -203,15 +202,12 @@ class BusinessController extends Controller
                 $this->getTopIBRParent($ibr, $amount, $businessID, $directCommission);
             }
 
-            return $businessPackage;
+            return $transaction;
         });
 
-        if ($businessPackage->wasRecentlyCreated) {
+        if ($transaction->wasRecentlyCreated) {
             /* status 201 => created */
-            return response()->json([
-                'success' => 'Business package updated successfully!',
-                'businessPackage' => $businessPackage
-            ], 201);
+            return response()->json(['success' => 'Business package updated successfully!'], 201);
         }
         else {
             return response()->json(['message' => 'There are some internal error to proceeding your request. Try again later'], 500);
