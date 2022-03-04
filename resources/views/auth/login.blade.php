@@ -75,6 +75,10 @@
                                     <button class="btn btn-primary btn-block" type="submit">{{__('login.Log In')}}</button>
                                 </div>
 
+                                <div class="text-center mt-3">
+                                    <a href="{{ route('password.request') }}" class="text-info ml-1"><i class="fa fa-lock mr-1"></i>{{__('login.Forgot your password?')}}</a>
+                                </div>
+
                             </form>
 
                         </div> <!-- end card-body -->
@@ -83,7 +87,6 @@
 
                     <div class="row mt-3">
                         <div class="col-12 text-center">
-                            <p><a href="{{ route('password.request') }}" class=" text-info ml-1"><i class="fa fa-lock mr-1"></i>{{__('login.Forgot your password?')}}</a></p>
                             <p class="text-white">{{__('login.Don\'t have an account?')}} <a href="{{route('register')}}" class="text-dark ml-1"><b style="color: #2890f6">{{__('login.Sign Up')}}</b></a></p>
                         </div> <!-- end col -->
                     </div>

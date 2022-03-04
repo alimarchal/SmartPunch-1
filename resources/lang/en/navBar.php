@@ -25,8 +25,11 @@ return [
     'Package' => 'Package',
     'Referrals' => 'Referrals',
     'IBR' => 'IBR',
-    'My referred businesses' => 'My referred businesses',
-    'My referred IBRs' => 'My referred IBRs',
+    'My earnings' => 'My earnings',
+    'Direct earnings' => 'Direct earnings',
+    'Indirect earnings' => 'Indirect earnings',
+    'My referred businesses' => 'My clients',
+    'My referred IBRs' => 'My network',
     'Logout' => 'Logout',
     'Profile' => 'Profile',
 

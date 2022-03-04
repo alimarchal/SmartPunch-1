@@ -101,8 +101,11 @@
                     <div class="form-group">
                         <label for="parent_id">{{__('portal.Immediate boss')}}</label>
 
-                        <select id="parent_id" class="children custom-select" name="parent_id">
+                        <select id="parent_id" class="custom-select" name="parent_id">
                             <option value="">{{__('portal.Select')}}</option>
+                            @foreach($employees as $employee)
+                                <option value="{{$employee->id}}">{{$employee->name}}</option>
+                            @endforeach
                         </select>
 
                         @error('parent_id')

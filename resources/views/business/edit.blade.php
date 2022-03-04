@@ -1,20 +1,12 @@
 @extends('theme.master')
 
-@section('header')
-    {{-- select2 scripts start --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    {{-- select2 scripts end --}}
-@endsection
-
 @section('body')
 
     <div class="row">
         <div class="col-xl-6 mx-auto">
             <div class="text-center">
                 <a class="logo">
-                    <img src="{{ $business->company_logo }}" alt="{{$business->company_name}}" height="64" class="logo-light mx-auto">
+                    <img src="{{ Storage::url( $business->company_logo ) }}" alt="{{$business->company_name}}"  class="logo-light mx-auto mt-2" style="border-radius: 50%;" height="100" width="100">
                 </a>
             </div>
             <div class="card-box mt-3">
@@ -102,7 +94,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script>
 
         $(document).ready(function() {

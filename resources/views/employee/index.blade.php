@@ -8,7 +8,7 @@
                 <div class="card-box widget-user">
                     <div class="media">
                         <div class="avatar-lg mr-3">
-                            <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"><img src="{{ $employee->profile_photo_path }}" alt="{{$employee->name}}" class="img-fluid rounded-circle"></a>
+                            <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"><img src="{{ Storage::url( $employee->profile_photo_path ) }}" alt="{{$employee->name}}" class="img-fluid rounded-circle"></a>
                         </div>
                         <div class="media-body overflow-hidden">
                             <h5 class="mt-0 mb-1"> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"> {{$employee->name}} </a>

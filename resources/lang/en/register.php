@@ -19,6 +19,8 @@ return [
     'Email address' => 'Email address',
     'Enter your email' => 'Enter your email',
     'Password' => 'Password',
+    'New Password' => 'New Password',
+    'Confirm new password' => 'Confirm new password',
     'Enter your password' => 'Enter your password',
     'Confirm Password' => 'Confirm Password',
     'Enter IBAN' => 'Enter IBAN',

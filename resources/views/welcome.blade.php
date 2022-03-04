@@ -63,9 +63,9 @@
         <div class="container position-relative">
             <div class="row align-items-center py-8">
                 <div class="col-md-5 col-lg-6 order-md-1 text-center text-md-end"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/mobile.png')}}" width="350" alt="" /></div>
-                <div class="col-md-7 col-lg-6 text-center text-md-start"><span class="badge bg-light rounded-pill text-dark align-items-center d-flex flex-row-reverse justify-content-end mx-auto mx-md-0 ps-0 w-75 w-sm-50 w-md-75 w-xl-50 mb-3">#1 Editiors Choice App of 2020<img class="img-fluid float-start me-3" src="{{url('applab/public/assets/img/illustrations/arrow-right.png')}}" alt=""/></span>
-                    <h1 class="mb-4 display-3 fw-bold lh-sm">Best app for your <br class="d-block d-lg-none d-xl-block" />modern lifestyle</h1>
-                    <p class="mt-3 mb-4 fs-1">Increase productivity with a simple smartpunch.app for <br class="d-none d-lg-block" />managing your personal budgets.</p><a class="btn btn-lg btn-primary rounded-pill hover-top" href="{{route('login')}}" role="button">Try for free</a><a class="btn btn-link ps-md-4" href="#" role="button"> Watch demo video</a>
+                <div class="col-md-7 col-lg-6 text-center text-md-start"><span class="badge bg-light rounded-pill text-dark align-items-center d-flex flex-row-reverse justify-content-end mx-auto mx-md-0 ps-0 w-75 w-sm-50 w-md-75 w-xl-50 mb-3">#1 Admins' Choice App of <?php echo date("Y"); ?><img class="img-fluid float-start me-3" src="{{url('applab/public/assets/img/illustrations/arrow-right.png')}}" alt=""/></span>
+                    <h1 class="mb-4 display-3 fw-bold lh-sm">Best app for your <br class="d-block d-lg-none d-xl-block" />modern business style</h1>
+                    <p class="mt-3 mb-4 fs-1">Increase productivity with a simple SmartPunch.App to <br class="d-none d-lg-block" />manage your organizational needs.</p><a class="btn btn-lg btn-primary rounded-pill hover-top" href="{{route('login')}}" role="button">Try for free</a><a class="btn btn-link ps-md-4" href="#" role="button"> Watch demo video</a>
                 </div>
             </div>
         </div>
@@ -102,27 +102,43 @@
             <div class="row align-items-center">
                 <div class="col-md-5 col-lg-6 order-md-0 text-center text-md-start"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/feature-bg.png')}}" width="550" alt="" /></div>
                 <div class="col-md-7 col-lg-6 px-sm-5 px-md-0">
-                    <h6 class="fw-bold fs-4 display-3 lh-sm">Awesome apps <br />features</h6>
-                    <p class="my-4">Increase productivity with a simple smartpunch.app for <br class="d-none d-xl-block" />managing your personal budgets.</p>
+                    <h6 class="fw-bold fs-4 display-3 lh-sm">Awesome app features</h6>
+                    <p class="my-4">Increase productivity with simple SmartPunch.App <br class="d-none d-xl-block" />to manage your office/s and/or team/s.</p>
                     <div class="d-flex align-items-center mb-5">
-                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/fast-performance.png')}}" width="90" alt="" /></div>
+                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/fast-performance.png')}}" width="120" alt="" /></div>
                         <div class="px-4">
-                            <h5 class="fw-bold text-danger">Fast performance</h5>
-                            <p>Get your blood tests delivered at <br class="d-none d-xl-block"> home collect a sample from the <br class="d-none d-xl-block"> news your blood tests</p>
+                            <h5 class="fw-bold text-danger">Smart Team view</h5>
+                            <p>The dashboard gives an updated view of the entire organization in your hands at any time, who is in or still out.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-5">
-                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/prototype.png')}}" width="90" alt="" /></div>
+                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/network.png')}}" width="200" alt="" /></div>
                         <div class="px-4">
-                            <h5 class="fw-bold text-primary">Prototyping</h5>
-                            <p>Get your blood tests delivered at <br class="d-none d-xl-block"> home collect a sample from the <br class="d-none d-xl-block"> news your blood tests</p>
+                            <h5 class="fw-bold text-primary">Multiple Work places</h5>
+                            <p>Whether you are a small, medium, or large enterprise, the whole attendance system can all be under one umbrella. You may have more than one office in the same or a different city.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-5">
-                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/vector.png')}}" width="90" alt="" /></div>
+                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/my_networks.png')}}" width="160" alt="" /></div>
                         <div class="px-4">
-                            <h5 class="fw-bold text-success">Vector Editing</h5>
-                            <p>Get your blood tests delivered at <br class="d-none d-xl-block"> home collect a sample from the <br class="d-none d-xl-block"> news your blood tests</p>
+                            <h5 class="fw-bold text-warning">Different Roles</h5>
+                            <p>This App has four roles, i.e., Admin, Manager, Supervisor, and employee. Using these roles one can create a very large organizational tree as required.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-5">
+                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/vector.png')}}" width="180" alt="" /></div>
+                        <div class="px-4">
+                            <h5 class="fw-bold text-success">Multiple Work schedules</h5>
+                            <p>Every team may have a different work schedule while working in the same office. This feature is also flexible enough to cater to the needs of varying work requirements.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-5">
+                        <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/covid-2.png')}}" width="190" alt="" /></div>
+                        <div class="px-4">
+                            <h5 class="fw-bold">Covid complaint</h5>
+                            <p>One of the most powerful features of this App is the ability to take attendance from one's personal smartphone. This provides the basic requirement of no sharing of physical resources.</p>
                         </div>
                     </div>
                 </div>
@@ -146,19 +162,19 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-lg-3 offset-lg-1 mb-4">
-                    <div class="py-4"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/automatic.png')}}" width="90" alt="" /></div>
-                    <h5 class="fw-bold text-danger">Fast performance</h5>
-                    <p class="mt-2 mb-0">Get your blood tests delivered at home collect a sample from the news your blood tests.</p>
+                    <div class="py-4"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/fast-performance.png')}}" width="90" alt="" /></div>
+                    <h5 class="fw-bold text-danger">Smart Team view</h5>
+                    <p class="mt-2 mb-0">The dashboard gives an updated view of the entire organization in your hands at any time, who is in or still out.</p>
                 </div>
                 <div class="col-md-4 col-lg-3 offset-lg-1 mb-4">
                     <div class="py-4"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/network.png')}}" width="90" alt="" /></div>
-                    <h5 class="fw-bold text-primary">Prototyping</h5>
-                    <p class="mt-2 mb-0">Get your blood tests delivered at home collect a sample from the news your blood tests.</p>
+                    <h5 class="fw-bold text-primary">Multiple Work places</h5>
+                    <p class="mt-2 mb-0">Whether you are a small, medium, or large enterprise, the whole attendance system can all be under one umbrella. You may have more than one office in the same or a different city.</p>
                 </div>
                 <div class="col-md-4 col-lg-3 offset-lg-1 mb-4">
-                    <div class="py-4"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/rewards.png')}}" width="90" alt="" /></div>
-                    <h5 class="fw-bold text-success">Vector Editing</h5>
-                    <p class="mt-2 mb-0">Get your blood tests delivered at home collect a sample from the news your blood tests.</p>
+                    <div class="py-4"><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/vector.png')}}" width="90" alt="" /></div>
+                    <h5 class="fw-bold text-success">Multiple Work schedules</h5>
+                    <p class="mt-2 mb-0">Every team may have a different work schedule while working in the same office. This feature is also flexible enough to cater to the needs of varying work requirements.</p>
                 </div>
             </div>
         </div>

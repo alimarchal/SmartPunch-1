@@ -34,11 +34,11 @@
 
 
         <div class="col-xl-6 col-md-6">
-            <div id="container" style="border-radius: 5px;"></div>
+            <div id="my_earnings" style="border-radius: 5px;"></div>
         </div>
 
         <div class="col-xl-6 col-md-6">
-            <div id="container_1" style="border-radius: 5px;"></div>
+            <div id="earning_trend" style="border-radius: 5px;"></div>
         </div>
 
     </div>
@@ -47,7 +47,7 @@
 
     <div class="raw">
         <div class="col-xl-6 col-md-6">
-            <div id="container_2" style="border-radius: 5px;"></div>
+            <div id="my_clients" style="border-radius: 5px;"></div>
         </div>
     </div>
 
@@ -371,9 +371,9 @@
     <script>
 
 
-        Highcharts.chart('container', {
+        Highcharts.chart('my_earnings', {
             chart: {
-                backgroundColor: '#282e38',
+                backgroundColor: '#353D4A',
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie'
@@ -427,9 +427,9 @@
         // column chart
 
 
-        Highcharts.chart('container_1', {
+        Highcharts.chart('earning_trend', {
             chart: {
-                backgroundColor: '#282e38',
+                backgroundColor: '#353D4A',
                 type: 'column'
             },
             title: {
@@ -443,12 +443,25 @@
                 categories: [
                     @foreach($ibr_in_direct_com as $ibr) '{{$ibr->month_year}}', @endforeach
                 ],
-                crosshair: true
+                crosshair: true,
+                labels: {
+                    style: {
+                        color: '#ffffff'
+                    }
+                }
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Earning (rupees)'
+                    text: 'Earning ($)',
+                    style: {
+                        color: '#ffffff'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#ffffff'
+                    }
                 }
             },
             tooltip: {
@@ -475,24 +488,39 @@
         });
 
 
-        Highcharts.chart('container_2', {
+        Highcharts.chart('my_clients', {
             chart: {
+                backgroundColor: '#353D4A',
                 type: 'spline',
             },
             title: {
-                text: 'Monthly Business Registered'
+                text: 'Monthly Business Registered',
+                style: {
+                    color: '#ffffff',
+                }
             },
             xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: {
+                    style: {
+                        color: '#ffffff'
+                    }
+                }
             },
             yAxis: {
                 title: {
-                    text: 'Total'
+                    text: 'Total',
+                    style: {
+                        color: '#ffffff',
+                    }
                 },
                 labels: {
                     formatter: function () {
                         return this.value ;
+                    },
+                    style: {
+                        color: '#ffffff'
                     }
                 }
             },

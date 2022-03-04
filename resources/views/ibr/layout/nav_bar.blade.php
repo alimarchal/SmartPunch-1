@@ -180,6 +180,21 @@
                     <a href="{{route('ibr.dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)"> <i class="mdi mdi-cash-multiple"></i>{{__('navBar.My earnings')}}
+                        <div class="arrow-down"></div>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="{{route('ibr.direct_earnings')}}"><i class="mdi mdi-cash"></i> {{__('navBar.Direct earnings')}}</a>
+                        </li>
+                        <li>
+                            <a href="{{route('ibr.in_direct_earnings')}}"><i class="mdi mdi-cash"></i> {{__('navBar.Indirect earnings')}}</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="has-submenu">
                     <a href="{{route('ibr.business_referrals')}}"><i class="mdi mdi-briefcase"></i>{{__('navBar.My referred businesses')}}</a>
                 </li>

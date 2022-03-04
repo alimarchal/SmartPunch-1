@@ -108,8 +108,10 @@
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                    @if (!isset(auth()->user()->profile_photo_path))
                         <img src="{{ Auth::user()->profile_photo_url }}" alt="user-image" class="rounded-circle">
+                    @else
+                        <img src="{{ Storage::url( auth()->user()->profile_photo_path ) }}" alt="{{ auth()->user()->name }}" class="rounded-circle">
                     @endif
                     <span class="pro-user-name ml-1">
                          {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i>
@@ -167,12 +169,22 @@
         <div class="logo-box">
             <a href="{{route('dashboard')}}" class="logo logo-light">
                 <span class="logo-lg">
-                    <img src="{{url('logo.png')}}" alt="" height="44">
+                    @if(isset(auth()->user()->business->company_logo))
+                        <img src="{{ Storage::url( auth()->user()->business->company_logo) }}" alt="{{auth()->user()->business->company_name}}" style="border-radius: 50%;" height="44" width="50">
+                    @elseif(!isset(auth()->user()->business->company_logo) && is_null(auth()->user()->business->company_logo))
+                        <img src="{{url('no-image.png')}}" alt="" height="44">
+                    @else
+                        <img src="{{url('logo.png')}}" alt="" height="44">
+                    @endif
                     @php $role = \Spatie\Permission\Models\Role::where('id', auth()->user()->user_role)->pluck('name')->first(); @endphp
                     <span class="ml-1 text-white">{{ucfirst($role)}}</span>
                 </span>
                 <span class="logo-sm">
-                    <img src="{{url('logo.png')}}" alt="" height="44">
+                    @if(isset(auth()->user()->business->company_logo))
+                        <img src="{{ Storage::url( auth()->user()->business->company_logo) }}" alt="{{auth()->user()->business->company_name}}" style="border-radius: 50%;" height="44" width="50">
+                    @else
+                        <img src="{{url('logo.png')}}" alt="" height="44">
+                    @endif
                 </span>
             </a>
         </div>
