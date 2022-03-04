@@ -26,6 +26,6 @@ class IbrIndirectCommission extends Model
 
     public function directCommission(): BelongsTo
     {
-        return $this->belongsTo(IbrDirectCommission::class);
+        return $this->belongsTo(IbrDirectCommission::class,'ibr_direct_commission_id', 'id');
     }
 }

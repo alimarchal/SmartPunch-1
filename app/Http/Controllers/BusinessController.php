@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
@@ -94,6 +96,12 @@ class BusinessController extends Controller
 
             if ($request->hasFile('logo'))
             {
+                if (isset(auth()->user()->business->company_logo)){
+                    $image = public_path('storage/'.auth()->user()->business->company_logo);
+                    if(File::exists($image)){
+                        unlink($image);
+                    }
+                }
                 $path = $request->file('logo')->store('', 'public');
                 Business::where('id', decrypt($id))->update(['company_logo' => $path]);
             }

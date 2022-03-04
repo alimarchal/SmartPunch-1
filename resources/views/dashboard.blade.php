@@ -28,7 +28,7 @@
     </div>
     <!-- end page title -->
 
-    <div class="row">
+    {{--<div class="row">
 
         <div class="col-xl-3 col-md-6">
             <div class="card-box">
@@ -179,7 +179,7 @@
 
         </div><!-- end col -->
 
-    </div>
+    </div>--}}
     <!-- end row -->
 
     <div class="row">
@@ -265,69 +265,63 @@
     <!-- end row -->
 
 
+    @if(auth()->user()->hasPermissionTo('view employee'))
     <div class="row">
+        @foreach($employees->take(4) as $employee)
         <div class="col-xl-3 col-md-6">
             <div class="card-box widget-user">
                 <div class="media">
                     <div class="avatar-lg mr-3">
-                        <img src="{{url('Horizontal/dist/assets/images/users/user-3.jpg')}}" class="img-fluid rounded-circle" alt="user">
+                        <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"><img src="{{ Storage::url( $employee->profile_photo_path ) }}" alt="{{$employee->name}}" class="img-fluid rounded-circle"></a>
                     </div>
                     <div class="media-body overflow-hidden">
-                        <h5 class="mt-0 mb-1">Chadengle</h5>
-                        <p class="text-muted mb-2 font-13 text-truncate">coderthemes@gmail.com</p>
-                        <small class="text-warning"><b>Admin</b></small>
-                    </div>
-                </div>
-            </div>
-        </div><!-- end col -->
+                        <h5 class="mt-0 mb-1"> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"> {{$employee->name}} </a>
+                            @if($employee->hasVerifiedEmail())
+                                {{-- Verify icon --}}
+                                <small style="color: limegreen"><b><i class="fa fa-check-circle"></i></b></small>
+                                @if(auth()->user()->hasPermissionTo('delete employee'))
+                                    {{-- Delete icon --}}
+                                    {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
+                                    {{--                                        <small class="float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}
+                                @endif
+                                @if(auth()->user()->hasPermissionTo('update employee'))
+                                    {{-- Edit icon --}}
+                                    <small class="float-right mr-2 mt-1"><b><a href="{{route('employeeEdit', encrypt($employee->id))}}"><i class="fas fa-pencil-alt"></i></a></b></small>
+                                @endif
+                            @else
+                                {{-- Verify icon --}}
+                                <small class="text-danger"><b><i class="fa fa-times-circle"></i></b></small>
+                                @if(auth()->user()->hasPermissionTo('delete employee'))
+                                    {{-- Delete icon --}}
+                                    {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
+                                    {{--                                        <small class="text-danger float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}
+                                @endif
+                            @endif
+                        </h5>
+                        <p class="text-muted mb-2 font-13 text-truncate">{{$employee->email}}</p>
+                        @php $role = \Spatie\Permission\Models\Role::where('id', $employee->user_role)->pluck('name')->first(); @endphp
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card-box widget-user">
-                <div class="media">
-                    <div class="avatar-lg mr-3">
-                        <img src="{{url('Horizontal/dist/assets/images/users/user-2.jpg')}}" class="img-fluid rounded-circle" alt="user">
-                    </div>
-                    <div class="media-body overflow-hidden">
-                        <h5 class="mt-0 mb-1"> Michael Zenaty</h5>
-                        <p class="text-muted mb-2 font-13 text-truncate">coderthemes@gmail.com</p>
-                        <small class="text-pink"><b>Support Lead</b></small>
-                    </div>
-                </div>
-            </div>
-        </div><!-- end col -->
+                        @if($role == 'admin') <small><b> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-secondary"> {{ucfirst($role)}} @if($employee->status == 0) <span class="badge badge-danger"> {{__('portal.Suspended')}}</span> @endif  </a></b></small><br> @endif
+                        @if($role == 'manager') <small><b> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-primary"> {{ucfirst($role)}} @if($employee->status == 0) <span class="badge badge-danger"> {{__('portal.Suspended')}}</span> @endif </a></b></small><br> @endif
+                        @if($role == 'supervisor') <small><b> <a href="{{route('employeeShow', encrypt($employee->id))}}" style="color: #C46210"> {{ucfirst($role)}} @if($employee->status == 0) <span class="badge badge-danger"> {{__('portal.Suspended')}}</span> @endif  </a></b></small><br> @endif
+                        @if($role == 'employee') <small><b> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-pink"> {{ucfirst($role)}} @if($employee->status == 0) <span class="badge badge-danger"> ({{__('portal.Suspended')}}</span> @endif  </a></b></small><br> @endif
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card-box widget-user">
-                <div class="media">
-                    <div class="avatar-lg mr-3">
-                        <img src="{{url('Horizontal/dist/assets/images/users/user-1.jpg')}}" class="img-fluid rounded-circle" alt="user">
-                    </div>
-                    <div class="media-body overflow-hidden">
-                        <h5 class="mt-0 mb-1">Stillnotdavid</h5>
-                        <p class="text-muted mb-2 font-13 text-truncate">coderthemes@gmail.com</p>
-                        <small class="text-success"><b>Designer</b></small>
                     </div>
                 </div>
             </div>
-        </div><!-- end col -->
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card-box widget-user">
-                <div class="media">
-                    <div class="avatar-lg mr-3">
-                        <img src="{{url('Horizontal/dist/assets/images/users/user-10.jpg')}}" class="img-fluid rounded-circle" alt="user">
-                    </div>
-                    <div class="media-body overflow-hidden">
-                        <h5 class="mt-0 mb-1">Tomaslau</h5>
-                        <p class="text-muted mb-2 font-13 text-truncate">coderthemes@gmail.com</p>
-                        <small class="text-info"><b>Developer</b></small>
-                    </div>
-                </div>
-            </div>
-        </div><!-- end col -->
+        </div>
+            <!-- end col -->
+        @endforeach
 
     </div>
     <!-- end row -->
+    @endif
+
+    @if($employees->count() > 4)
+    <div class="row justify-content-end mr-1 mb-3">
+        <a href="{{ route('employeeIndex')  }}"><span style="color: #adb5b2;" onMouseOver="this.style.color='#00bfff'" onMouseOut="this.style.color='#adb5b2'">View more</span></a>
+    </div>
+    @endif
 
 
     <div class="row">

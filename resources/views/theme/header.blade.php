@@ -6,7 +6,13 @@
     <meta content="Coderthemes" name="author"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{url('logo.png')}}">
+    @if(isset(auth()->user()->business->company_logo) && !is_null(auth()->user()->business->company_logo))
+        <link rel="shortcut icon" href="{{ Storage::url( auth()->user()->business->company_logo) }}">
+    @elseif(!isset(auth()->user()->business->company_logo) && is_null(auth()->user()->business->company_logo))
+        <link rel="shortcut icon" href="{{url('no-image.png')}}">
+    @else
+        <link rel="shortcut icon" href="{{url('logo.png')}}">
+    @endif
 
     <!-- Notification css (Toastr) -->
     <link href="{{url('Horizontal/dist/assets/libs/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />

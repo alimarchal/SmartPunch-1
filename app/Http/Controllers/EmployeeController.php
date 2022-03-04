@@ -8,18 +8,21 @@ use App\Models\User;
 use App\Models\UserHasSchedule;
 use App\Models\UserOffice;
 use App\Notifications\NewEmployeeRegistration;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('view employee'))
         {
@@ -44,22 +47,23 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function create()
+    public function create(): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('create employee'))
         {
             /* If user is admin(2) */
             if (auth()->user()->user_role == 2) {
-                $roles = Role::with('permissions')->get()->except(1);
-                $employees = User::where('parent_id', auth()->id())->get()->except(\auth()->id());
+                $roles = Role::with('permissions')->get()->except(['id' => 1]);
+                $employees = User::where('parent_id', auth()->id())->get();
                 $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-                return view('employee.create', compact('roles', 'employees','offices'));
+                return view('employee.create', compact('roles', 'employees', 'offices'));
             }
             /* If user is manager(3) */
             if (auth()->user()->user_role == 3) {
                 $roles = Role::with('permissions')->whereNotIn('id', [1,2,3])->get();
+                $employees = User::where('parent_id', auth()->id())->get();
                 $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-                return view('employee.create', compact('roles', 'offices'));
+                return view('employee.create', compact('roles','employees', 'offices'));
             }
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -102,7 +106,7 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $employee = User::with('office', 'userSchedule.schedule')->findOrFail(decrypt($id));
         $userSchedule = $employee->userSchedule()->firstWhere('status', 1);
@@ -110,7 +114,7 @@ class EmployeeController extends Controller
         return view('employee.show', compact('employee', 'permissions', 'userSchedule'));
     }
 
-    public function edit($id)
+    public function edit($id): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('update employee'))
         {
@@ -202,19 +206,37 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function profileEdit()
+    public function profileEdit(): View
     {
         return view('credentials.edit');
     }
 
     public function profileUpdate(Request $request): RedirectResponse
     {
-        Validator::make($request->all(),[
-            'password' => ['required', 'confirmed'],
-            'current_password' => ['required'],
+        $validator = Validator::make($request->all(),[
+            'password' => ['required_with:current_password', 'confirmed',],
+            'current_password' => ['required_with:password',],
             'logo' => ['mimes:jpg,bmp,png'],
-        ])->validate();
+        ],[
+            'password.required_with' => 'New password field is required when current password field is entered',
+            'current_password.required_with' => 'Current password field is required when new password field is entered',
+            'logo.mimes' => 'Profile Photo must be a file of type: jpg, bmp, png.',
+        ]);
 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
+        if ($request->password != ''){
+            $validator = Validator::make($request->all(),[
+                'password' => ['min:8',],
+            ]);
+            if ($validator->fails())
+            {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+        }
         if ($request->current_password != ''){
             if (!(Hash::check($request->get('current_password'), Auth::user()->getAuthPassword())))
             {
@@ -231,11 +253,20 @@ class EmployeeController extends Controller
 
         if ($request->hasFile('logo'))
         {
+            if (isset(auth()->user()->profile_photo_path)){
+                $image = public_path('storage/'.auth()->user()->profile_photo_path);
+                if(File::exists($image)){
+                    unlink($image);
+                }
+            }
             $path = $request->file('logo')->store('', 'public');
             User::where('id', auth()->id())->update(['profile_photo_path' => $path]);
         }
 
-        User::where('id', auth()->id())->update(['password' => Hash::make($request->password)]);
+        if ($request->password != ''){
+            User::where('id', auth()->id())->update(['password' => Hash::make($request->password)]);
+        }
+
         return redirect()->route('dashboard')->with('success', __('portal.Profile updated successfully!!'));
 
     }

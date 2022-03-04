@@ -27,6 +27,15 @@ Route::prefix('v1')->group(function () {
     Route::post('/user/email-notification', [UserController::class, 'email_notification']);
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/forgot-password', [UserController::class, 'forgot_password']);
+
+    /* Countries and cities API */
+    Route::get('/countries', function (){
+        return response()->json(['countries' => \App\Models\Country::all('id','name')]);
+    });
+    Route::get('/cities/{country_id}', function ($country_id){
+        $cities = \App\Models\City::where('country_id', $country_id)->select(['id', 'name'])->get();
+        return response()->json(['cities' => $cities]);
+    });
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()

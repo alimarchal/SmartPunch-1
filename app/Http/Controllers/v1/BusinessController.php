@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageUpdate;
+use App\Http\Resources\BusinessResource;
 use App\Models\Business;
 use App\Models\BusinessPackages;
 use App\Models\Ibr;
@@ -26,6 +27,7 @@ class BusinessController extends Controller
 
         if (!empty($business)) {
             return response()->json($business);
+//            return response()->json(new BusinessResource($business));
         }
         else {
             return response()->json(['error' => 'Not Found!'], 404);
@@ -41,6 +43,13 @@ class BusinessController extends Controller
             'city_name' => 'required',
             'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
         ]);
+
+        if (isset($request->ibr) && !is_null($request->ibr)){
+            $ibr = Ibr::firstWhere('ibr_no', $request->ibr);
+            if (!isset($ibr)){
+                return response()->json(['error' => 'Ibr not found'],404);
+            }
+        }
 
         if ($request->has('company_logo_url')) {
             $path = $request->file('company_logo_url')->store('', 'public');

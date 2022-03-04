@@ -48,9 +48,40 @@ class IbrController extends Controller
         return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com'));
     }
 
+    public function direct_earnings(): Factory|View|Application
+    {
+        $directEarnings = IbrDirectCommission::with('transaction.business')
+            ->where('ibr_no', auth()->guard('ibr')->user()->ibr_no)
+            ->get();
+
+        $inDirectEarnings = IbrIndirectCommission::with('directCommission')
+            ->where('ibr_no', auth()->guard('ibr')->user()->ibr_no)
+            ->get();
+
+        $earnings = $directEarnings->merge($inDirectEarnings);
+
+        return view('ibr.earnings.direct', compact('directEarnings', 'inDirectEarnings', 'earnings'));
+    }
+
+    public function in_direct_earnings(): Factory|View|Application
+    {
+        $directEarnings = IbrDirectCommission::with('transaction.business')
+            ->where('ibr_no', auth()->guard('ibr')->user()->ibr_no)
+            ->get();
+
+        $inDirectEarnings = IbrIndirectCommission::with('directCommission', 'directCommission.transaction.business')
+            ->where('ibr_no', auth()->guard('ibr')->user()->ibr_no)
+            ->get();
+
+        $earnings = $directEarnings->merge($inDirectEarnings);
+
+        return view('ibr.earnings.inDirect', compact('directEarnings', 'inDirectEarnings', 'earnings'));
+    }
+
     public function business_referrals(): Factory|View|Application
     {
-        $referrals = Business::with('user')->where('ibr', auth()->guard('ibr')->user()->ibr_no)
+        $referrals = Business::with('user')
+            ->where('ibr', auth()->guard('ibr')->user()->ibr_no)
             ->get();
         return view('ibr.referrals.businessReferrals', compact('referrals'));
     }

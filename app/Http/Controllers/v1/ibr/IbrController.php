@@ -94,17 +94,34 @@ class IbrController extends Controller
     /* Functions for dashboard start */
     public function myEarnings(Request $request): JsonResponse
     {
-        $month = Carbon::parse($request->month)->month;
-        $year = Carbon::parse($request->year)->year;
+        if (isset($request->year) && !is_null($request->year)){
+            $currentYearCommissions = IbrDirectCommission::withSum('inDirectCommissions', 'amount')
+                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+                ->whereYear('created_at', $request->year)
+                ->get()
+                ->groupBy(function ($currentYearCommissions){
+                    return Carbon::parse($currentYearCommissions->created_at)->format('M');
+                });
 
-        $currentMonthCommissions = IbrDirectCommission::withSum('inDirectCommissions', 'amount')
-            ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
-            ->whereYear('created_at', $year)
-            ->whereMonth('created_at', $month)
-            ->get();
+//            $directCommissions = IbrDirectCommission::selectRaw('monthname(created_at) as month, sum(amount) as amount')
+//                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+//                ->groupBy('month')
+////                ->orderByRaw('min(created_at) desc')
+//                ->get();
+
+        }
+        else{
+            $currentYearCommissions = IbrDirectCommission::withSum('inDirectCommissions', 'amount')
+                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->get()
+                ->groupBy(function ($currentYearCommissions){
+                    return Carbon::parse($currentYearCommissions->created_at)->format('M');
+                });
+        }
 
         return response()->json([
-            'commissions' => $currentMonthCommissions,
+            'commissions' => $currentYearCommissions,
         ]);
     }
 
