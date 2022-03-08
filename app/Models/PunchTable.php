@@ -26,8 +26,13 @@ class PunchTable extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function offices(): BelongsTo
+    public function office(): BelongsTo
     {
         return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
+
+    public function schedule(): HasOne
+    {
+        return $this->hasOne(UserHasSchedule::class, 'user_id','user_id')->where('status', 1);
     }
 }

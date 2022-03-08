@@ -23,7 +23,7 @@ class BusinessController extends Controller
 {
     public function index(): JsonResponse
     {
-        $business = Business::firstWhere('id', auth()->user()->business_id);
+        $business = Business::with('ibr:ibr_no,email')->firstWhere('id', auth()->user()->business_id);
 
         if (!empty($business)) {
             return response()->json($business);
