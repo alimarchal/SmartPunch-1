@@ -4,64 +4,40 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\PunchTable;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request): JsonResponse
     {
-        //
+        $from = Carbon::parse($request->from)->format('Y-m-d');
+        $to = Carbon::parse($request->to)->format('Y-m-d');
+
+        $reports = PunchTable::with('office', 'schedule')
+            ->where(['user_id' => auth()->id()])
+            ->whereDate('created_at', '>=' , $from)
+            ->whereDate('created_at', '<=' , $to)
+            ->get();
+
+        return response()->json(['reports' => $reports]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function userReport(Request $request): JsonResponse
     {
-        //
-    }
+        $from = Carbon::parse($request->from)->format('Y-m-d');
+        $to = Carbon::parse($request->to)->format('Y-m-d');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\PunchTable $punchTable
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PunchTable $punchTable)
-    {
-        //
-    }
+        $reports = PunchTable::with('office', 'schedule')
+            ->where(['user_id' => $request->user_id])
+            ->whereDate('created_at', '>=' , $from)
+            ->whereDate('created_at', '<=' , $to)
+            ->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\PunchTable $punchTable
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PunchTable $punchTable)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\PunchTable $punchTable
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PunchTable $punchTable)
-    {
-        //
+        return response()->json(['reports' => $reports]);
     }
 
     public function user_id(Request $request)
@@ -122,4 +98,5 @@ class ReportController extends Controller
         }
 
     }
+
 }

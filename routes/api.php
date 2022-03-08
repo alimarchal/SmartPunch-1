@@ -93,6 +93,8 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Reports
         Route::get('/report', [ReportController::class, 'user_id']);
+        Route::post('user-report', [ReportController::class, 'userReport']);
+        Route::post('my-report', [ReportController::class, 'index']);
 
         // Schedule
         Route::prefix('schedule')->group(function () {
