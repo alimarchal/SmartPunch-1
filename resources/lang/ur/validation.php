@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'نام درکار ہے۔',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'آغاز کا وقت درکار ہے۔',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'اختتامی وقت درکار ہے۔',
         ],
         'break_start' => [
-            'required' => 'Break start is required',
+            'required' => 'وقفے کا آغاز ضروری ہے۔',
         ],
         'break_end' => [
-            'required' => 'Break end is required',
+            'required' => 'بریک اینڈ کی ضرورت ہے۔',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'براہ کرم ایک دفتر منتخب کریں۔',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'براہ کرم ایک کردار منتخب کریں۔',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'براہ کرم متعلقہ دفتر کا شیڈول منتخب کریں۔',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'براہ کرم متعلقہ دفتر کے نظام الاوقات کو منتخب کریں۔',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'براہ کرم اپنی تاریخ پیدائش منتخب کریں۔',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'تاریخ پیدائش ایک درست تاریخ ہونی چاہیے۔',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'براہ کرم کاروبار کا ملک منتخب کریں۔',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'براہ کرم کاروبار کا شہر منتخب کریں۔',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'براہ کرم بینک کا ملک منتخب کریں۔',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'براہ کرم ایک بینک منتخب کریں۔',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'براہ کرم IBAN نمبر درج کریں۔',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'براہ کرم کرنسی منتخب کریں۔',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'موبائل نمبر درکار ہے۔',
         ],
         /* Add IBRs validation errors end */
     ],

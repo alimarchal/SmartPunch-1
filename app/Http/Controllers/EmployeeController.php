@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use phpDocumentor\Reflection\Types\Collection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -54,16 +55,14 @@ class EmployeeController extends Controller
             /* If user is admin(2) */
             if (auth()->user()->user_role == 2) {
                 $roles = Role::with('permissions')->get()->except(['id' => 1]);
-                $employees = User::where('parent_id', auth()->id())->get();
-                $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-                return view('employee.create', compact('roles', 'employees', 'offices'));
+                /* Same lines of code so combined it in extracted function */
+                return $this->extracted($roles);
             }
             /* If user is manager(3) */
             if (auth()->user()->user_role == 3) {
                 $roles = Role::with('permissions')->whereNotIn('id', [1,2,3])->get();
-                $employees = User::where('parent_id', auth()->id())->get();
-                $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
-                return view('employee.create', compact('roles','employees', 'offices'));
+                /* Same lines of code so combined it in extracted function */
+                return $this->extracted($roles);
             }
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -89,6 +88,8 @@ class EmployeeController extends Controller
             ];
 
             $user = User::create($data)->assignRole($role)->syncPermissions($permissions);
+            $user->designation = $role->name;
+            $user->save();
             UserHasSchedule::create([
                 'schedule_id' => $request->schedule,
                 'user_id' => $user->id,
@@ -277,5 +278,20 @@ class EmployeeController extends Controller
         $permissions = Role::with('permissions')->where('id', $request->role_id)->first()->getAllPermissions()->pluck('name');
 
         return response()->json(['permissions' => $permissions]);
+    }
+
+    /* Same lines of code present in create function so extracted it in a function */
+    public function extracted($roles): View
+    {
+        $users = User::where('parent_id', auth()->id())->get();
+        $authenticatedUser = User::where('id', \auth()->id())->get();
+        if ($users) {
+            $employees = $users->merge($authenticatedUser);
+        }
+        else {
+            $employees = $authenticatedUser;
+        }
+        $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
+        return view('employee.create', compact('roles', 'employees', 'offices'));
     }
 }

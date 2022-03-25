@@ -275,7 +275,29 @@
 
                 @can('view reports')
                     <li class="has-submenu">
-                        <a href="{{route('report.index')}}"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
+                        <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}
+                            <div class="arrow-down"></div>
+                        </a>
+
+                        <ul class="submenu">
+                            @can('view reports by office')
+                                <li>
+                                    <a href="{{route('byOffice')}}"><i class="fa fa-building"></i> {{__('navBar.By office')}}</a>
+                                </li>
+                            @endcan
+
+                            @can('view reports by employee business ID')
+                                <li>
+                                    <a href="{{route('byEmployeeBusiness')}}"><i class="fa fa-key"></i> {{__('navBar.By employee business ID')}}</a>
+                                </li>
+                            @endcan
+
+                            @can('view reports by my team')
+                                <li>
+                                    <a href="{{route('reportByTeam')}}"><i class="fa fa-user-friends"></i> {{__('navBar.By my team')}}</a>
+                                </li>
+                            @endcan
+                        </ul>
                     </li>
                 @endcan
 

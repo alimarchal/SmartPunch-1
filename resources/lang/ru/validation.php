@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Russian Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'Укажите имя',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'Укажите время начала.',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'Укажите время окончания.',
         ],
         'break_start' => [
-            'required' => 'Break start is required',
+            'required' => 'Требуется брейк-старт',
         ],
         'break_end' => [
-            'required' => 'Break end is required',
+            'required' => 'Требуется конец перерыва',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'Пожалуйста, выберите офис',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'Пожалуйста, выберите роль',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'Пожалуйста, выберите график работы соответствующего офиса',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'Пожалуйста, выберите график работы соответствующего офиса',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'Пожалуйста, выберите дату рождения',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'Дата рождения должна быть действительной датой',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'Пожалуйста, выберите страну деятельности',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'Пожалуйста, выберите город деятельности',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'Пожалуйста, выберите страну банка',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Пожалуйста, выберите банк',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'Пожалуйста, введите номер IBAN',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'Пожалуйста, выберите валюту',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'Требуется номер мобильного телефона',
         ],
         /* Add IBRs validation errors end */
     ],

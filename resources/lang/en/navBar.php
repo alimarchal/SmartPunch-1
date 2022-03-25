@@ -4,10 +4,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Portal Lines
+    | NavBar Words
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the Portal.
+    | The following language lines are used by the NavBar.
     |
     */
 
@@ -15,6 +15,10 @@ return [
     'Super Admin' => 'Super Admin',
     'Offices' => 'Offices',
     'Add' => 'Add',
+    'By office' => 'By office',
+    'By employee business ID' => 'By employee business ID',
+    'By my team' => 'By my team',
+    'By user ID' => 'By user ID',
     'View' => 'View',
     'My schedule' => 'My schedule',
     'Employees' => 'Employees',
