@@ -88,6 +88,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(User::class, 'parent_id')->orderBy('name');
     }
 
+    public function child(): HasMany
+    {
+        // This relationship will only return one level of child items
+        return $this->hasMany(User::class,'parent_id','id');
+    }
+
+    public function multipleChild(): HasMany
+    {
+        // This is method where we implement recursive relationship
+        return $this->child()->with('multipleChild');
+    }
+
     public function business(): HasOne
     {
         return $this->hasOne(Business::class, 'id','business_id');

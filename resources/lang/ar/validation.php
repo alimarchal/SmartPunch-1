@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Arabic Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'مطلوب اسم',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'وقت البدء مطلوب',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'وقت الانتهاء مطلوب',
         ],
         'break_start' => [
-            'required' => 'Break start is required',
+            'required' => 'بداية الاستراحة مطلوبة',
         ],
         'break_end' => [
-            'required' => 'Break end is required',
+            'required' => 'نهاية الاستراحة مطلوبة',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'الرجاء تحديد مكتب',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'الرجاء تحديد دور',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'الرجاء تحديد جدول المكتب المعني',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'الرجاء تحديد جداول المكتب المعني',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'الرجاء تحديد تاريخ ميلادك',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'يجب أن يكون تاريخ الميلاد تاريخًا صحيحًا',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'الرجاء تحديد بلد العمل',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'الرجاء تحديد مدينة العمل',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'الرجاء تحديد بلد البنك',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'الرجاء تحديد بنك',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'الرجاء إدخال رقم IBAN',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'الرجاء تحديد العملة',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'رقم الهاتف المحمول مطلوب',
         ],
         /* Add IBRs validation errors end */
     ],

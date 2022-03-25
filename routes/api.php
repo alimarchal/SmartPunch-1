@@ -93,8 +93,11 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Reports
         Route::get('/report', [ReportController::class, 'user_id']);
-        Route::post('user-report', [ReportController::class, 'userReport']);
-        Route::post('my-report', [ReportController::class, 'index']);
+        Route::post('my-report', [ReportController::class, 'index']);               /* Authenticated user viewing his report */
+        Route::post('user-report', [ReportController::class, 'reportByUser']);        /* Particular users' reports by User ID */
+        Route::post('reports-by-office', [ReportController::class, 'reportByOffice']);        /* Report by office */
+        Route::post('reports-by-employee-business-id', [ReportController::class, 'reportByEmployeeBusinessID']);        /* Report by Employee Business ID assigned by admin */
+        Route::post('reports-by-team', [ReportController::class, 'reportByTeam']);        /* Report by Team assigned by admin */
 
         // Schedule
         Route::prefix('schedule')->group(function () {

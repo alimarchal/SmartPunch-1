@@ -120,9 +120,17 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             });
         });
         /* Schedule Routes End */
+
+        // Report
+        Route::prefix('reports')->middleware('permission:view reports')->group(function () {
+            Route::get('/', [ReportController::class, 'index'])->name('report.index');
+            Route::get('/by-office', [ReportController::class, 'byOfficeView'])->name('byOffice');
+            Route::post('/by-office-id', [ReportController::class, 'byOfficeID'])->name('byOfficeID');
+            Route::get('/by-employee', [ReportController::class, 'byEmployeeBusinessIDView'])->name('byEmployeeBusiness');
+            Route::post('/by-employee-id', [ReportController::class, 'byEmployeeBusinessID'])->name('byEmployeeBusinessID');
+            Route::get('/by-team', [ReportController::class, 'reportByTeam'])->name('reportByTeam');
+        });
     });
 
-// Report
-    Route::get('reports', [ReportController::class, 'index'])->name('report.index');
     Route::get('teamViewShow', [\App\Http\Controllers\TeamViewController::class, 'show'])->name('teamView.show');
 });

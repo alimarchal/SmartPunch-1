@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Russian login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => 'Адрес электронной почты',
+    'Enter your email' => 'Введите адрес электронной почты',
+    'Password' => 'Пароль',
+    'Enter your password' => 'Введите свой пароль',
+    'Sign Up' => 'Зарегистрироваться',
+    'Sign In' => 'Войти',
+    'Remember me' => 'Запомни меня',
+    'Log In' => 'Авторизоваться',
+    'Forgot your password?' => 'Забыли Ваш пароль?',
+    'Don\'t have an account?' => 'У вас нет аккаунта?',
 
 ];
