@@ -109,6 +109,7 @@ class EmployeeController extends Controller
             ];
 
             $user = User::create($data)->assignRole($role)->syncPermissions($permissions);
+            $user->designation = $role->name;
             UserHasSchedule::create([
                 'schedule_id' => $request->schedule,
                 'user_id' => $user->id,

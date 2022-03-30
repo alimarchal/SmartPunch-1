@@ -75,10 +75,20 @@ class EmployeeController extends Controller
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
 
+            if (!is_null($request->parent_id) && $request->parent_id != 0)
+            {
+                $parentID = $request->parent_id;
+            }
+            else
+            {
+                $parentID = 0;
+            }
+
             $data = [
                 'business_id' => auth()->user()->business_id,
                 'office_id' => $request->office_id,
                 'employee_business_id' => $request->employee_business_id,
+                'parent_id' => $parentID,
                 'schedule_id' => $request->schedule,
                 'name' => $request->name,
                 'email' => $request->email,
