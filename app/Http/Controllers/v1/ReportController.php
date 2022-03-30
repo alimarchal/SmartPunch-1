@@ -163,7 +163,7 @@ class ReportController extends Controller
             if (auth()->user()->hasRole('admin'))
             {
                 $users = User::with('office:id,business_id,parent_id,name,address,coordinates')
-                            ->select(['id','name','email','office_id','business_id'])
+                            ->select(['id','name','email','office_id','business_id','designation'])
                             ->where(['office_id' => $request->office_id, 'business_id' => auth()->user()->business_id])
                             ->get()
                             ->except(['id' => auth()->id()]);
@@ -252,7 +252,7 @@ class ReportController extends Controller
             }
             else{
                 $users = User::with('office:id,business_id,parent_id,name,address,coordinates')
-                                    ->select(['id','name','email','office_id','business_id'])
+                                    ->select(['id','name','email','office_id','business_id','designation'])
                                     ->where(['office_id' => $request->office_id, 'business_id' => auth()->user()->business_id])
                                     ->where('office_id' , auth()->user()->office_id)
                                     ->get()
@@ -495,7 +495,7 @@ class ReportController extends Controller
 
             if (auth()->user()->hasRole('admin')){
                 $users = User::where(['parent_id' => $request->parent_id, 'business_id' => auth()->user()->business_id])
-                            ->get(['id','name']);
+                            ->get(['id','name','designation']);
 
                 if (!isset($users) || count($users) == 0){
                     return response()->json(['error' => 'User not found'], 404);
@@ -612,7 +612,7 @@ class ReportController extends Controller
             else{
                 $users = User::where(['parent_id' => $request->parent_id, 'business_id' => auth()->user()->business_id])
                             ->where('office_id', auth()->user()->office_id)
-                            ->get(['id','name']);
+                            ->get(['id','name','designation']);
 
                 if (!isset($users) || count($users) == 0){
                     return response()->json(['error' => 'User not found'], 404);
