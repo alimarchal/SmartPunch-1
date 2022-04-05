@@ -29,7 +29,7 @@
                 @else
                     <h4 style="text-align: center;">{{$sentOffice->name . ' ' . __('portal.office attendance')}}</h4>
                 @endif--}}
-                <h4 style="text-align: center;">{{  'Today\'s attendance: ' .\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
+                <h4 style="text-align: center;">{{  __('portal.office attendance') .': ' .\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
 
                 <table id="datatable" class="table table-bordered dt-responsive nowrap">
                     <thead>

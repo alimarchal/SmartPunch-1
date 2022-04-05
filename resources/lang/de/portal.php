@@ -27,7 +27,7 @@ return [
     'Contact Us' => 'Kontaktiere uns',
     'SmartPunch' => 'SmartPunch',
     'Office Name' => 'Büroname',
-    'Name' => 'اسم',
+    'Name' => 'Name',
     'Business Name' => 'Firmenname',
     'Email' => 'Email',
     'Phone' => 'Telefon',
