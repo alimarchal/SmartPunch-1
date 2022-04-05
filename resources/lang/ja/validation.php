@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Arabic Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => '名前が必要です',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => '開始時間が必要です',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => '終了時間が必要です',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => 'ブレークスタートが必要です',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => 'ブレークエンドが必要です',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => '事務所を選択してください',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => '役割を選択してください',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'それぞれの事務所のスケジュールを選択してください',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'それぞれのオフィスのスケジュールを選択してください',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => '生年月日を選択してください',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => '生年月日は有効な日付である必要があります',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => '事業国を選択してください',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => '事業都市を選択してください',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => '銀行の国を選択してください',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => '銀行を選択してください',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'IBAN番号を入力してください',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => '通貨を選択してください',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => '携帯電話番号が必要です',
         ],
         /* Add IBRs validation errors end */
     ],

@@ -50,7 +50,7 @@ return [
     'Business' => 'Entreprise',
     'Enter Employee Details' => 'Entrez les détails de l\'employé',
     'Office' => 'Bureau',
-    'office attendance' => 'office attendance',
+    'office attendance' => 'La fréquentation d\'aujourd\'hui',
     'Employee ID' => 'ID d\'employé',
     'Enter Employee ID (if any)' => 'Entrez l\'ID de l\'employé (le cas échéant)',
     'Enter employee name' => 'Entrez le nom de l\'employé',

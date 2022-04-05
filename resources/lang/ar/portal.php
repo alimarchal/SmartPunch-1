@@ -50,7 +50,7 @@ return [
     'Business' => 'اعمال',
     'Enter Employee Details' => 'أدخل تفاصيل الموظف',
     'Office' => 'مكتب. مقر. مركز',
-    'office attendance' => 'office attendance',
+    'office attendance' => 'حضور اليوم',
     'Employee ID' => 'هوية الموظف',
     'Enter Employee ID (if any)' => 'أدخل معرف الموظف (إن وجد)',
     'Enter employee name' => 'أدخل اسم الموظف',

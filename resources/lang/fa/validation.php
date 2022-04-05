@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'نام الزامی است',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'زمان شروع مورد نیاز است',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'زمان پایان مورد نیاز است',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => 'شروع استراحت الزامی است',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => 'پایان شکست الزامی است',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'لطفا یک دفتر را انتخاب کنید',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'لطفا یک نقش را انتخاب کنید',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'لطفاً برنامه دفتر مربوطه را انتخاب کنید',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'لطفاً برنامه های دفتر مربوطه را انتخاب کنید',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'لطفا تاریخ تولد خود را انتخاب کنید',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'تاریخ تولد باید یک تاریخ معتبر باشد',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'لطفا کشور کسب و کار را انتخاب کنید',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'لطفا شهر کسب و کار را انتخاب کنید',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'لطفا کشور بانک را انتخاب کنید',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'لطفا یک بانک را انتخاب کنید',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'لطفا یک شماره IBAN وارد کنید',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'لطفا ارز را انتخاب کنید',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'شماره موبایل الزامی است',
         ],
         /* Add IBRs validation errors end */
     ],

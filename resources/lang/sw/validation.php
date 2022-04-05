@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Swahili Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'Jina linahitajika',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'Muda wa kuanza unahitajika',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'Muda wa mwisho unahitajika',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => 'Kuanza mapumziko kunahitajika',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => 'Mwisho wa mapumziko unahitajika',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'Tafadhali chagua ofisi',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'Tafadhali chagua jukumu',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'Tafadhali chagua ratiba ya ofisi husika',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'Tafadhali chagua ratiba za ofisi husika',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'Tafadhali chagua tarehe yako ya kuzaliwa',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'Tarehe ya kuzaliwa lazima iwe tarehe halali',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'Tafadhali chagua nchi ya biashara',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'Tafadhali chagua jiji la biashara',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'Tafadhali chagua nchi ya benki',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Tafadhali chagua benki',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'Tafadhali weka nambari ya IBAN',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'Tafadhali chagua sarafu',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'Nambari ya simu inahitajika',
         ],
         /* Add IBRs validation errors end */
     ],

@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Dutch login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => 'E-mailadres',
+    'Enter your email' => 'Vul je e-mailadres in',
+    'Password' => 'Wachtwoord',
+    'Enter your password' => 'Voer uw wachtwoord in',
+    'Sign Up' => 'Aanmelden',
+    'Sign In' => 'Aanmelden',
+    'Remember me' => 'Onthoud mij',
+    'Log In' => 'Log in',
+    'Forgot your password?' => 'uw wachtwoord vergeten?',
+    'Don\'t have an account?' => 'Heb je geen account?',
 
 ];

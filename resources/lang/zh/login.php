@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Chinese login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => '電子郵件地址',
+    'Enter your email' => '輸入你的電子郵箱',
+    'Password' => '密碼',
+    'Enter your password' => '輸入您的密碼',
+    'Sign Up' => '報名',
+    'Sign In' => '登入',
+    'Remember me' => '記得我',
+    'Log In' => '登錄',
+    'Forgot your password?' => '忘記密碼了嗎？',
+    'Don\'t have an account?' => '沒有帳戶？',
 
 ];

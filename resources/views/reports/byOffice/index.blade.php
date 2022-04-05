@@ -24,11 +24,12 @@
         <div class="col-12">
             <div class="card-box">
                 {{-- $sentOffice used inorder to show which office was selected --}}
-                @if(!isset($sentOffice))
+                {{--@if(!isset($sentOffice))
                     <h4 style="text-align: center;">{{__('portal.Attendance by office')}}</h4>
                 @else
                     <h4 style="text-align: center;">{{$sentOffice->name . ' ' . __('portal.office attendance')}}</h4>
-                @endif
+                @endif--}}
+                <h4 style="text-align: center;">{{  'Today\'s attendance: ' .\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
 
                 <table id="datatable" class="table table-bordered dt-responsive nowrap">
                     <thead>

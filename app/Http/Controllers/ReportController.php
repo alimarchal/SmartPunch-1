@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ReportController extends Controller
 {
@@ -146,8 +147,55 @@ class ReportController extends Controller
                 ->where(['user_id' => $sentEmployee->id, 'business_id' => auth()->user()->business_id])
                 ->whereDate('created_at', '=' , $currentDate)
                 ->get();
-
+//dd(last($reports));
+//dd($reports[count($reports) - 1]->in_out_status);
             return view('reports.byEmployeeBusinessID.index', compact('employees', 'reports', 'sentEmployee'));
+        }
+
+        return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    public function byEmployeeBusinessIDShow($id)
+    {
+        if (auth()->user()->hasPermissionTo('view reports by employee business ID')){
+            $currentDate = Carbon::parse(Carbon::now())->format('Y-m-d');
+            if (auth()->user()->hasRole('admin')){
+
+                $employees = User::where('business_id', auth()->user()->business_id)
+                    ->where('employee_business_id', '!=', null)
+                    ->get()
+                    ->except([auth()->id()]);
+
+                $reports = PunchTable::with('office:id,name,address')
+                    ->with('user:id,name')
+                    ->where(['user_id' => $id, 'business_id' => auth()->user()->business_id])
+                    ->whereDate('created_at', '=' , $currentDate)
+                    ->get();
+
+
+                /* Below variable used in view inorder to show which employee is selected */
+                $sentEmployee = User::firstWhere(['id' => $id, 'business_id' => auth()->user()->business_id]);
+
+            }
+            else{
+                $employees = User::where(['office_id' => auth()->user()->office_id,'business_id' => auth()->user()->business_id])
+                    ->where('employee_business_id', '!=', null)
+                    ->get()
+                    ->except([auth()->id()]);
+
+                /* Below variable used in view inorder to show which employee is selected */
+                $sentEmployee = User::where(['id' => $id, 'business_id' => auth()->user()->business_id])
+                    ->where('office_id', auth()->user()->office_id)
+                    ->first();
+
+            }
+            $reports = PunchTable::with('office:id,name,address')
+                                ->with('user:id,name')
+                                ->where(['user_id' => $id, 'business_id' => auth()->user()->business_id])
+                                ->whereDate('created_at', '=' , $currentDate)
+                                ->get();
+
+            return view('reports.byEmployeeBusinessID.byID', compact('employees','reports', 'sentEmployee'));
         }
 
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));

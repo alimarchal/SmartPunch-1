@@ -50,7 +50,7 @@ return [
     'Business' => 'Business',
     'Enter Employee Details' => 'Enter Employee Details',
     'Office' => 'Office',
-    'office attendance' => 'office attendance',
+    'office attendance' => 'Today\'s attendance',
     'Employee ID' => 'Employee ID',
     'Enter Employee ID (if any)' => 'Enter Employee ID (if any)',
     'Enter employee name' => 'Enter employee name',

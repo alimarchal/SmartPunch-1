@@ -128,6 +128,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::post('/by-office-id', [ReportController::class, 'byOfficeID'])->name('byOfficeID');
             Route::get('/by-employee', [ReportController::class, 'byEmployeeBusinessIDView'])->name('byEmployeeBusiness');
             Route::post('/by-employee-id', [ReportController::class, 'byEmployeeBusinessID'])->name('byEmployeeBusinessID');
+            Route::get('/by-employee-id-show/{id}', [ReportController::class, 'byEmployeeBusinessIDShow'])->name('byEmployeeBusinessIDShow');
             Route::get('/by-team', [ReportController::class, 'reportByTeam'])->name('reportByTeam');
         });
     });
