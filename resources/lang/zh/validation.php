@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Chinese Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => '姓名為必填項',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => '需要開始時間',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => '需要結束時間',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => '需要中斷開始',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => '需要中斷結束',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => '請選擇辦公室',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => '請選擇角色',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => '請選擇相應辦公室的日程安排',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => '請選擇各個辦公室的日程安排',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => '請選擇您的出生日期',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => '出生日期必須是有效日期',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => '請選擇業務國家',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => '請選擇業務城市',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => '請選擇銀行所在國家',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => '請選擇銀行',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => '請輸入一個 IBAN 號碼',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => '請選擇貨幣',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => '手機號碼為必填項',
         ],
         /* Add IBRs validation errors end */
     ],

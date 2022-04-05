@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Filipino Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'Pangalan ang kailangan',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'Kinakailangan ang oras ng pagsisimula',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'Ang oras ng pagtatapos ay kinakailangan',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => 'Kailangan ng break start',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => 'Kailangan ang break end',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'Mangyaring pumili ng isang opisina',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'Mangyaring pumili ng isang tungkulin',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'Mangyaring pumili ng kaukulang iskedyul ng opisina',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'Mangyaring pumili ng kaukulang mga iskedyul ng opisina',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'Mangyaring piliin ang iyong petsa ng kapanganakan',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'Ang petsa ng kapanganakan ay dapat na isang wastong petsa',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'Mangyaring pumili ng bansa ng negosyo',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'Mangyaring pumili ng lungsod ng negosyo',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'Mangyaring pumili ng bansa ng bangko',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Mangyaring pumili ng isang bangko',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'Mangyaring magpasok ng numero ng IBAN',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'Mangyaring pumili ng pera',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'Kinakailangan ang mobile number',
         ],
         /* Add IBRs validation errors end */
     ],

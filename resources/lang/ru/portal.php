@@ -50,7 +50,7 @@ return [
     'Business' => 'Бизнес',
     'Enter Employee Details' => 'Введите данные сотрудника',
     'Office' => 'Офис',
-    'office attendance' => 'office attendance',
+    'office attendance' => 'Сегодняшняя посещаемость',
     'Employee ID' => 'Идентификатор сотрудника',
     'Enter Employee ID (if any)' => 'Введите идентификатор сотрудника (если есть)',
     'Enter employee name' => 'Введите имя сотрудника',

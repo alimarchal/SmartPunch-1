@@ -14,7 +14,7 @@
                         <th>{{__('portal.Name')}}</th>
                         <th>{{__('portal.Movement')}}</th>
 {{--                        <th>{{__('portal.Time')}}</th>--}}
-{{--                        <th>{{__('portal.Total hours')}} </th>--}}
+                        <th>{{__('portal.Total hours')}} </th>
                     </tr>
                     </thead>
 
@@ -40,8 +40,8 @@
                                     @endforeach
                                 </td>
 
-                                {{--<td>
-                                    @php
+                                <td>
+                                    {{--@php
                                         $total = null;
                                         for($i = 0; $i < count($team->punchTable); $i++){
                                             if ($i != 3){
@@ -58,8 +58,24 @@ dd($timeall);
                                     @endphp
                                     @if(isset($total))
                                     {{ $total }}
-                                        @endif
-                                </td>--}}
+                                        @endif--}}
+                                    @php
+                                        $totalTimeInMinutes = 0;
+                                        if (count($team->punchTable) > 0){
+                                            if ($team->punchTable[count($team->punchTable) - 1]->in_out_status == 0){
+                                                for ($i = 0; $i < count($team->punchTable) - 1; $i++){
+                                                    $start_time = \Carbon\Carbon::parse($team->punchTable[$i]->time);
+                                                    $end_time = \Carbon\Carbon::parse($team->punchTable[$i+1]->time);
+
+                                                    $diff1 = $start_time->diffInMinutes($end_time);
+                                                    $totalTimeInMinutes += $diff1;
+                                                    $i += 1;
+                                                }
+                                            }
+                                        }
+                                    @endphp
+                                    {{ \Carbon\Carbon::parse($totalTimeInMinutes)->format('i:s') }} Hours
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

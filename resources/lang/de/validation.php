@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Arabic Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => 'Name ist erforderlich',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => 'Startzeit ist erforderlich',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => 'Endzeit ist erforderlich',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => 'Startpause ist erforderlich',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => 'Pausenende ist erforderlich',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => 'Bitte wählen Sie ein Büro aus',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => 'Bitte wählen Sie eine Rolle aus',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => 'Bitte wählen Sie den Zeitplan des jeweiligen Büros aus',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => 'Bitte wählen Sie die Zeitpläne des jeweiligen Büros aus',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => 'Bitte wählen Sie Ihr Geburtsdatum aus',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => 'Das Geburtsdatum muss ein gültiges Datum sein',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => 'Bitte wählen Sie das Land der Geschäftstätigkeit aus',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => 'Bitte Stadt auswählen',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => 'Bitte Land der Bank auswählen',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Bitte wählen Sie eine Bank aus',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'Bitte geben Sie eine IBAN-Nummer ein',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => 'Bitte Währung auswählen',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => 'Handynummer ist erforderlich',
         ],
         /* Add IBRs validation errors end */
     ],

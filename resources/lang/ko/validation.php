@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validation for Arabic Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the default error messages used by
@@ -139,64 +139,64 @@ return [
     'custom' => [
         /* Schedule validation errors start */
         'name' => [
-            'required' => 'Name is required',
+            'required' => '이름은 필수 항목입니다.',
         ],
         'start_time' => [
-            'required' => 'Start time is required',
+            'required' => '시작 시간은 필수 항목입니다.',
         ],
         'end_time' => [
-            'required' => 'End time is required',
+            'required' => '종료 시간은 필수 항목입니다.',
         ],
         'break_start' => [
-            'required' => 'Break start time is required',
+            'required' => '브레이크 스타트가 필요합니다',
         ],
         'break_end' => [
-            'required' => 'Break end time is required',
+            'required' => '휴식 시간은 필수 항목입니다.',
         ],
         /* Schedule validation errors end */
 
         /* Add Employee validation errors start */
         'office_id' => [
-            'required' => 'Please select an office',
+            'required' => '사무실을 선택해 주세요',
         ],
         'role_id' => [
-            'required' => 'Please select a role',
+            'required' => '역할을 선택하세요.',
         ],
         'schedule' => [
-            'required' => 'Please select respective office\'s schedule',
+            'required' => '각 사무실의 일정을 선택하세요.',
         ],
         'schedules' => [
-            'required' => 'Please select respective office\'s schedules',
+            'required' => '각 사무실의 일정을 선택하세요.',
         ],
         /* Add Employee validation errors end */
 
         /* Add IBRs validation errors start */
         'dob' => [
-            'required' => 'Please select your date of birth',
+            'required' => '생년월일을 선택하세요',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a valid date',
+            'date' => '생년월일은 유효한 날짜여야 합니다.',
         ],
         'country_of_business' => [
-            'required' => 'Please select country of business',
+            'required' => '비즈니스 국가를 선택하세요.',
         ],
         'city_of_business' => [
-            'required' => 'Please select city of business',
+            'required' => '비즈니스 도시를 선택하세요.',
         ],
         'country_of_bank' => [
-            'required' => 'Please select country of bank',
+            'required' => '은행 국가를 선택하세요.',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => '은행을 선택해 주세요',
         ],
         'iban' => [
-            'required' => 'Please enter an IBAN number',
+            'required' => 'IBAN 번호를 입력하세요.',
         ],
         'currency' => [
-            'required' => 'Please select currency',
+            'required' => '통화를 선택하세요',
         ],
         'mobile_number' => [
-            'required' => 'Mobile number is required',
+            'required' => '휴대폰 번호는 필수 항목입니다.',
         ],
         /* Add IBRs validation errors end */
     ],

@@ -4,23 +4,37 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Portal Lines
+    | NavBar Words
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the Portal.
+    | The following language lines are used by the turkish NavBar.
     |
     */
 
-    'Dashboard' => 'Dashboard',
-    'Offices' => 'Offices',
-    'Add' => 'Add',
-    'View' => 'View',
-    'Employees' => 'Employees',
-    'Schedules' => 'Schedules',
-    'Reports' => 'Reports',
-    'Business' => 'Business',
-    'Businesses' => 'Businesses',
-    'Logout' => 'Logout',
-    'Profile' => 'Profile',
+    'Dashboard' => 'Gösterge Paneli',
+    'Super Admin' => 'Süper Yönetici',
+    'Offices' => 'Ofisler',
+    'Add' => 'Ekle',
+    'By office' => 'ofis tarafından',
+    'By employee business ID' => 'Çalışan işletme kimliğine göre',
+    'By my team' => 'ekibim tarafından',
+    'By user ID' => 'kullanıcı kimliğine göre',
+    'View' => 'Görünüm',
+    'My schedule' => 'Benim program',
+    'Employees' => 'Çalışanlar',
+    'Schedules' => 'Programları',
+    'Reports' => 'Raporlar',
+    'Business' => 'İşletme',
+    'Businesses' => 'işletmeler',
+    'Package' => 'paket',
+    'Referrals' => 'tavsiyeler',
+    'IBR' => 'IBR',
+    'My earnings' => 'kazançlarım',
+    'Direct earnings' => 'Doğrudan kazanç',
+    'Indirect earnings' => 'Dolaylı kazançlar',
+    'My referred businesses' => 'müşterilerim',
+    'My referred IBRs' => 'ağım',
+    'Logout' => 'Çıkış Yap',
+    'Profile' => 'Profil',
 
 ];
