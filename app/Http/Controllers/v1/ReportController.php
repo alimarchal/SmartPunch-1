@@ -18,106 +18,16 @@ class ReportController extends Controller
         $from = Carbon::parse($request->from)->format('Y-m-d');
         $to = Carbon::parse($request->to)->format('Y-m-d');
 
-        $user = User::where(['id' => auth()->id(), 'business_id' => auth()->user()->business_id])
-            ->first(['id','name','designation']);
-
-        if (!isset($user) || $user == null){
-            return response()->json(['error' => 'User not found'], 404);
-        }
-
-        if (!isset($request->from) && !isset($request->to)){
-
-            /* For each user adding attendance information at the end of the user array as par API requirement */
-                $userReports[] =  PunchTable::with(
-                    ['office:id,name,address', 'user:id,name', 'user.child' => function($query) use ($user){
-                        $query->select(['id','name','parent_id'])
-                            ->where('parent_id', $user->id);
-                    }])
-                    ->select(['id', 'user_id','office_id','time', 'in_out_status', 'created_at'])
-                    ->where('user_id', $user->id)
-                    ->orderBy('created_at')
-                    ->get()
-                    ->groupBy(function ($reports) {
-                        return Carbon::parse($reports->created_at)->format('Y-m-d');
-                    });
-
-                /* Adding attendance variable at the end of the user's array containing attendance of that user by dates */
-                $user->attendance = $userReports;
-
-            return response()->json(['reports' => $user]);
-        }
-
-        if (isset($request->from) && isset($request->to)){
-
-            /* For each user adding attendance information at the end of the user array as par API requirement */
-            $userReports[] =  PunchTable::with(
-                ['office:id,name,address', 'user:id,name', 'user.child' => function($query) use ($user){
-                    $query->select(['id','name','parent_id'])
-                        ->where('parent_id', $user->id);
-                }])
-                ->select(['id', 'user_id','office_id','time', 'in_out_status', 'created_at'])
-                ->where('user_id', $user->id)
+        $reports = PunchTable::with('office:id,name', 'user:id,name')
+                ->where(['user_id' => auth()->id(), 'business_id' => auth()->user()->business_id])
                 ->whereDate('created_at', '>=', $from)
                 ->whereDate('created_at', '<=', $to)
-                ->orderBy('created_at')
                 ->get()
                 ->groupBy(function ($reports) {
                     return Carbon::parse($reports->created_at)->format('Y-m-d');
                 });
 
-            /* Adding attendance variable at the end of the user's array containing attendance of that user by dates */
-            $user->attendance = $userReports;
-
-            return response()->json(['reports' => $user]);
-        }
-
-        if (isset($request->from)){
-
-            /* For each user adding attendance information at the end of the user array as par API requirement */
-                $userReports[] =  PunchTable::with(
-                    ['office:id,name,address', 'user:id,name', 'user.child' => function($query) use ($user){
-                        $query->select(['id','name','parent_id'])
-                            ->where('parent_id', $user->id);
-                    }])
-                    ->select(['id', 'user_id','office_id','time', 'in_out_status', 'created_at'])
-                    ->where('user_id', $user->id)
-                    ->whereDate('created_at', '>=', $from)
-                    ->orderBy('created_at')
-                    ->get()
-                    ->groupBy(function ($reports) {
-                        return Carbon::parse($reports->created_at)->format('Y-m-d');
-                    });
-
-                /* Adding attendance variable at the end of the user's array containing attendance of that user by dates */
-                $user->attendance = $userReports;
-
-            return response()->json(['reports' => $user]);
-        }
-
-        if (isset($request->to)){
-
-            /* For each user adding attendance information at the end of the user array as par API requirement */
-                $userReports[] =  PunchTable::with(
-                    ['office:id,name,address', 'user:id,name', 'user.child' => function($query) use ($user){
-                        $query->select(['id','name','parent_id'])
-                            ->where('parent_id', $user->id);
-                    }])
-                    ->select(['id', 'user_id','office_id','time', 'in_out_status', 'created_at'])
-                    ->where('user_id', $user->id)
-                    ->whereDate('created_at', '<=', $to)
-                    ->orderBy('created_at')
-                    ->get()
-                    ->groupBy(function ($reports) {
-                        return Carbon::parse($reports->created_at)->format('Y-m-d');
-                    });
-
-                /* Adding attendance variable at the end of the user's array containing attendance of that user by dates */
-                $user->attendance = $userReports;
-
-            return response()->json(['reports' => $user]);
-        }
-
-        return response()->json(['reports' => $user]);
+        return response()->json(['reports' => $reports]);
     }
 
     /* Particular user reports by User ID */

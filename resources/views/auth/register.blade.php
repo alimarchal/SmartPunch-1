@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="checkbox-signup" name="terms" required>
-                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Terms and Conditions')}}</a></label>
+                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue" style="text-decoration: underline">{{__('register.Terms and Conditions')}} & {{__('register.Policy and procedure')}}</a></label>
                                 </div>
 
                                 @error('terms')

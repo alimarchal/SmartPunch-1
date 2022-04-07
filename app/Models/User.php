@@ -56,6 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'device_name',
         'profile_photo_path',
         'rtl',
+        'language',
         'type',
         'status',
     ];

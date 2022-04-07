@@ -15,21 +15,6 @@
                 <!-- End mobile menu toggle-->
             </li>
 
-            {{--<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    --}}{{--                    {{ Config::get('languages')[App::getLocale()] }}--}}{{--
-                    languages
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    --}}{{--                    @foreach (Config::get('languages') as $lang => $language)--}}{{--
-                    --}}{{--                        @if ($lang != App::getLocale())--}}{{--
-                    --}}{{--                            <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language}}</a>--}}{{--
-                    <a class="dropdown-item" href="#"> language</a>
-                    --}}{{--                        @endif--}}{{--
-                    --}}{{--                    @endforeach--}}{{--
-                </div>
-            </li>--}}
-
             @php $locale = session()->get('locale'); @endphp
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

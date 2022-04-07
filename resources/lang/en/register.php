@@ -42,6 +42,7 @@ return [
     'Enter IBR (if any)' => 'Enter IBR (if any)',
     'I accept' => 'I accept',
     'Terms and Conditions' => 'Terms and Conditions',
+    'Policy and procedure' => 'Policy and procedure',
     'Please read and accept terms of service and privacy policy.' => 'Please read and accept terms of service and privacy policy.',
     'Sign Up' => 'Sign Up',
     'Sign In' => 'Sign In',
