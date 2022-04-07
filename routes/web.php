@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReportController;
@@ -26,6 +27,7 @@ Route::get('/', function () {
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
 })->name('home');
+Route::get('lang/{locale}', [LocalizationController::class, 'index'])->name('localization.index');
 /*
 Route::get('/config-clear', function() {
     Artisan::call('config:clear');
@@ -36,7 +38,7 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
-Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */
     Route::middleware(['businessCreateCheck'])->group(function () {
