@@ -15,6 +15,96 @@
                 <!-- End mobile menu toggle-->
             </li>
 
+            {{--<li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    --}}{{--                    {{ Config::get('languages')[App::getLocale()] }}--}}{{--
+                    languages
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    --}}{{--                    @foreach (Config::get('languages') as $lang => $language)--}}{{--
+                    --}}{{--                        @if ($lang != App::getLocale())--}}{{--
+                    --}}{{--                            <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language}}</a>--}}{{--
+                    <a class="dropdown-item" href="#"> language</a>
+                    --}}{{--                        @endif--}}{{--
+                    --}}{{--                    @endforeach--}}{{--
+                </div>
+            </li>--}}
+
+            @php $locale = session()->get('locale'); @endphp
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    @switch($locale)
+                        @case('ar')
+                        <img src="{{asset('flags/ar.png')}}" width="30px" height="20x"> Arabic
+                        @break
+                        @case('ur')
+                        <img src="{{asset('flags/ur.png')}}" width="30px" height="20x"> Urdu
+                        @break
+                        @case('ru')
+                        <img src="{{asset('flags/ru.png')}}" width="30px" height="20x"> Russian
+                        @break
+                        @case('fr')
+                        <img src="{{asset('flags/fr.png')}}" width="30px" height="20x"> French
+                        @break
+                        @case('es')
+                        <img src="{{asset('flags/es.png')}}" width="30px" height="20x"> Spanish
+                        @break
+                        @case('de')
+                        <img src="{{asset('flags/de.png')}}" width="30px" height="20x"> German
+                        @break
+                        @case('it')
+                        <img src="{{asset('flags/it.png')}}" width="30px" height="20x"> Italian
+                        @break
+                        @case('ja')
+                        <img src="{{asset('flags/ja.png')}}" width="30px" height="20x"> Japanese
+                        @break
+                        @case('ko')
+                        <img src="{{asset('flags/ko.png')}}" width="30px" height="20x"> Korean
+                        @break
+                        @case('zh')
+                        <img src="{{asset('flags/zh.png')}}" width="30px" height="20x"> Chinese
+                        @break
+                        @case('nl')
+                        <img src="{{asset('flags/nl.png')}}" width="30px" height="20x"> Dutch
+                        @break
+                        @case('sw')
+                        <img src="{{asset('flags/sw.png')}}" width="30px" height="20x"> Swahili
+                        @break
+                        @case('fil')
+                        <img src="{{asset('flags/fil.png')}}" width="30px" height="20x"> Filipino
+                        @break
+                        @case('fa')
+                        <img src="{{asset('flags/fa.png')}}" width="30px" height="20x"> Persian
+                        @break
+                        @case('tr')
+                        <img src="{{asset('flags/tr.png')}}" width="30px" height="20x"> Turkish
+                        @break
+                        @default
+                        <img src="{{asset('flags/us.png')}}" width="30px" height="20x"> English
+                    @endswitch
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url('lang/en')}}"><img src="{{asset('flags/us.png')}}" width="30px" height="20x"> English</a>
+{{--                    <a class="dropdown-item" href="{{url('lang/ar')}}"><img src="{{asset('flags/ar.png')}}" width="30px" height="20x"> Arabic</a>--}}
+{{--                    <a class="dropdown-item" href="{{url('lang/ur')}}"><img src="{{asset('flags/ur.png')}}" width="30px" height="20x"> Urdu</a>--}}
+                    <a class="dropdown-item" href="{{url('lang/fr')}}"><img src="{{asset('flags/ru.png')}}" width="30px" height="20x"> Russian</a>
+                    <a class="dropdown-item" href="{{url('lang/fr')}}"><img src="{{asset('flags/fr.png')}}" width="30px" height="20x"> French</a>
+                    <a class="dropdown-item" href="{{url('lang/es')}}"><img src="{{asset('flags/es.png')}}" width="30px" height="20x"> Spanish</a>
+                    <a class="dropdown-item" href="{{url('lang/de')}}"><img src="{{asset('flags/de.png')}}" width="30px" height="20x"> German</a>
+                    <a class="dropdown-item" href="{{url('lang/it')}}"><img src="{{asset('flags/it.png')}}" width="30px" height="20x"> Italian</a>
+                    <a class="dropdown-item" href="{{url('lang/ja')}}"><img src="{{asset('flags/ja.png')}}" width="30px" height="20x"> Japanese</a>
+                    <a class="dropdown-item" href="{{url('lang/ko')}}"><img src="{{asset('flags/ko.png')}}" width="30px" height="20x"> Korean</a>
+                    <a class="dropdown-item" href="{{url('lang/zh')}}"><img src="{{asset('flags/zh.png')}}" width="30px" height="20x"> Chinese</a>
+                    <a class="dropdown-item" href="{{url('lang/nl')}}"><img src="{{asset('flags/nl.png')}}" width="30px" height="20x"> Dutch</a>
+                    <a class="dropdown-item" href="{{url('lang/sw')}}"><img src="{{asset('flags/sw.png')}}" width="30px" height="20x"> Swahili</a>
+                    <a class="dropdown-item" href="{{url('lang/fil')}}"><img src="{{asset('flags/fil.png')}}" width="30px" height="20x"> Filipino</a>
+{{--                    <a class="dropdown-item" href="{{url('lang/fa')}}"><img src="{{asset('flags/fa.png')}}" width="30px" height="20x"> Persian</a>--}}
+                    <a class="dropdown-item" href="{{url('lang/tr')}}"><img src="{{asset('flags/tr.png')}}" width="30px" height="20x"> Turkish</a>
+                </div>
+            </li>
+
+
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
