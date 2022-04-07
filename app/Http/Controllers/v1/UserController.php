@@ -194,7 +194,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Record Not Found'],404);
         }
         $user->update(['otp' => $otp]);
-        Mail::to($user->email)->send(new OTPSent($user->otp));
+        Mail::to($user->email)->send(new OTPSent($user));
 
         return response()->json(['success' => 'OTP resent to your registered email.']);
     }
