@@ -21,6 +21,11 @@ class locale
     {
         App::setLocale(auth()->user()->language);
         session()->put('locale', auth()->user()->language);
+        if (auth()->user()->language == 'ur' || auth()->user()->language == 'ar' || auth()->user()->language == 'fa'){
+            auth()->user()->update(['rtl' => 1]);
+        }else{
+            auth()->user()->update(['rtl' => 0]);
+        }
         return $next($request);
     }
 }

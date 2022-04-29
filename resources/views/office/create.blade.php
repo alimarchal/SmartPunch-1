@@ -90,7 +90,13 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
+            @if(auth()->user()->rtl == 0)
+                $('.select2').select2();
+            @else
+                $('.select2').select2({
+                    dir: "rtl"
+                });
+            @endif
         });
     </script>
 @endsection

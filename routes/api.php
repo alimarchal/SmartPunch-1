@@ -43,7 +43,8 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
     Route::post('/verify', [UserController::class, 'verify_otp']);
     Route::post('/resend/otp', [UserController::class, 'resend_otp']);
     Route::post('/logout', [UserController::class, 'logout']);
-    Route::middleware( 'verified')->group(function ()
+    Route::post('/terms-policy-and-procedure-accept', [UserController::class, 'acceptPolicyAndProcedure']);
+    Route::middleware( ['verified', 'policyAndProcedureCheck'])->group(function ()
     {
         // Businesses APIs
         Route::prefix('business')->group(function () {

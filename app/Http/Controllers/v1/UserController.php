@@ -24,6 +24,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'device_name' => 'required',
+            'terms' => 'required',
         ],[
             'device_name.required' => 'Device name is required.'
         ]);
@@ -47,6 +48,7 @@ class UserController extends Controller
             'user_role' => $adminRole->id,
             'otp' => $otp,
             'designation' => 'Admin',
+            'terms' => 1,
         ])->assignRole($adminRole)->syncPermissions($permissions);
 
         Mail::to($user->email)->send(new OTPSent($user));
@@ -197,6 +199,15 @@ class UserController extends Controller
         Mail::to($user->email)->send(new OTPSent($user));
 
         return response()->json(['success' => 'OTP resent to your registered email.']);
+    }
+
+    public function acceptPolicyAndProcedure(): JsonResponse
+    {
+        if (!auth()->user()->hasRole('admin') && auth()->user()->terms == 0){
+            auth()->user()->update(['terms' => 1]);
+            return response()->json(['success' => 'Policy And Procedure accepted']);
+        }
+        return response()->json(['error' => 'Try again!'], 404);
     }
 
     public function forgot_password(Request $request): JsonResponse

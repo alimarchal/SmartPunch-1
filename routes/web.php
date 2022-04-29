@@ -38,7 +38,21 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
-Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale'])->group(function () {
+
+/* For redirecting employees to policy and procedure view after they verify their email ID */
+Route::get('/terms-policy-and-procedure', function () {
+    return view('confirmTermsAndPolicy');
+})->name('confirmTermsAndPolicy');
+
+/* For redirecting employees to dashboard after they accept policy and procedures */
+Route::get('/terms-policy-and-procedure-accept', function () {
+    if (!auth()->user()->hasRole('admin') && auth()->user()->terms == 0){
+        auth()->user()->update(['terms' => 1]);
+    }
+    return to_route('dashboard');
+})->name('termsAndPolicyAccepted');
+
+Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'policyAndProcedureCheck'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */
     Route::middleware(['businessCreateCheck'])->group(function () {
@@ -127,9 +141,9 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale'])->grou
         Route::prefix('reports')->middleware('permission:view reports')->group(function () {
             Route::get('/', [ReportController::class, 'index'])->name('report.index');
             Route::get('/by-office', [ReportController::class, 'byOfficeView'])->name('byOffice');
-            Route::post('/by-office-id', [ReportController::class, 'byOfficeID'])->name('byOfficeID');
+            Route::get('/by-office-id', [ReportController::class, 'byOfficeID'])->name('byOfficeID');
             Route::get('/by-employee', [ReportController::class, 'byEmployeeBusinessIDView'])->name('byEmployeeBusiness');
-            Route::post('/by-employee-id', [ReportController::class, 'byEmployeeBusinessID'])->name('byEmployeeBusinessID');
+            Route::get('/by-employee-id', [ReportController::class, 'byEmployeeBusinessID'])->name('byEmployeeBusinessID');
             Route::get('/by-employee-id-show/{id}', [ReportController::class, 'byEmployeeBusinessIDShow'])->name('byEmployeeBusinessIDShow');
             Route::get('/by-team', [ReportController::class, 'reportByTeam'])->name('reportByTeam');
         });

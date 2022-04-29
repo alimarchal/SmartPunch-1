@@ -45,6 +45,12 @@ class ReportController extends Controller
 
                 return view('reports.byOffice.index', compact('offices', 'attendances'));
             }
+            else{
+                $offices = Office::where(['id' => auth()->user()->office_id, 'business_id' => auth()->user()->business_id])->get();
+                $attendances = collect();
+
+                return view('reports.byOffice.index', compact('offices', 'attendances'));
+            }
         }
 
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -67,7 +73,7 @@ class ReportController extends Controller
                 $attendances = DB::table('punch_tables')->select('punch_tables.id', 'punch_tables.user_id', 'users.name',
                     DB::raw('GROUP_CONCAT(punch_tables.in_out_status, "-", punch_tables.time) as time'))
                     ->join('users', 'users.id', '=','punch_tables.user_id')
-                    ->where(['punch_tables.office_id' => $request->office_id, 'punch_tables.business_id' => auth()->user()->business_id])
+                    ->where(['punch_tables.office_id' => decrypt($request->office_id), 'punch_tables.business_id' => auth()->user()->business_id])
                     ->whereDate('punch_tables.created_at', '=' , $currentDate)
                     ->groupBy('punch_tables.user_id')
                     ->get()
@@ -83,7 +89,42 @@ class ReportController extends Controller
                 ;
 //dd($attendances);
                 /* Below variable used in view inorder to show which office is selected */
-                $sentOffice = Office::firstWhere(['id' => $request->office_id, 'business_id' => auth()->user()->business_id]);
+                $sentOffice = Office::firstWhere(['id' => decrypt($request->office_id), 'business_id' => auth()->user()->business_id]);
+
+                return view('reports.byOffice.index', compact('offices', 'sentOffice', 'attendances'));
+            }
+            else{
+                $currentDate = Carbon::parse(Carbon::now())->format('Y-m-d');
+
+                $offices = Office::where(['id' => auth()->user()->office_id, 'business_id' => auth()->user()->business_id])->get();
+                /*$reports = PunchTable::with('office:id,name,address')
+                    ->with('user:id,name')
+                    ->where(['office_id' => $request->office_id, 'business_id' => auth()->user()->business_id])
+                    ->whereDate('created_at', '=' , $currentDate)
+                    ->get()
+                    ->groupBy('user_id');*/
+
+                $attendances = DB::table('punch_tables')->select('punch_tables.id', 'punch_tables.user_id', 'users.name',
+                    DB::raw('GROUP_CONCAT(punch_tables.in_out_status, "-", punch_tables.time) as time'))
+                    ->join('users', 'users.id', '=','punch_tables.user_id')
+                    ->where(['punch_tables.office_id' => decrypt($request->office_id), 'punch_tables.business_id' => auth()->user()->business_id])
+                    ->where('users.id', '!=', auth()->id() )
+                    ->whereDate('punch_tables.created_at', '=' , $currentDate)
+                    ->groupBy('punch_tables.user_id')
+                    ->get()
+//                    ->map(function ($attendances) {
+//                        $in_out = explode(', ', $attendances->time);
+//                        foreach ($in_out as $item) {
+//                            [$key, $value] = explode('-', $item);
+//                            $attendances->{$key} = $item;
+////                            $attendances[$key] = $item;
+//                        }
+//                        return $attendances;
+//                    })
+                ;
+//dd($attendances);
+                /* Below variable used in view inorder to show which office is selected */
+                $sentOffice = Office::firstWhere(['id' => decrypt($request->office_id), 'business_id' => auth()->user()->business_id]);
 
                 return view('reports.byOffice.index', compact('offices', 'sentOffice', 'attendances'));
             }
@@ -126,7 +167,7 @@ class ReportController extends Controller
                     ->except([auth()->id()]);
 
                 /* Below variable used in view inorder to show which employee is selected */
-                $sentEmployee = User::firstWhere(['id' => $request->employee_id, 'business_id' => auth()->user()->business_id]);
+                $sentEmployee = User::firstWhere(['id' => decrypt($request->employee_id), 'business_id' => auth()->user()->business_id]);
 
             }
             else{
@@ -137,7 +178,7 @@ class ReportController extends Controller
                     ->except([auth()->id()]);
 
                 /* Below variable used in view inorder to show which employee is selected */
-                $sentEmployee = User::where(['id' => $request->employee_id, 'business_id' => auth()->user()->business_id])
+                $sentEmployee = User::where(['id' => decrypt($request->employee_id), 'business_id' => auth()->user()->business_id])
                     ->where('office_id', auth()->user()->office_id)
                     ->first();
 

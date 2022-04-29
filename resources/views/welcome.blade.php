@@ -712,7 +712,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row flex-center">
+            {{--<div class="row flex-center">
                 <div class="col-auto">
                     <p class="mb-0 fs--1 text-700">&copy; This template is made with&nbsp;
                         <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" viewBox="0 0 16 16">
@@ -720,7 +720,7 @@
                         </svg>&nbsp;by&nbsp;<a class="text-700" href="https://themewagon.com/" target="_blank">ThemeWagon </a>
                     </p>
                 </div>
-            </div>
+            </div>--}}
         </div>
         <!-- end of .container-->
 

@@ -7,19 +7,20 @@ use App\Models\Office;
 use App\Models\OfficeSchedule;
 use App\Models\Schedule;
 use App\Models\UserHasSchedule;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index():View
     {
         $schedules = Schedule::with('officeSchedules.office')->where('business_id', auth()->user()->business_id)->get();
         return view('schedule.index', compact('schedules'));
     }
 
-    public function create()
+    public function create(): View
     {
         $offices = Office::where('business_id', auth()->user()->business_id)->get();
         return view('schedule.create', compact('offices'));
@@ -66,7 +67,7 @@ class ScheduleController extends Controller
         return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function show()
+    public function show(): View
     {
         $userSchedule = UserHasSchedule::with('schedule')->firstWhere('user_id', auth()->id());
         return view('schedule.show', compact('userSchedule'));

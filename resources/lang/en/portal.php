@@ -138,5 +138,6 @@ return [
     'Unpaid' => 'Unpaid',
     'Paid' => 'Paid',
     'Client name' => 'Client name',
+    'Welcome' => 'Welcome',
 
 ];
