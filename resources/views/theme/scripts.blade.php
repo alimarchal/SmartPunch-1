@@ -35,8 +35,9 @@
 {{-- Select2 --}}
 <script src="{{url('Horizontal/dist/assets/libs/select2/select2.min.js')}}"></script>
 
+{{-- Commented below inorder to set dynamic language for datatables --}}
 <!-- Datatables init -->
-<script src="{{url('Horizontal/dist/assets/js/pages/datatables.init.js')}}"></script>
+{{--<script src="{{url('Horizontal/dist/assets/js/pages/datatables.init.js')}}"></script>--}}
 
 <!-- App js -->
 <script src="{{url('Horizontal/dist/assets/js/app.min.js')}}"></script>

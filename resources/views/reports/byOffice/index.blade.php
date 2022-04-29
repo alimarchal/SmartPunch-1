@@ -4,14 +4,14 @@
 
     <div class="row justify-content-center mt-3">
         <div class="form-group text-center col-sm-3">
-            <form action="{{route('byOfficeID')}}" method="POST">
-                @csrf
+            <form action="{{route('byOfficeID')}}" method="GET">
+{{--                @csrf--}}
 
                 <label for="office">{{__('portal.Office')}}</label>
                 <select class="custom-select" name="office_id" id="office" required>
                     <option value="" selected>{{__('portal.Select')}}</option>
                     @foreach($offices as $office)
-                        <option @if(isset($sentOffice)) {{$sentOffice->id == $office->id ? 'selected' : ''}} @endif value="{{$office->id}}">{{$office->name}}</option>
+                        <option @if(isset($sentOffice)) {{$sentOffice->id == $office->id ? 'selected' : ''}} @endif value="{{encrypt($office->id)}}">{{$office->name}}</option>
                     @endforeach
                 </select>
 
@@ -72,4 +72,47 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        <?php
+        $countries = array (
+            "en"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/English.json",
+            "ar"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Arabic.json",
+            "ur"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Urdu.json",
+            "ru"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Russian.json",
+            "fr"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json",
+            "es"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
+            "de" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/German.json",
+            "it" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json",
+            "ja" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Japanese.json",
+            "ko" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Korean.json",
+            "zh" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Chinese.json",
+            "nl" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Dutch.json",
+            "sw" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Swahili.json",
+            "fil" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Filipino.json",
+            "fa" =>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Persian.json",
+            "tr"=>"//cdn.datatables.net/plug-ins/1.10.16/i18n/Turkish.json",
+        );
+        ?>
+
+        var locale = '<?php echo $countries[session('locale')];?>';
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy',
+                    'csv',
+                    'excel',
+                    'pdf',
+                    // 'print'
+                ],
+                responsive: true,
+                "oLanguage": {
+                    "sUrl": locale
+                }
+            });
+        });
+    </script>
 @endsection

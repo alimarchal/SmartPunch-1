@@ -11,6 +11,7 @@ use App\Http\Middleware\ibrAuthenticated;
 use App\Http\Middleware\IbrUsers;
 use App\Http\Middleware\locale;
 use App\Http\Middleware\PackageExpired;
+use App\Http\Middleware\PolicyAndProcedureCheck;
 use App\Http\Middleware\SuperAdmin;
 use App\Http\Middleware\webUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -87,5 +88,6 @@ class Kernel extends HttpKernel
         'package_expired' => packageExpired::class,
         'permission' => PermissionMiddleware::class,
         'locale' => locale::class,
+        'policyAndProcedureCheck' => PolicyAndProcedureCheck::class,
     ];
 }

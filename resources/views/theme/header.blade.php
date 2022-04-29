@@ -30,7 +30,11 @@
     <!-- Icons Css -->
     <link href="{{url('Horizontal/dist/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
-    <link href="{{url('Horizontal/dist/assets/css/app-dark.min.css')}}" id="app-stylesheet" rel="stylesheet" type="text/css"/>
+    @if(auth()->user()->rtl == 0)
+        <link href="{{url('Horizontal/dist/assets/css/app-dark.min.css')}}" id="app-stylesheet" rel="stylesheet" type="text/css"/>
+    @else
+        <link href="{{url('Horizontal/dist/assets/css/app-dark-rtl.min.css')}}" id="app-stylesheet" rel="stylesheet" type="text/css"/>
+    @endif
 
     @yield('css')
 

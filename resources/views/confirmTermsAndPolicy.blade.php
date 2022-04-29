@@ -12,8 +12,28 @@
     </div>
 </x-guest-layout>--}}
 
-<html lang="" style="background-color:#313844; font-family: sans-serif; color: whitesmoke">
-    <body style="padding: 20px;">
+<html lang="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <body style="background-color:#313844; font-family: sans-serif; color: whitesmoke;padding: 20px;">
+        <div style="float: right; margin-bottom: 10px;">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                            this.closest('form').submit();" class="btn btn-primary">
+                    <i class="fe-log-out"></i>
+                    <span>{{__('navBar.Logout')}}</span>
+                </a>
+            </form>
+        </div>
+        <div style="text-align: center">
+            <h2>Please read and accept policy and procedure</h2>
+        </div>
+
         <h1>Privacy Policy and Terms & Conditions of SmartPunch</h1>
         <p>In order to receive information about your Personal Data, the purposes, and the parties the Data is shared with, contact the Account Admin (the relevant company that purchased the package.</p>
         <h1>Account Owner and Data Controller</h1>
@@ -164,5 +184,8 @@
         <p>SmartPunch hosts this content and only collects the attendance Data strictly necessary for it to be provided to the
             respective owners of the data.</p>
 
+        <div style="float: right; margin-bottom: 10px;">
+            <a href="{{route('termsAndPolicyAccepted')}}" class="btn btn-primary justify-content-end" type="button">Accept and proceed</a>
+        </div>
     </body>
 </html>

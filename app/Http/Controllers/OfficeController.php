@@ -7,6 +7,7 @@ use App\Models\OfficeSchedule;
 use App\Models\Schedule;
 use App\Models\User;
 use App\Models\UserHasSchedule;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use function PHPUnit\Framework\isNull;
 
 class OfficeController extends Controller
 {
-    public function index()
+    public function index(): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('view office'))
         {
@@ -40,7 +41,7 @@ class OfficeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function create()
+    public function create(): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('create office'))
         {
@@ -90,7 +91,7 @@ class OfficeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function edit($id)
+    public function edit($id): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('update office'))
         {
@@ -184,7 +185,7 @@ class OfficeController extends Controller
 
     }
 
-    public function employees($id)
+    public function employees($id): View|RedirectResponse
     {
         if (auth()->user()->hasPermissionTo('view office'))
         {
