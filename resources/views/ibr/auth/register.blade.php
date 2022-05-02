@@ -156,10 +156,7 @@
 
                                 <div class="form-group">
                                     <label for="bank">{{__('register.Bank')}}</label>
-                                    <select name="bank" id="bank" class="custom-select @error('bank') parsley-error @enderror" required>
-                                        <option value="" selected>{{__('register.Select')}}</option>
-                                        <option {{(old('bank') == 1 ? 'selected' : '')}} value="1">Al Bank</option>
-                                    </select>
+                                    <input type="text" name="bank" id="bank" placeholder="{{__('register.Enter bank name')}}" value="{{old('bank')}}" class="form-control @error('bank') parsley-error @enderror" required>
                                     @error('bank')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('bank') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
                                     @enderror

@@ -32,6 +32,7 @@ return [
     'City of business' => 'iş şehri',
     'Country of bank' => 'bankanın bulunduğu ülke',
     'Bank' => 'Banka',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'Para birimi',
     'Mobile number' => 'Cep numarası',

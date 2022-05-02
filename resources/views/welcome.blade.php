@@ -52,6 +52,7 @@
                     <li class="nav-item" data-anchor="data-anchor"><a class="nav-link fw-medium" href="#faq">FAQ</a></li>
                 </ul>
                 <a href="{{route('login')}}" class="btn btn-lg btn-primary rounded-pill order-0">Try for free</a>
+                <a href="{{route('ibr.register')}}" style="margin-left: 6px;color: black;text-decoration:none;">Join as IBR</a>
             </div>
         </div>
     </nav>

@@ -32,6 +32,7 @@ return [
     'City of business' => 'کاروبار کا شہر',
     'Country of bank' => 'بینک کا ملک',
     'Bank' => 'بینک',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'کرنسی',
     'Mobile number' => 'موبائل فون کانمبر',

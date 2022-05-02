@@ -32,7 +32,7 @@
             <div class="p-2">
                 <h5>{{__('portal.City Name')}}</h5>
                 @php $cityName = \App\Models\City::firstWhere('id', $business->city_name); @endphp
-                <input type="text" class="form-control" maxlength="25" value="{{$cityName->name}}" disabled/>
+                <input type="text" class="form-control" maxlength="25" @if(isset($cityName->name)) value="{{$cityName->name}}" @endif disabled/>
             </div>
         </div>
 

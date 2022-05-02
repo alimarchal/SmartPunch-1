@@ -494,7 +494,7 @@
                 type: 'spline',
             },
             title: {
-                text: 'Monthly Business Registered',
+                text: 'Monthly Businesses Registered',
                 style: {
                     color: '#ffffff',
                 }

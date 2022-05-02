@@ -32,6 +32,7 @@ return [
     'City of business' => 'Lungsod ng negosyo',
     'Country of bank' => 'Bansa ng bangko',
     'Bank' => 'bangko',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'Pera',
     'Mobile number' => 'Numero ng mobile',

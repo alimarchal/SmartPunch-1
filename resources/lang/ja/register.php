@@ -32,6 +32,7 @@ return [
     'City of business' => 'ビジネスの街',
     'Country of bank' => '銀行の国',
     'Bank' => '銀行',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => '通貨',
     'Mobile number' => '携帯電話番号',

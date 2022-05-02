@@ -32,6 +32,7 @@ return [
     'City of business' => 'مدينة العمل',
     'Country of bank' => 'بلد البنك',
     'Bank' => 'بنك',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'رقم الحساب بصيغة IBAN',
     'Currency' => 'عملة',
     'Mobile number' => 'رقم الهاتف المحمول',
