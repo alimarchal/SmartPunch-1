@@ -29,7 +29,7 @@ class CreateIbrsTable extends Migration
             $table->integer('country_of_business');
             $table->integer('city_of_business');
             $table->integer('country_of_bank');
-            $table->integer('bank');
+            $table->string('bank');
             $table->string('iban');
             $table->integer('currency');
             $table->string('mobile_number');

@@ -32,6 +32,7 @@ return [
     'City of business' => '비즈니스의 도시',
     'Country of bank' => '은행 국가',
     'Bank' => '은행',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => '이반',
     'Currency' => '통화',
     'Mobile number' => '휴대폰 번호',

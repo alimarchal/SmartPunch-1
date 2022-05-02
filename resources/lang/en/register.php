@@ -32,6 +32,7 @@ return [
     'City of business' => 'City of business',
     'Country of bank' => 'Country of bank',
     'Bank' => 'Bank',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'Currency',
     'Mobile number' => 'Mobile number',

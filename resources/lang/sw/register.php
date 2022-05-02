@@ -32,6 +32,7 @@ return [
     'City of business' => 'Mji wa biashara',
     'Country of bank' => 'Nchi ya benki',
     'Bank' => 'Benki',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'Sarafu',
     'Mobile number' => 'Namba ya simu ya mkononi',

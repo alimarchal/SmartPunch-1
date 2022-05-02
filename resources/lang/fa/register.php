@@ -32,6 +32,7 @@ return [
     'City of business' => 'شهر کسب و کار',
     'Country of bank' => 'کشور بانک',
     'Bank' => 'بانک',
+    'Enter bank name' => 'Enter bank name',
     'IBAN' => 'IBAN',
     'Currency' => 'واحد پول',
     'Mobile number' => 'شماره موبایل',
