@@ -67,7 +67,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="name">{{__('register.Full Name')}}</label>
+                                    <label for="name">{{__('register.Full Name')}} <span style="color: red">*</span> </label>
                                     <input type="text" name="name" autofocus id="name" placeholder="{{__('register.Enter your name')}}" value="{{old('name')}}" class="form-control @error('name') parsley-error @enderror" required>
 
                                     @error('name')
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email">{{__('register.Email address')}}</label>
+                                    <label for="email">{{__('register.Email address')}} <span style="color: red">*</span> </label>
                                     <input type="email" name="email" id="email" placeholder="{{__('register.Enter your email')}}" value="{{old('email')}}" class="form-control @error('email') parsley-error @enderror" required>
 
                                     @error('email')
@@ -85,7 +85,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password">{{__('register.Password')}}</label>
+                                    <label for="password">{{__('register.Password')}} <span style="color: red">*</span> </label>
                                     <input type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}" class="form-control @error('password') parsley-error @enderror" required>
 
                                     @error('password')
@@ -94,12 +94,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password">{{__('register.Confirm Password')}}</label>
+                                    <label for="password">{{__('register.Confirm Password')}} <span style="color: red">*</span> </label>
                                     <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="{{__('register.Confirm Password')}}" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="dob">{{__('register.Date of birth')}}</label>
+                                    <label for="dob">{{__('register.Date of birth')}} <span style="color: red">*</span> </label>
                                     <input id="dob" name="dob" type="date" value="1990-01-01" max="<?= date('Y-m-d'); ?>" class="form-control @error('dob') parsley-error @enderror">
                                     @error('dob')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('dob') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="gender">{{__('register.Gender')}}</label>
+                                    <label for="gender">{{__('register.Gender')}} <span style="color: red">*</span> </label>
                                     <select name="gender" id="gender" class="custom-select @error('gender') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         <option {{(old('gender') == 1 ? 'selected' : '')}} value="1">Male</option>
@@ -119,7 +119,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="country_of_business">{{__('register.Country of business')}}</label>
+                                    <label for="country_of_business">{{__('register.Country of business')}} <span style="color: red">*</span> </label>
                                     <select name="country_of_business" id="country_of_business" class="custom-select countries @error('country_of_business') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         @foreach($countries as $country)
@@ -132,7 +132,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="city_of_business">{{__('register.City of business')}}</label>
+                                    <label for="city_of_business">{{__('register.City of business')}} <span style="color: red">*</span> </label>
                                     <select name="city_of_business" id="city_of_business" class="custom-select @error('city_of_business') parsley-error @enderror" disabled>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                     </select>
@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="country_of_bank">{{__('register.Country of bank')}}</label>
+                                    <label for="country_of_bank">{{__('register.Country of bank')}} <span style="color: red">*</span> </label>
                                     <select name="country_of_bank" id="country_of_bank" class="custom-select countries_of_bank @error('country_of_bank') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         @foreach($countries as $country)
@@ -155,7 +155,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="bank">{{__('register.Bank')}}</label>
+                                    <label for="bank">{{__('register.Bank')}} <span style="color: red">*</span> </label>
                                     <input type="text" name="bank" id="bank" placeholder="{{__('register.Enter bank name')}}" value="{{old('bank')}}" class="form-control @error('bank') parsley-error @enderror" required>
                                     @error('bank')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('bank') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -163,7 +163,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="iban">{{__('register.IBAN')}}</label>
+                                    <label for="iban">{{__('register.IBAN')}} <span style="color: red">*</span> </label>
                                     <input type="text" name="iban" id="iban" placeholder="{{__('register.Enter IBAN')}}" value="{{old('iban')}}" class="form-control @error('iban') parsley-error @enderror" required>
                                     @error('iban')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('iban') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -171,7 +171,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="currency">{{__('register.Currency')}}</label>
+                                    <label for="currency">{{__('register.Currency')}} <span style="color: red">*</span> </label>
                                     <select name="currency" id="currency" class="custom-select @error('currency') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         <option {{(old('currency') == 1 ? 'selected' : '')}} value="1">Dollar ($)</option>
@@ -182,7 +182,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="mobile_number">{{__('register.Mobile number')}}</label>
+                                    <label for="mobile_number">{{__('register.Mobile number')}} <span style="color: red">*</span> </label>
                                     <input type="text" name="mobile_number" id="mobile_number" placeholder="{{__('register.Enter mobile number')}}" value="{{old('mobile_number')}}" class="form-control @error('mobile_number') parsley-error @enderror" required>
                                     @error('mobile_number')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('mobile_number') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -192,7 +192,7 @@
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="checkbox-signup" name="terms" required>
-                                        <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Terms and Conditions')}}</a></label>
+                                        <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Terms and Conditions')}}</a> <span style="color: red">*</span> </label>
                                     </div>
 
                                     @error('terms')

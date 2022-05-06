@@ -42,7 +42,7 @@
                         <form method="POST" action="{{ route('register') }}">
                                 @csrf
                             <div class="form-group">
-                                <label for="fullname">{{__('register.Full Name')}}</label>
+                                <label for="fullname">{{__('register.Full Name')}} <span style="color: red">*</span> </label>
                                 <input class="form-control @error('name') parsley-error @enderror" type="text" name="name" id="fullname" placeholder="{{__('register.Enter your name')}}" value="{{old('name')}}" required>
 
                                 @error('name')
@@ -50,7 +50,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="emailaddress">{{__('register.Email address')}}</label>
+                                <label for="emailaddress">{{__('register.Email address')}} <span style="color: red">*</span> </label>
                                 <input class="form-control @error('email') parsley-error @enderror" type="email" name="email" id="emailaddress" placeholder="{{__('register.Enter your email')}}" value="{{old('email')}}" required>
 
                                 @error('email')
@@ -58,7 +58,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="password">{{__('register.Password')}}</label>
+                                <label for="password">{{__('register.Password')}} <span style="color: red">*</span> </label>
                                 <input class="form-control @error('password') parsley-error @enderror" type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}" required>
 
                                 @error('password')
@@ -68,13 +68,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="password">{{__('register.Confirm Password')}}</label>
+                                <label for="password">{{__('register.Confirm Password')}} <span style="color: red">*</span> </label>
                                 <input class="form-control" type="password" name="password_confirmation" id="password" placeholder="{{__('register.Confirm Password')}}" required>
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="checkbox-signup" name="terms" required>
-                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Privacy Policy and Terms & Conditions')}}</a></label>
+                                    <label class="custom-control-label" for="checkbox-signup">{{__('register.I accept')}} <a href="{{route('terms.show')}}" target="_blank" class="text-blue">{{__('register.Privacy Policy and Terms & Conditions')}}</a> <span style="color: red">*</span> </label>
                                 </div>
 
                                 @error('terms')

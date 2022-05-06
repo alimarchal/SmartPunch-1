@@ -15,6 +15,20 @@ class Business extends Model
 
     protected $fillable = ['user_id', 'company_name', 'country_name', 'company_logo', 'country_code', 'city_name', 'ibr'];
 
+    protected function countryName(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => Country::where('id', $value)->first(['name'])
+        );
+    }
+
+    protected function cityName(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => City::where('id', $value)->first(['name'])
+        );
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
