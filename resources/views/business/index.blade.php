@@ -23,16 +23,14 @@
         <div class="col-md-3">
             <div class="p-2">
                 <h5>{{{__('portal.Country Name')}}}</h5>
-                @php $countryName = \App\Models\Country::firstWhere('id', $business->country_name); @endphp
-                <input type="text" class="form-control" maxlength="25" value="{{$countryName->name}}" disabled/>
+                <input type="text" class="form-control" maxlength="25" value="{{$business->country_name['name']}}" disabled/>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="p-2">
                 <h5>{{__('portal.City Name')}}</h5>
-                @php $cityName = \App\Models\City::firstWhere('id', $business->city_name); @endphp
-                <input type="text" class="form-control" maxlength="25" @if(isset($cityName->name)) value="{{$cityName->name}}" @endif disabled/>
+                <input type="text" class="form-control" maxlength="25" @if(isset($business->city_name)) value="{{$business->city_name['name']}}" @endif disabled/>
             </div>
         </div>
 
