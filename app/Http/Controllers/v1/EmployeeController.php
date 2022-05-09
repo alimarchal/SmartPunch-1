@@ -43,8 +43,10 @@ class EmployeeController extends Controller
             {
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
+                }, 'userOffice.office' => function ($query) {
+                    $query->where('id', \auth()->user()->office_id);
                 }])
-                    ->where('business_id', auth()->user()->business_id)
+                    ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->where('user_role', '!=', 2)
                     ->orderByDesc('created_at')
                     ->get()
@@ -60,8 +62,10 @@ class EmployeeController extends Controller
                 $userRoles = [2,3];
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
+                }, 'userOffice.office' => function ($query) {
+                    $query->where('id', \auth()->user()->office_id);
                 }])
-                    ->where('business_id', auth()->user()->business_id)
+                    ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->whereNotIn('user_role', $userRoles)
                     ->orderByDesc('created_at')
                     ->get()
