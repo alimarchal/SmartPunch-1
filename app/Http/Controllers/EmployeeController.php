@@ -34,13 +34,20 @@ class EmployeeController extends Controller
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */
             {
-                $employees = User::where('business_id', auth()->user()->business_id)->where('user_role', '!=', 2)->orderByDesc('created_at')->get()->except([auth()->id()]);
+                $employees = User::where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
+                    ->where('user_role', '!=', 2)
+                    ->orderByDesc('created_at')
+                    ->get()
+                    ->except([auth()->id()]);
                 return view('employee.index', compact('employees'));
             }
             if (\auth()->user()->user_role == 4) /* 4 => Supervisor */
             {
                 $userRoles = [2,3];
-                $employees = User::where('business_id', auth()->user()->business_id)->whereNotIn('user_role', $userRoles)->orderByDesc('created_at')->get()->except([auth()->id()]);
+                $employees = User::where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
+                    ->whereNotIn('user_role', $userRoles)
+                    ->orderByDesc('created_at')->get()
+                    ->except([auth()->id()]);
                 return view('employee.index', compact('employees'));
             }
 
