@@ -42,8 +42,9 @@ class IbrController extends Controller
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
             ->where('ibr_no', \auth()->user()->ibr_no)
-            ->whereMonth('created_at', '<', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
-            ->orWhereMonth('created_at', '>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
+            /* Commented below inorder to show all earnings not last 3 months data */
+//            ->whereMonth('created_at', '<', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
+//            ->orWhereMonth('created_at', '>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(3))
             ->orderBy('created_at')
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();

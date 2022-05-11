@@ -28,7 +28,7 @@
 <script src="{{url('Horizontal/dist/assets/libs/datatables/buttons.print.min.js')}}"></script>
 <script src="{{url('Horizontal/dist/assets/libs/datatables/dataTables.keyTable.min.js')}}"></script>
 <script src="{{url('Horizontal/dist/assets/libs/datatables/dataTables.select.min.js')}}"></script>
-<script src="{{url('Horizontal/dist/assets/libs/pdfmake/pdfmake.min.js')}}"></script>
+{{--<script src="{{url('Horizontal/dist/assets/libs/pdfmake/pdfmake.min.js')}}"></script>--}}
 <script src="{{url('Horizontal/dist/assets/libs/pdfmake/vfs_fonts.js')}}"></script>
 <!-- third party js ends -->
 
