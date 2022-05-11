@@ -28,7 +28,7 @@ class IbrController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
-        /* Below code to show direct income data in donut chart in dashboard */
+        /* Below code to show direct income data in donut chart */
         $ibr_direct_com = IbrDirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
@@ -37,7 +37,7 @@ class IbrController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
-        /* Below code to show indirect income data in donut chart in dashboard */
+        /* Below code to show indirect income data in donut chart */
         $ibr_in_direct_com = IbrIndirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
@@ -49,14 +49,14 @@ class IbrController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
-        /* Below code to show data in bar chart in dashboard */
+        /* Below code to show data in bar chart */
         $direct_indirect_commissions = new Collection();
         /* Because showing two different charts for direct and indirect incomes this $direct_indirect_commissions['months'] is not used for now in charts */
         $direct_indirect_commissions['months'] = collect(today()->startOfMonth()->subMonths(2)->monthsUntil(today()->startOfMonth()))
                                                     ->flatMap(fn ($month) => [$month->month => $month->monthName. '-' .$month->year])
 //                                                    ->reverse()
         ;
-        /* Below code to show direct income data in bar chart in dashboard */
+        /* Below code to show direct income data in bar chart*/
         $direct_indirect_commissions['direct_commission'] = IbrDirectCommission::select(
                                                                     DB::raw('DATE_FORMAT(created_at, "%M-%Y") as month'),
                                                                     \DB::raw("SUM(amount) as total") )
@@ -68,7 +68,7 @@ class IbrController extends Controller
                                                                 ->get();
 
 
-        /* Below code to show indirect income data in bar chart in dashboard */
+        /* Below code to show indirect income data in bar chart */
         $direct_indirect_commissions['in_direct_commission'] = IbrIndirectCommission::select(
                                                                     DB::raw('DATE_FORMAT(created_at, "%M-%Y") as month'),
                                                                     \DB::raw("SUM(amount) as total"))
@@ -79,7 +79,31 @@ class IbrController extends Controller
                                                                 ->groupBy(\DB::raw('MONTH(created_at)'))
                                                                 ->get();
 
-        return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com', 'direct_indirect_commissions'));
+        /* Below code to show Total businesses in line chart */
+        $business = Business::select(['id', 'created_at'])
+            ->where('ibr', auth()->guard('ibr')->user()->ibr_no)
+            ->whereYear('created_at', date('Y'))
+            ->get()
+            ->groupBy(function($date) {
+                //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
+                return Carbon::parse($date->created_at)->format('m'); // grouping by months
+            });
+        $businessCount = [];
+        $data = [];
+
+        foreach ($business as $key => $value) {
+            $businessCount[(int)$key] = count($value);
+        }
+
+        for($i = 1; $i <= 12; $i++){
+            if(!empty($businessCount[$i])){
+                $data[$i] = $businessCount[$i];
+            }else{
+                $data[$i] = 0;
+            }
+        }
+
+        return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com', 'direct_indirect_commissions', 'data'));
     }
 
     public function direct_earnings(): Factory|View|Application
@@ -117,7 +141,31 @@ class IbrController extends Controller
         $referrals = Business::with('user')
             ->where('ibr', auth()->guard('ibr')->user()->ibr_no)
             ->get();
-        return view('ibr.referrals.businessReferrals', compact('referrals'));
+
+        $business = Business::select(['id', 'created_at'])
+            ->where('ibr', auth()->guard('ibr')->user()->ibr_no)
+            ->whereYear('created_at', date('Y'))
+            ->get()
+            ->groupBy(function($date) {
+                //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
+                return Carbon::parse($date->created_at)->format('m'); // grouping by months
+            });
+        $businessCount = [];
+        $data = [];
+
+        foreach ($business as $key => $value) {
+            $businessCount[(int)$key] = count($value);
+        }
+
+        for($i = 1; $i <= 12; $i++){
+            if(!empty($businessCount[$i])){
+                $data[$i] = $businessCount[$i];
+            }else{
+                $data[$i] = 0;
+            }
+        }
+
+        return view('ibr.referrals.businessReferrals', compact('referrals', 'data'));
     }
 
     public function ibr_referrals(): Factory|View|Application
