@@ -15,9 +15,15 @@
 @section('body')
 
     <div class="row mt-3 justify-content-center">
+{{--        <div class="col-xl-6 col-md-6 ">--}}
+{{--            <div id="my_clients" style="border-radius: 5px;"></div>--}}
+{{--        </div>--}}
         <div class="col-xl-6 col-md-6">
-            <div id="my_clients" style="border-radius: 5px;"></div>
-        </div>
+            <div class="card-box">
+                <h4 class="header-title mt-0" style="text-align: center">My Clients</h4>
+                <div id="revenue-chart" dir="ltr" style="height: 280px;" class="morris-chart"></div>
+            </div>
+        </div><!-- end col -->
     </div>
 
     <div class="row mt-3">
@@ -40,8 +46,8 @@
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>{{$referral->company_name}}</td>
-                            <td>{{$referral->user->email}}</td>
-                            <td>{{$referral->user->phone}}</td>
+                            <td>@if(isset($referral->user->email)) {{$referral->user->email}} @endif </td>
+                            <td>@if(isset($referral->user->phone)) {{$referral->user->phone}} @endif</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -54,7 +60,69 @@
 
 @section('scripts')
     <script>
-        Highcharts.chart('my_clients', {
+
+        /*new Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'revenue-charts',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [
+                { year: '2008', value: 20 },
+                { year: '2009', value: 10 },
+                { year: '2010', value: 5 },
+                { year: '2011', value: 5 },
+                { year: '2012', value: 20 }
+            ],
+            // The name of the data record attribute that contains x-values.
+            xkey: 'year',
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['value'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Value']
+        });*/
+
+        new Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'revenue-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data : [
+                @foreach($data as $key => $value)
+                    @if($key == 1) { month: 'Jan', businesses: '{{$value}}' }, @endif
+                    @if($key == 2) { month: 'Feb', businesses: '{{$value}}' }, @endif
+                    @if($key == 3) { month: 'Mar', businesses: '{{$value}}' }, @endif
+                    @if($key == 4) { month: 'Apr', businesses: '{{$value}}' }, @endif
+                    @if($key == 5) { month: 'May', businesses: '{{$value}}' }, @endif
+                    @if($key == 6) { month: 'Jun', businesses: '{{$value}}' }, @endif
+                    @if($key == 7) { month: 'Jul', businesses: '{{$value}}' }, @endif
+                    @if($key == 8) { month: 'Aug', businesses: '{{$value}}' }, @endif
+                    @if($key == 9) { month: 'Sep', businesses: '{{$value}}' }, @endif
+                    @if($key == 10) { month: 'Oct', businesses: '{{$value}}' }, @endif
+                    @if($key == 11) { month: 'Nov', businesses: '{{$value}}' }, @endif
+                    @if($key == 12) { month: 'Dec', businesses: '{{$value}}' }, @endif
+                    {{--{ month: '{{$key}}', businesses: '{{$value}}' },--}}
+                @endforeach
+            ],
+            // The name of the data record attribute that contains x-values.
+            xkey: 'month',
+            parseTime: false,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['businesses'],
+            // yLabelFormat: function (y) { return y.toString() + 's'; },
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Businesses'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            behaveLikeLine: true,
+            resize: true,
+            pointFillColors:['#ffffff'],
+            pointStrokeColors: ['black'],
+            lineColors: ['#3dbeee'],
+        });
+
+        /*Highcharts.chart('my_clients', {
             chart: {
                 backgroundColor: '#353D4A',
                 type: 'spline',
@@ -112,7 +180,7 @@
                     y: 3.9,
                 }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
             }]
-        });
+        });*/
     </script>
 @endsection
 

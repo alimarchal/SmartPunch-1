@@ -59,6 +59,7 @@
 
     {{-- Morris Charts Starts --}}
     <div class="row">
+        {{-- Donut chart for commissions --}}
         <div class="col-xl-4">
             <div class="card-box">
                 <div class="dropdown float-right">
@@ -93,6 +94,7 @@
             </div>
         </div><!-- end col -->
 
+        {{-- Bar chart for direct commissions --}}
         <div class="col-xl-4">
             <div class="card-box">
                 <h4 class="header-title mt-0">Earning trend (Direct Income) last 3 months</h4>
@@ -101,6 +103,7 @@
             </div>
         </div><!-- end col -->
 
+        {{-- Bar chart for indirect commissions --}}
         <div class="col-xl-4">
             <div class="card-box">
                 <h4 class="header-title mt-0">Earning trend (Indirect Income) last 3 months</h4>
@@ -108,28 +111,13 @@
             </div>
         </div><!-- end col -->
 
-        {{-- Line chart commented --}}
-        {{--<div class="col-xl-4">
+        {{-- Line chart --}}
+        <div class="col-xl-4">
             <div class="card-box">
-                <div class="dropdown float-right">
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-dots-vertical"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
-                    </div>
-                </div>
                 <h4 class="header-title mt-0">Total Revenue</h4>
-                <div id="morris-line-example" dir="ltr" style="height: 280px;" class="morris-chart"></div>
+                <div id="my-clients-morris-line" dir="ltr" style="height: 280px;" class="morris-chart"></div>
             </div>
-        </div><!-- end col -->--}}
+        </div><!-- end col -->
 
     </div>
     {{-- Morris Charts Ends --}}
@@ -446,6 +434,45 @@
                 return '#228B22';
             },
         })
+
+        new Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'my-clients-morris-line',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data : [
+                    @foreach($data as $key => $value)
+                    @if($key == 1) { month: 'Jan', businesses: '{{$value}}' }, @endif
+                    @if($key == 2) { month: 'Feb', businesses: '{{$value}}' }, @endif
+                    @if($key == 3) { month: 'Mar', businesses: '{{$value}}' }, @endif
+                    @if($key == 4) { month: 'Apr', businesses: '{{$value}}' }, @endif
+                    @if($key == 5) { month: 'May', businesses: '{{$value}}' }, @endif
+                    @if($key == 6) { month: 'Jun', businesses: '{{$value}}' }, @endif
+                    @if($key == 7) { month: 'Jul', businesses: '{{$value}}' }, @endif
+                    @if($key == 8) { month: 'Aug', businesses: '{{$value}}' }, @endif
+                    @if($key == 9) { month: 'Sep', businesses: '{{$value}}' }, @endif
+                    @if($key == 10) { month: 'Oct', businesses: '{{$value}}' }, @endif
+                    @if($key == 11) { month: 'Nov', businesses: '{{$value}}' }, @endif
+                    @if($key == 12) { month: 'Dec', businesses: '{{$value}}' }, @endif
+                {{--{ month: '{{$key}}', businesses: '{{$value}}' },--}}
+                @endforeach
+            ],
+            // The name of the data record attribute that contains x-values.
+            xkey: 'month',
+            parseTime: false,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['businesses'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Businesses'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            behaveLikeLine: true,
+            resize: true,
+            pointFillColors:['#ffffff'],
+            pointStrokeColors: ['black'],
+            lineColors: ['#3dbeee'],
+        });
 
         {{--Highcharts.chart('my_earnings', {--}}
         {{--    chart: {--}}
