@@ -495,7 +495,7 @@ class ReportController extends Controller
 
             if (auth()->user()->hasRole('admin')){
                 $users = User::where(['parent_id' => $request->parent_id, 'business_id' => auth()->user()->business_id])
-                            ->get(['id','name','designation']);
+                            ->get(['id','name','designation', 'employee_business_id']);
 
                 if (!isset($users) || count($users) == 0){
                     return response()->json(['error' => 'User not found'], 404);
@@ -612,7 +612,7 @@ class ReportController extends Controller
             else{
                 $users = User::where(['parent_id' => $request->parent_id, 'business_id' => auth()->user()->business_id])
                             ->where('office_id', auth()->user()->office_id)
-                            ->get(['id','name','designation']);
+                            ->get(['id','name','designation', 'employee_business_id']);
 
                 if (!isset($users) || count($users) == 0){
                     return response()->json(['error' => 'User not found'], 404);

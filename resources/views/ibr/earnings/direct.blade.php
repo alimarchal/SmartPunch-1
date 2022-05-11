@@ -6,9 +6,9 @@
 
         <div class="col-xl-3 col-md-6">
             <div class="card-box text-center">
-                <h4 class="header-title mt-0 mb-4">{{__('portal.Indirect earnings')}}</h4>
+                <h4 class="header-title mt-0 mb-4">{{__('portal.Direct earnings')}}</h4>
 
-                <h2><i class="mdi mdi-arrow-decision"></i></h2>
+                <h2><i class="mdi mdi-arrow-down-bold"></i></h2>
                 <div class="widget-chart-1">
                     <div class="widget-detail-1 text-center">
                         <h2 class="font-weight-normal pt-2 mb-1">$ {{ number_format($directEarnings->sum('amount')) }} </h2>
@@ -21,9 +21,9 @@
 
         <div class="col-xl-3 col-md-6">
             <div class="card-box text-center">
-                <h4 class="header-title mt-0 mb-4">{{__('portal.Direct earnings')}}</h4>
+                <h4 class="header-title mt-0 mb-4">{{__('portal.Indirect earnings')}}</h4>
 
-                <h2><i class="mdi mdi-arrow-down-bold"></i></h2>
+                <h2><i class="mdi mdi-arrow-decision"></i></h2>
                 <div class="widget-chart-1">
                     <div class="widget-detail-1 text-center">
                         <h2 class="font-weight-normal pt-2 mb-1">$ {{ number_format($inDirectEarnings->sum('amount')) }} </h2>

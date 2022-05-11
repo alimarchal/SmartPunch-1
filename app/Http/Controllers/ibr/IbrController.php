@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ class IbrController extends Controller
 
     public function dashboard(): Factory|View|Application
     {
+        /* Below code to show direct income data in donut chart in dashboard */
         $ibr_direct_com = IbrDirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
@@ -35,6 +37,7 @@ class IbrController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
+        /* Below code to show indirect income data in donut chart in dashboard */
         $ibr_in_direct_com = IbrIndirectCommission::select("ibr_no",
             DB::raw("(sum(amount)) as total"),
             DB::raw("(DATE_FORMAT(created_at, '%b-%Y')) as month_year"))
@@ -45,7 +48,37 @@ class IbrController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"))
             ->get();
 
-        return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com'));
+        /* Below code to show data in bar chart in dashboard */
+        $direct_indirect_commissions = new Collection();
+        /* Because showing two different charts for direct and indirect incomes this $direct_indirect_commissions['months'] is not used for now in charts */
+        $direct_indirect_commissions['months'] = collect(today()->startOfMonth()->subMonths(2)->monthsUntil(today()->startOfMonth()))
+                                                    ->flatMap(fn ($month) => [$month->month => $month->monthName. '-' .$month->year])
+//                                                    ->reverse()
+        ;
+        /* Below code to show direct income data in bar chart in dashboard */
+        $direct_indirect_commissions['direct_commission'] = IbrDirectCommission::select(
+                                                                    DB::raw('DATE_FORMAT(created_at, "%M-%Y") as month'),
+                                                                    \DB::raw("SUM(amount) as total") )
+                                                                ->where('ibr_no', \auth()->user()->ibr_no)
+                                                                /* Last 3 months */
+                                                                ->whereMonth('created_at', '>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(4))
+                                                                ->whereMonth('created_at', '<', Carbon::now()->startOfMonth())
+                                                                ->groupBy(\DB::raw('MONTH(created_at)'))
+                                                                ->get();
+
+
+        /* Below code to show indirect income data in bar chart in dashboard */
+        $direct_indirect_commissions['in_direct_commission'] = IbrIndirectCommission::select(
+                                                                    DB::raw('DATE_FORMAT(created_at, "%M-%Y") as month'),
+                                                                    \DB::raw("SUM(amount) as total"))
+                                                                ->where('ibr_no', \auth()->user()->ibr_no)
+                                                                /* Last 3 months */
+                                                                ->whereMonth('created_at', '>', Carbon::now()->startOfMonth()->subMonthsWithNoOverflow(4))
+                                                                ->whereMonth('created_at', '<', Carbon::now()->startOfMonth())
+                                                                ->groupBy(\DB::raw('MONTH(created_at)'))
+                                                                ->get();
+
+        return view('ibr.dashboard', compact('ibr_direct_com', 'ibr_in_direct_com', 'direct_indirect_commissions'));
     }
 
     public function direct_earnings(): Factory|View|Application
