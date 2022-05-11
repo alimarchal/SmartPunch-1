@@ -95,21 +95,6 @@
 
         <div class="col-xl-4">
             <div class="card-box">
-                <div class="dropdown float-right">
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-dots-vertical"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
-                    </div>
-                </div>
                 <h4 class="header-title mt-0">Earning trend (Direct Income) last 3 months</h4>
 {{--                <div id="morris-bar-example" dir="ltr" style="height: 280px;" class="morris-chart"></div>--}}
                 <div id="earning-trend-morris-bar" dir="ltr" style="height: 280px;" class="morris-chart"></div>
@@ -118,23 +103,7 @@
 
         <div class="col-xl-4">
             <div class="card-box">
-                <div class="dropdown float-right">
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-dots-vertical"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
-                    </div>
-                </div>
                 <h4 class="header-title mt-0">Earning trend (Indirect Income) last 3 months</h4>
-                {{--                <div id="morris-bar-example" dir="ltr" style="height: 280px;" class="morris-chart"></div>--}}
                 <div id="indirect-earning-trend-morris-bar" dir="ltr" style="height: 280px;" class="morris-chart"></div>
             </div>
         </div><!-- end col -->
@@ -478,183 +447,181 @@
             },
         })
 
-        Highcharts.chart('my_earnings', {
-            chart: {
-                backgroundColor: '#353D4A',
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'My Earnings',
-                style: {
-                    color: '#ffffff',
-                }
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>'
-                    }
-                }
-            },
-            series: [{
-                name: 'Total Percentage',
-                colorByPoint: true,
-                data: [
-                    {
-                        name: 'Direct: $ {{$ibr_direct_com->sum('total')}}',
-                        y: {{$ibr_direct_com->sum('total')}},
-                        selected: true
-                    },
+        {{--Highcharts.chart('my_earnings', {--}}
+        {{--    chart: {--}}
+        {{--        backgroundColor: '#353D4A',--}}
+        {{--        plotBorderWidth: null,--}}
+        {{--        plotShadow: false,--}}
+        {{--        type: 'pie'--}}
+        {{--    },--}}
+        {{--    title: {--}}
+        {{--        text: 'My Earnings',--}}
+        {{--        style: {--}}
+        {{--            color: '#ffffff',--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    tooltip: {--}}
+        {{--        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'--}}
+        {{--    },--}}
+        {{--    accessibility: {--}}
+        {{--        point: {--}}
+        {{--            valueSuffix: '%'--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    plotOptions: {--}}
+        {{--        pie: {--}}
+        {{--            allowPointSelect: true,--}}
+        {{--            cursor: 'pointer',--}}
+        {{--            dataLabels: {--}}
+        {{--                enabled: true,--}}
+        {{--                format: '<b>{point.name}</b>'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    series: [{--}}
+        {{--        name: 'Total Percentage',--}}
+        {{--        colorByPoint: true,--}}
+        {{--        data: [--}}
+        {{--            {--}}
+        {{--                name: 'Direct: $ {{$ibr_direct_com->sum('total')}}',--}}
+        {{--                y: {{$ibr_direct_com->sum('total')}},--}}
+        {{--                selected: true--}}
+        {{--            },--}}
 
 
-                    {
-                        name: 'Indirect: ${{$ibr_in_direct_com->sum('total')}}',
-                        y: {{$ibr_in_direct_com->sum('total')}},
-                        sliced: true,
-                        selected: true
-                    },
-                ]
-            }]
-        });
+        {{--            {--}}
+        {{--                name: 'Indirect: ${{$ibr_in_direct_com->sum('total')}}',--}}
+        {{--                y: {{$ibr_in_direct_com->sum('total')}},--}}
+        {{--                sliced: true,--}}
+        {{--                selected: true--}}
+        {{--            },--}}
+        {{--        ]--}}
+        {{--    }]--}}
+        {{--});--}}
 
 
-        // column chart
+        {{--// column chart--}}
+        {{--Highcharts.chart('earning_trend', {--}}
+        {{--    chart: {--}}
+        {{--        backgroundColor: '#353D4A',--}}
+        {{--        type: 'column'--}}
+        {{--    },--}}
+        {{--    title: {--}}
+        {{--        text: 'Earning trend',--}}
+        {{--        style: {--}}
+        {{--            color: '#ffffff',--}}
+        {{--        }--}}
+        {{--    },--}}
+
+        {{--    xAxis: {--}}
+        {{--        categories: [--}}
+        {{--            @foreach($ibr_in_direct_com as $ibr) '{{$ibr->month_year}}', @endforeach--}}
+        {{--        ],--}}
+        {{--        crosshair: true,--}}
+        {{--        labels: {--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    yAxis: {--}}
+        {{--        min: 0,--}}
+        {{--        title: {--}}
+        {{--            text: 'Earning ($)',--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff'--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        labels: {--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    tooltip: {--}}
+        {{--        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',--}}
+        {{--        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +--}}
+        {{--            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',--}}
+        {{--        footerFormat: '</table>',--}}
+        {{--        shared: true,--}}
+        {{--        useHTML: true--}}
+        {{--    },--}}
+        {{--    plotOptions: {--}}
+        {{--        column: {--}}
+        {{--            pointPadding: 0.2,--}}
+        {{--            borderWidth: 0--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    series: [--}}
+        {{--        {--}}
+        {{--            name: 'Indirect',--}}
+        {{--            data: [@foreach($ibr_in_direct_com as $ibr) {{$ibr->total}}, @endforeach]--}}
+
+        {{--        },--}}
+        {{--    ]--}}
+        {{--});--}}
 
 
-        Highcharts.chart('earning_trend', {
-            chart: {
-                backgroundColor: '#353D4A',
-                type: 'column'
-            },
-            title: {
-                text: 'Earning trend',
-                style: {
-                    color: '#ffffff',
-                }
-            },
+        {{--Highcharts.chart('my_clients', {--}}
+        {{--    chart: {--}}
+        {{--        backgroundColor: '#353D4A',--}}
+        {{--        type: 'spline',--}}
+        {{--    },--}}
+        {{--    title: {--}}
+        {{--        text: 'Monthly Businesses Registered',--}}
+        {{--        style: {--}}
+        {{--            color: '#ffffff',--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    xAxis: {--}}
+        {{--        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',--}}
+        {{--            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],--}}
+        {{--        labels: {--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    yAxis: {--}}
+        {{--        title: {--}}
+        {{--            text: 'Total',--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff',--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        labels: {--}}
+        {{--            formatter: function () {--}}
+        {{--                return this.value ;--}}
+        {{--            },--}}
+        {{--            style: {--}}
+        {{--                color: '#ffffff'--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    tooltip: {--}}
+        {{--        crosshairs: true,--}}
+        {{--        shared: true--}}
+        {{--    },--}}
+        {{--    plotOptions: {--}}
+        {{--        spline: {--}}
+        {{--            marker: {--}}
+        {{--                radius: 4,--}}
+        {{--                lineColor: '#666666',--}}
+        {{--                lineWidth: 1--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    series: [  {--}}
+        {{--        name: 'Business Registered',--}}
+        {{--        marker: {--}}
+        {{--            symbol: 'diamond'--}}
+        {{--        },--}}
+        {{--        data: [{--}}
+        {{--            y: 3.9,--}}
 
-            xAxis: {
-                categories: [
-                    @foreach($ibr_in_direct_com as $ibr) '{{$ibr->month_year}}', @endforeach
-                ],
-                crosshair: true,
-                labels: {
-                    style: {
-                        color: '#ffffff'
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Earning ($)',
-                    style: {
-                        color: '#ffffff'
-                    }
-                },
-                labels: {
-                    style: {
-                        color: '#ffffff'
-                    }
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [
-                {
-                    name: 'Indirect',
-                    data: [@foreach($ibr_in_direct_com as $ibr) {{$ibr->total}}, @endforeach]
-
-                },
-            ]
-        });
-
-
-        Highcharts.chart('my_clients', {
-            chart: {
-                backgroundColor: '#353D4A',
-                type: 'spline',
-            },
-            title: {
-                text: 'Monthly Businesses Registered',
-                style: {
-                    color: '#ffffff',
-                }
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                labels: {
-                    style: {
-                        color: '#ffffff'
-                    }
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Total',
-                    style: {
-                        color: '#ffffff',
-                    }
-                },
-                labels: {
-                    formatter: function () {
-                        return this.value ;
-                    },
-                    style: {
-                        color: '#ffffff'
-                    }
-                }
-            },
-            tooltip: {
-                crosshairs: true,
-                shared: true
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        radius: 4,
-                        lineColor: '#666666',
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [  {
-                name: 'Business Registered',
-                marker: {
-                    symbol: 'diamond'
-                },
-                data: [{
-                    y: 3.9,
-
-                }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-            }]
-        });
+        {{--        }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]--}}
+        {{--    }]--}}
+        {{--});--}}
 
 
     </script>
