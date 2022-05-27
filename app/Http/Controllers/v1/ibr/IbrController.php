@@ -7,6 +7,7 @@ use App\Models\Business;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
 use App\Models\IbrIndirectCommission;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,6 +37,27 @@ class IbrController extends Controller
         return response()->json([
             'ibr_referrals' => $ibr_referrals,
         ]);
+    }
+
+    public function bank_details()
+    {
+        $bankDetails = Ibr::where('id', \auth()->guard('ibr_api')->id())->first(['bank', 'iban', 'country_of_bank']);
+        return response()->json(['bankDetails' => $bankDetails]);
+    }
+
+    public function update_bank_details(Request $request)
+    {
+        $bankDetails = Ibr::firstWhere('id', auth()->id());
+        if (!isset($bankDetails)){
+            return response()->json(['error' => "Not Fount"], 404);
+        }
+        $bankDetails->update([
+            'bank' => $request->bank,
+            'iban' => $request->iban,
+            'country_of_bank' => $request->country_of_bank
+        ]);
+
+        return response()->json(['Success' => 'Updated successfully']);
     }
 
     public function profileUpdate(Request $request): JsonResponse

@@ -69,6 +69,12 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
             Route::get('/employees/{id}', [OfficerController::class, 'employees']);
         });
 
+        // list of cities of country, that authenticated user selected(country) while registering business required in update office API
+        Route::get('/cities', function (){
+            $cities = \App\Models\City::where('country_id', auth()->user()->business->country_name['id'])->select(['id', 'name'])->get();
+            return response()->json(['cities' => $cities]);
+        });
+
         /* Profile Update Routes */
         Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
         /* Profile Update Routes */
@@ -80,6 +86,8 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
             Route::get('/show/{id}', [EmployeeController::class, 'show']);
             Route::post('/update/{id}', [EmployeeController::class, 'update']);
             Route::post('/suspend/{id}', [EmployeeController::class, 'status']);
+            Route::get('/out_of_office_status/{id}', [EmployeeController::class, 'outOfOfficeStatus']);
+            Route::post('/out_of_office/{id}', [EmployeeController::class, 'outOfOffice']);
         });
 
         // Punch Table APIs

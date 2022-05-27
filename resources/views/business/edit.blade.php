@@ -31,7 +31,7 @@
                         <select class="custom-select" name="country_name" id="country_name">
                             <option value="" selected>{{__('portal.Select')}}</option>
                             @foreach($countries as $country)
-                                <option {{$business->country_name == $country->id ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
+                                <option {{$business->country_name['name'] == $country->name ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                             @endforeach
                         </select>
 
@@ -45,9 +45,9 @@
 
                         <select class="custom-select" name="city_name" id="city_name" required>
                             <option value="" selected>{{__('portal.Select')}}</option>
-                            @php $cities = \App\Models\City::where('country_id', $business->country_name)->get(); @endphp
+                            @php $cities = \App\Models\City::where('country_id', $business->country_name['id'])->get(); @endphp
                             @foreach($cities as $city)
-                                <option {{$business->city_name == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name}}</option>
+                                <option {{$business->city_name['name'] == $city->name ? 'selected' : ''}} value="{{$city->id}}">{{$city->name}}</option>
                             @endforeach
                         </select>
 
@@ -76,8 +76,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="passWord2">{{__('portal.IBR')}}</label>
-                        <input type="text" name="ibr" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="passWord2" value="{{$business->ibr}}">
+                        <label for="ibr">{{__('portal.IBR')}}</label>
+                        <input type="text" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="ibr" value="{{$business->ibr}}" disabled>
                     </div>
 
                     <div class="form-group text-right mb-0">

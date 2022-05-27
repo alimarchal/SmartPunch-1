@@ -24,6 +24,7 @@ return [
     'Employees' => 'ملازمین',
     'Schedules' => 'شیڈيولز',
     'Reports' => 'رپورٹس',
+    'Take attendance' => 'Take attendance',
     'Business' => 'کاروبار',
     'Businesses' => 'کاروبار',
     'Package' => 'پیکج',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'میرا نیٹ ورک',
     'Logout' => 'لاگ آوٹ',
     'Profile' => 'پروفائل',
+    'Bank Details' => 'Bank Details',
 
 ];

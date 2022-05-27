@@ -24,6 +24,7 @@ return [
     'Employees' => 'Wafanyakazi',
     'Schedules' => 'Ratiba',
     'Reports' => 'Ripoti',
+    'Take attendance' => 'Take attendance',
     'Business' => 'Biashara',
     'Businesses' => 'Biashara',
     'Package' => 'Kifurushi',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'Mtandao wangu',
     'Logout' => 'Ondoka',
     'Profile' => 'Wasifu',
+    'Bank Details' => 'Bank Details',
 
 ];

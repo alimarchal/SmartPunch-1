@@ -32,6 +32,10 @@ Route::middleware(['auth:ibr'])->prefix('ibr')->name('ibr.')->group(function () 
             Route::get('business-referrals', [IbrController::class, 'business_referrals'])->name('business_referrals');
             Route::get('ibr-referrals', [IbrController::class, 'ibr_referrals'])->name('ibr_referrals');
 
+            /* Bank details Update Routes */
+            Route::get('bank-details/update/', [IbrController::class, 'bankDetailsEdit'])->name('bank-details');
+            Route::post('bank-details/update/', [IbrController::class, 'bankDetailsUpdate']);
+
             /* Profile Update Routes */
             Route::get('profile/update/', [IbrController::class, 'profileEdit'])->name('userProfileEdit');
             Route::post('profile/update/', [IbrController::class, 'profileUpdate']);

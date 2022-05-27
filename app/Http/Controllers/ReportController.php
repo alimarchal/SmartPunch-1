@@ -16,7 +16,7 @@ class ReportController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->hasPermissionTo('view reports'))
+        if (auth()->user()->hasDirectPermission('view reports'))
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
@@ -28,7 +28,7 @@ class ReportController extends Controller
                     ->where('business_id', auth()->user()->business_id)
                     ->orderByDesc('created_at')
                     ->get()
-                    ->except(auth()->id());
+                    ->except(['id' => auth()->id()]);
                 return view('reports.index', compact('employees'));
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */{}
@@ -38,7 +38,7 @@ class ReportController extends Controller
 
     public function byOfficeView(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view reports by office')){
+        if (auth()->user()->hasDirectPermission('view reports by office')){
             if (auth()->user()->hasRole('admin')){
                 $offices = Office::where('business_id', auth()->user()->business_id)->get();
                 $attendances = collect();
@@ -58,7 +58,7 @@ class ReportController extends Controller
 
     public function byOfficeID(Request $request): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view reports by office')){
+        if (auth()->user()->hasDirectPermission('view reports by office')){
             if (auth()->user()->hasRole('admin')){
                 $currentDate = Carbon::parse(Carbon::now())->format('Y-m-d');
 
@@ -135,7 +135,7 @@ class ReportController extends Controller
 
     public function byEmployeeBusinessIDView(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view reports by employee business ID')){
+        if (auth()->user()->hasDirectPermission('view reports by employee business ID')){
             if (auth()->user()->hasRole('admin')){
                 $employees = User::where('business_id', auth()->user()->business_id)
                     ->where('employee_business_id', '!=', null)
@@ -157,7 +157,7 @@ class ReportController extends Controller
 
     public function byEmployeeBusinessID(Request $request): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view reports by employee business ID')){
+        if (auth()->user()->hasDirectPermission('view reports by employee business ID')){
             $currentDate = Carbon::parse(Carbon::now())->format('Y-m-d');
             if (auth()->user()->hasRole('admin')){
 
@@ -198,7 +198,7 @@ class ReportController extends Controller
 
     public function byEmployeeBusinessIDShow($id)
     {
-        if (auth()->user()->hasPermissionTo('view reports by employee business ID')){
+        if (auth()->user()->hasDirectPermission('view reports by employee business ID')){
             $currentDate = Carbon::parse(Carbon::now())->format('Y-m-d');
             if (auth()->user()->hasRole('admin')){
 
@@ -245,7 +245,7 @@ class ReportController extends Controller
     /* Report by Team */
     public function reportByTeam(Request $request): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view reports by my team'))
+        if (auth()->user()->hasDirectPermission('view reports by my team'))
         {
             if (auth()->user()->hasRole('admin')){
                 $teams = User::with(['punchTable' => function($query){

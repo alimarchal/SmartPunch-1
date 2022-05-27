@@ -22,13 +22,13 @@ class EmployeeController extends Controller
 {
     public function index(): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('view employee'))
+        if (auth()->user()->hasDirectPermission('view employee'))
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
-                }, 'userOffice.office'])
+                }, 'userOffice.office', 'userSchedule.schedule:id,name'])
                     ->where('business_id', auth()->user()->business_id)
                     ->orderByDesc('created_at')
                     ->get()
@@ -45,7 +45,7 @@ class EmployeeController extends Controller
                     $query->where('status', 1);
                 }, 'userOffice.office' => function ($query) {
                     $query->where('id', \auth()->user()->office_id);
-                }])
+                }, 'userSchedule.schedule:id,name'])
                     ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->where('user_role', '!=', 2)
                     ->orderByDesc('created_at')
@@ -64,7 +64,7 @@ class EmployeeController extends Controller
                     $query->where('status', 1);
                 }, 'userOffice.office' => function ($query) {
                     $query->where('id', \auth()->user()->office_id);
-                }])
+                }, 'userSchedule.schedule:id,name'])
                     ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->whereNotIn('user_role', $userRoles)
                     ->orderByDesc('created_at')
@@ -83,7 +83,7 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('create employee'))
+        if (auth()->user()->hasDirectPermission('create employee'))
         {
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
@@ -142,15 +142,19 @@ class EmployeeController extends Controller
 
     public function update(Request $request, $id): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+        if (auth()->user()->hasDirectPermission('update employee'))
         {
             Validator::make($request->all(), [
                 'office_id' => ['required'],
                 'status' => ['required'],
-                'schedule_id' => ['required']
+                'schedule_id' => ['required'],
+                'attendance_from' => ['required'],
+                'out_of_office' => ['required']
             ],[
                 'office_id.required' => __('validation.custom.office_id.required'),
                 'schedule_id.required' => __('validation.custom.schedule.required'),
+                'attendance_from.required' => 'Please select any value',
+                'out_of_office.required' => 'Please select any value'
             ])->validate();
 
             $user = User::findOrFail($id);
@@ -158,6 +162,8 @@ class EmployeeController extends Controller
             $user->update([
                 'office_id' => $request->office_id,
                 'schedule_id' => $request->schedule_id,
+                'attendance_from' => $request->attendance_from,
+                'out_of_office' => $request->out_of_office,
                 'status' => $request->status,
             ]);
             $user->save();
@@ -236,7 +242,7 @@ class EmployeeController extends Controller
 
     public function status($id, Request $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+        if (auth()->user()->hasDirectPermission('update employee'))
         {
             $employee = User::findOrFail($id);
 
@@ -245,5 +251,26 @@ class EmployeeController extends Controller
         }
 
         return response()->json(['message' => 'Forbidden!'], 403);
+    }
+
+    /* user out of office status get */
+    public function outOfOfficeStatus($id)
+    {
+        $user = User::where('id', $id)->first(['out_of_office']);
+        if (! $user){
+            return response()->json(['Error' => 'No user found'], 404);
+        }
+        return response()->json(['Status' => $user]);
+    }
+
+    /* user out of office status update */
+    public function outOfOffice(Request $request, $id)
+    {
+        $user = User::firstWhere('id', $id);
+        if (! $user){
+            return response()->json(['Error' => 'No user found'], 404);
+        }
+        $user->update(['out_of_office' => $request->status]);
+        return response()->json(['Success' => 'Status updated successfully']);
     }
 }

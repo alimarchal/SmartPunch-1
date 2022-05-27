@@ -24,6 +24,7 @@ return [
     'Employees' => 'الموظفين',
     'Schedules' => 'جداول',
     'Reports' => 'التقارير',
+    'Take attendance' => 'Take attendance',
     'Business' => 'اعمال',
     'Businesses' => 'الأعمال',
     'Package' => 'صفقة',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'شبكتي',
     'Logout' => 'تسجيل خروج',
     'Profile' => 'حساب تعريفي',
+    'Bank Details' => 'Bank Details',
 
 ];

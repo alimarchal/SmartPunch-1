@@ -28,7 +28,7 @@ class ScheduleController extends Controller
 
     public function store(StoreSchedule $request): RedirectResponse
     {
-        if(auth()->user()->hasPermissionTo('create schedule'))
+        if(auth()->user()->hasDirectPermission('create schedule'))
         {
             $data = [
                 'business_id' => auth()->user()->business_id,
@@ -40,15 +40,8 @@ class ScheduleController extends Controller
             ];
             if (auth()->user()->hasRole('admin'))
             {
-                $data = [
-                    'business_id' => auth()->user()->business_id,
-                    'name' => $request->name,
-                    'start_time' => $request->start_time,
-                    'end_time' => $request->end_time,
-                    'break_start' => $request->break_start,
-                    'break_end' => $request->break_end,
-                    'status' => 1,
-                ];
+                /* By Default schedule status is 1 if user role is admin  */
+                $data['status'] = 1;
             }
             $schedule = Schedule::create($data);
             if (!is_null($request->offices))

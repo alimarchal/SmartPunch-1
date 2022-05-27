@@ -24,6 +24,7 @@ return [
     'Employees' => '직원',
     'Schedules' => '일정',
     'Reports' => '보고서',
+    'Take attendance' => 'Take attendance',
     'Business' => '사업',
     'Businesses' => '기업',
     'Package' => '패키지',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => '내 네트워크',
     'Logout' => '로그 아웃',
     'Profile' => '프로필',
+    'Bank Details' => 'Bank Details',
 
 ];

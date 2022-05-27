@@ -24,31 +24,40 @@ class ScheduleController extends Controller
 
     public function store(StoreSchedule $request): JsonResponse
     {
-        $data = [
-            'business_id' => auth()->user()->business_id,
-            'name' => $request->name,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'break_start' => $request->break_start,
-            'break_end' => $request->break_end,
-        ];
-
-        $schedule = Schedule::create($data);
-        if (!is_null($request->offices))
+        if(auth()->user()->hasDirectPermission('create schedule'))
         {
-            foreach ($request->offices as $officeID)
+            $data = [
+                'business_id' => auth()->user()->business_id,
+                'name' => $request->name,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
+                'break_start' => $request->break_start,
+                'break_end' => $request->break_end,
+            ];
+            if (auth()->user()->hasRole('admin'))
             {
-                OfficeSchedule::create([
-                    'office_id' => $officeID,
-                    'schedule_id' => $schedule->id,
-                ]);
+                /* By Default schedule status is 1 if user role is admin  */
+                $data['status'] = 1;
+            }
+
+            $schedule = Schedule::create($data);
+            if (!is_null($request->offices))
+            {
+                foreach ($request->offices as $officeID)
+                {
+                    OfficeSchedule::create([
+                        'office_id' => $officeID,
+                        'schedule_id' => $schedule->id,
+                    ]);
+                }
+            }
+            if ($schedule->wasRecentlyCreated) {
+                return response()->json($schedule, 201);
+            } else {
+                return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
             }
         }
-        if ($schedule->wasRecentlyCreated) {
-            return response()->json($schedule, 201);
-        } else {
-            return response()->json(['message' => 'There are some internal error to proceeding your request'], 202);
-        }
+        return response()->json(['error' => 'You do not have permission for this action.'], 403);
     }
 
     public function show(): JsonResponse

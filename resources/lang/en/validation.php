@@ -187,7 +187,7 @@ return [
             'required' => 'Please select country of bank',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Please enter bank name',
         ],
         'iban' => [
             'required' => 'Please enter an IBAN number',

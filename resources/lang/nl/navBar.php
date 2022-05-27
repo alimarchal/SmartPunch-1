@@ -24,6 +24,7 @@ return [
     'Employees' => 'Medewerkers',
     'Schedules' => 'schema\'s',
     'Reports' => 'Rapporten',
+    'Take attendance' => 'Take attendance',
     'Business' => 'Bedrijf',
     'Businesses' => 'Ondernemingen',
     'Package' => 'Pakket',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'Mijn netwerk',
     'Logout' => 'Uitloggen',
     'Profile' => 'Profiel',
+    'Bank Details' => 'Bank Details',
 
 ];

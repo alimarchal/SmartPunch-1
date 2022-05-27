@@ -124,6 +124,12 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
+                    <!-- item-->
+                    <a href="{{route('ibr.bank-details')}}" class="dropdown-item notify-item">
+                        <i class="fe-briefcase"></i>
+                        <span>{{__('navBar.Bank Details')}}</span>
+                    </a>
+
                     @can('view business')
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">

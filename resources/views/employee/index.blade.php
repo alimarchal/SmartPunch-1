@@ -8,26 +8,30 @@
                 <div class="card-box widget-user">
                     <div class="media">
                         <div class="avatar-lg mr-3">
-                            <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"><img src="{{ Storage::url( $employee->profile_photo_path ) }}" alt="{{$employee->name}}" class="img-fluid rounded-circle"></a>
+                            @if (!isset($employee->profile_photo_path))
+                                <img src="{{ $employee->profile_photo_url }}" alt="user-image" class="rounded-circle">
+                            @else
+                                <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"><img src="{{ Storage::url( $employee->profile_photo_path ) }}" alt="{{$employee->name}}" class="img-fluid rounded-circle"></a>
+                            @endif
                         </div>
                         <div class="media-body overflow-hidden">
                             <h5 class="mt-0 mb-1"> <a href="{{route('employeeShow', encrypt($employee->id))}}" class="text-white"> {{$employee->name}} </a>
                                 @if($employee->hasVerifiedEmail())
                                     {{-- Verify icon --}}
                                     <small style="color: limegreen"><b><i class="fa fa-check-circle"></i></b></small>
-                                    @if(auth()->user()->hasPermissionTo('delete employee'))
+                                    @if(auth()->user()->hasDirectPermission('delete employee'))
                                         {{-- Delete icon --}}
                                             {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
 {{--                                        <small class="float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}
                                     @endif
-                                    @if(auth()->user()->hasPermissionTo('update employee'))
+                                    @if(auth()->user()->hasDirectPermission('update employee'))
                                         {{-- Edit icon --}}
                                         <small class="float-right mr-2 mt-1"><b><a href="{{route('employeeEdit', encrypt($employee->id))}}"><i class="fas fa-pencil-alt"></i></a></b></small>
                                     @endif
                                 @else
                                     {{-- Verify icon --}}
                                     <small class="text-danger"><b><i class="fa fa-times-circle"></i></b></small>
-                                    @if(auth()->user()->hasPermissionTo('delete employee'))
+                                    @if(auth()->user()->hasDirectPermission('delete employee'))
                                         {{-- Delete icon --}}
                                             {{-- Commented because to requiment change i.e user should not be deleted instead should be suspended --}}
 {{--                                        <small class="text-danger float-right mt-1"><b><a href="{{route('employeeDelete', encrypt($employee->id))}}" onclick="return confirm('Are you sure to delete?')"><i class="text-danger fa fa-trash-alt"></i></a></b></small>--}}

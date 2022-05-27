@@ -122,6 +122,10 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'polic
         Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
         /* Profile Update Routes */
 
+        /* Attendance from WEB */
+        Route::get('attendance', [EmployeeController::class, 'attendance'])->name('attendance.create');
+        Route::post('attendance/', [EmployeeController::class, 'saveAttendance']);
+
         /* Schedule Routes Start */
         Route::prefix('schedule')->middleware('permission:view schedule')->group(function () {
             Route::get('show/', [ScheduleController::class, 'show'])->name('scheduleShow');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ibr;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\Country;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
 use App\Models\IbrIndirectCommission;
@@ -95,6 +96,7 @@ class IbrController extends Controller
             $businessCount[(int)$key] = count($value);
         }
 
+        /* Assigning 0 value to keys of array where there is no business value present */
         for($i = 1; $i <= 12; $i++){
             if(!empty($businessCount[$i])){
                 $data[$i] = $businessCount[$i];
@@ -157,6 +159,7 @@ class IbrController extends Controller
             $businessCount[(int)$key] = count($value);
         }
 
+        /* Assigning 0 value to keys of array where there is no business value present */
         for($i = 1; $i <= 12; $i++){
             if(!empty($businessCount[$i])){
                 $data[$i] = $businessCount[$i];
@@ -174,6 +177,29 @@ class IbrController extends Controller
             ->select(['name', 'email', 'mobile_number'])
             ->get();
         return view('ibr.referrals.ibrReferrals', compact('referrals'));
+    }
+
+    public function bankDetailsEdit(): Factory|View|Application
+    {
+        $countries = Country::all();
+        return view('ibr.bankDetails.edit', compact('countries'));
+    }
+
+    public function bankDetailsUpdate(Request $request): RedirectResponse
+    {
+        Validator::make($request->all(), [
+            'bank' => ['required'],
+            'iban' => ['required'],
+            'country_of_bank' => ['required'],
+        ])->validate();
+
+        Ibr::where('id', auth()->guard('ibr')->id())->update([
+            'bank' => $request->bank,
+            'iban' => $request->iban,
+            'country_of_bank' => $request->country_of_bank
+        ]);
+        return redirect()->route('ibr.dashboard')->with('success', __('portal.Bank details updated successfully!!'));
+
     }
 
     public function profileEdit(): Factory|View|Application

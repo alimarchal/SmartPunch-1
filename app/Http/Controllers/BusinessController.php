@@ -17,7 +17,7 @@ class BusinessController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view business'))
+        if (auth()->user()->hasDirectPermission('view business'))
         {
             $business = Business::where('user_id', auth()->id())->first();
 
@@ -64,7 +64,7 @@ class BusinessController extends Controller
 
     public function edit($businessID): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update business'))
+        if (auth()->user()->hasDirectPermission('update business'))
         {
             $countries = Country::get();
             $business = Business::firstWhere('id', decrypt($businessID));
@@ -76,7 +76,7 @@ class BusinessController extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update business'))
+        if (auth()->user()->hasDirectPermission('update business'))
         {
             Validator::make($request->all(), [
                 'company_name' => ['required', 'string', 'max:255'],

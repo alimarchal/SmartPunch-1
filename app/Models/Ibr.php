@@ -36,6 +36,15 @@ class Ibr extends Authenticatable
         );
     }
 
+    protected function countryOfBank(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => Country::where('id', $value)
+                ->select('name')
+                ->value('name')
+        );
+    }
+
     /* Relation for IBRs having child IBRs start */
     public function ibr(): HasMany
     {

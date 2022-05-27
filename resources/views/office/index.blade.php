@@ -44,12 +44,12 @@
                                     {{$officeSchedule->schedule->name}} @if(!$loop->last) , @endif
                                 @endforeach
                             </td>
-                            @can('delete office')
+                            @if(auth()->user()->hasDirectPermission('delete office'))
                             <td>
                                 <a href="{{route('officeEdit', encrypt($office->id))}}"><i class="fa fa-pencil-alt text-primary"></i></a>
                                 <a href="{{route('officeDelete', encrypt($office->id))}}" onclick="return confirm('Are you to delete this office?')"><i class="fa fa-trash-alt text-danger ml-2"></i></a>
                             </td>
-                            @endcan
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

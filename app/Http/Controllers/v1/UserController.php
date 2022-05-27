@@ -9,10 +9,10 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -71,7 +71,7 @@ class UserController extends Controller
             'device_name' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::with('office:id,name')->where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password) || $user->status == 0) {
             /*throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
@@ -92,6 +92,16 @@ class UserController extends Controller
 
         $user->device_name = $request->device_name;
         $user->save();
+//        DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+//            ->where('user_id', $user->id)
+//            ->where('id', '!=', request()->session()->getId())
+//            ->delete();
+
+        DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+            ->where('user_id', $user->getAuthIdentifier())
+            ->where('user_type', '=','web')
+            ->delete();
+
         return response([
             'token' => $user->createToken($request->device_name)->plainTextToken,
             'user' => $user,

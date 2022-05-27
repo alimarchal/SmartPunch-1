@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="phone">{{__('portal.Phone')}}</label>
-                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="phone" value="{{old('phone')}}" required>
+                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="phone" value="{{old('phone')}}">
 
                         @error('phone')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('phone') as $error) <li>{{ $error }}</li> @endforeach</li></ul>

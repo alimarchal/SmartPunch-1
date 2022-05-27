@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Office;
+use App\Models\PunchTable;
 use App\Models\User;
 use App\Models\UserHasSchedule;
 use App\Models\UserOffice;
 use App\Notifications\NewEmployeeRegistration;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -16,8 +18,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use phpDocumentor\Reflection\Types\Collection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -25,7 +25,7 @@ class EmployeeController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view employee'))
+        if (auth()->user()->hasDirectPermission('view employee'))
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
 
     public function create(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('create employee'))
+        if (auth()->user()->hasDirectPermission('create employee'))
         {
             /* If user is admin(2) */
             if (auth()->user()->user_role == 2) {
@@ -77,7 +77,7 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('create employee'))
+        if (auth()->user()->hasDirectPermission('create employee'))
         {
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
@@ -134,7 +134,7 @@ class EmployeeController extends Controller
 
     public function edit($id): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+        if (auth()->user()->hasDirectPermission('update employee'))
         {
             $employee = User::with('office', 'business', 'punchTable', 'userSchedule', 'office.officeSchedules')->where('id', decrypt($id))->first();
             $employeeSchedule = $employee->userSchedule()->firstWhere('status', 1);
@@ -147,7 +147,7 @@ class EmployeeController extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+        if (auth()->user()->hasDirectPermission('update employee'))
         {
             Validator::make($request->all(), [
                 'office_id' => ['required'],
@@ -163,6 +163,8 @@ class EmployeeController extends Controller
             $user->update([
                 'office_id' => $request->office_id,
                 'schedule_id' => $request->schedule_id,
+                'attendance_from' => $request->attendance_from,
+                'out_of_office' => $request->out_of_office,
                 'status' => $request->status,
             ]);
             $user->save();
@@ -211,7 +213,7 @@ class EmployeeController extends Controller
     /* Commented in view because of the requirement ie account should be suspended rather than deleting it */
     public function delete($id): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('delete employee'))
+        if (auth()->user()->hasDirectPermission('delete employee'))
         {
             $employee = User::findOrFail(decrypt($id));
 
@@ -222,6 +224,44 @@ class EmployeeController extends Controller
             return redirect()->route('employeeIndex')->with('success', __('portal.Employee deleted successfully!!'));
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    /* Attendance from web */
+    public function attendance()
+    {
+        if (auth()->user()->attendance_from == 1)   /* Default 0 for APP and 1 for WEB */{$attendances = PunchTable::where('user_id', auth()->id())
+            ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->get();
+            return view('attendance.create', compact('attendances'));
+        }
+        return redirect()->back()->with('error', __('portal.You do not have permission to mark attendance from web.'));
+    }
+
+    public function saveAttendance(Request $request)
+    {
+        if (auth()->user()->attendance_from == 1) /* Default 0 for APP and 1 for Web  */{
+            $validator = Validator::make($request->all(), [
+                'type' => 'required',
+            ]);
+
+            if ($validator->fails())
+            {
+                return redirect()->back()->with('error', __('portal.Please try Again.'));
+            }
+
+            PunchTable::create([
+                'user_id' => auth()->id(),
+                'office_id' => auth()->user()->office_id,
+                'business_id' => auth()->user()->business_id,
+                'mac_address' => substr(shell_exec('getmac'), 159,17),
+                'time' => Carbon::now()->format('Y-m-d H:i:s'),
+                'in_out_status' => decrypt($request->type),
+                'punched_from' => 'Web',
+            ]);
+
+            return to_route('attendance.create')->with('success', __('portal.Response send successfully!!!'));
+        }
+        return back()->with('error' , __('portal.You do not have permission to mark attendance from web.'));
     }
 
     public function profileEdit(): View
