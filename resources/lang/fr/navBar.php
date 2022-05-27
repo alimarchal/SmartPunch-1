@@ -24,6 +24,7 @@ return [
     'Employees' => 'Employés',
     'Schedules' => 'Des horaires',
     'Reports' => 'Rapports',
+    'Take attendance' => 'Take attendance',
     'Business' => 'Entreprise',
     'Businesses' => 'Entreprises',
     'Package' => 'Emballer',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'Mon réseau',
     'Logout' => 'Se déconnecter',
     'Profile' => 'Profil',
+    'Bank Details' => 'Bank Details',
 
 ];

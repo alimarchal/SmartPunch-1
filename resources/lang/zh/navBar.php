@@ -24,6 +24,7 @@ return [
     'Employees' => '僱員',
     'Schedules' => '時間表',
     'Reports' => '報告',
+    'Take attendance' => 'Take attendance',
     'Business' => '商業',
     'Businesses' => '企業',
     'Package' => '包裹',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => '我的網絡',
     'Logout' => '登出',
     'Profile' => '輪廓',
+    'Bank Details' => 'Bank Details',
 
 ];

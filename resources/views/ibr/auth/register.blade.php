@@ -86,7 +86,15 @@
 
                                 <div class="form-group">
                                     <label for="password">{{__('register.Password')}} <span style="color: red">*</span> </label>
-                                    <input type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}" class="form-control @error('password') parsley-error @enderror" required>
+                                    <div class="input-group mb-3">
+                                        <input type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}" class="form-control @error('password') parsley-error @enderror" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" onclick="password_show_hide();">
+                                              <i class="fas fa-eye" id="show_eye"></i>
+                                              <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                                            </span>
+                                        </div>
+                                    </div>
 
                                     @error('password')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('password') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -94,8 +102,16 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password">{{__('register.Confirm Password')}} <span style="color: red">*</span> </label>
-                                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="{{__('register.Confirm Password')}}" required>
+                                    <label for="password_confirmation">{{__('register.Confirm Password')}} <span style="color: red">*</span> </label>
+                                    <div class="input-group mb-3">
+                                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="{{__('register.Confirm Password')}}" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" onclick="confirm_password_show_hide();">
+                                              <i class="fas fa-eye" id="confirm_show_eye"></i>
+                                              <i class="fas fa-eye-slash d-none" id="confirm_hide_eye"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -146,7 +162,7 @@
                                     <select name="country_of_bank" id="country_of_bank" class="custom-select countries_of_bank @error('country_of_bank') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
                                         @foreach($countries as $country)
-                                        <option {{(old('country_of_bank') == 1 ? 'selected' : '')}} value="{{$country->id}}">{{$country->name}}</option>
+                                        <option {{(old('country_of_bank') == $country->id ? 'selected' : '')}} value="{{$country->id}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('country_of_bank')
@@ -174,7 +190,9 @@
                                     <label for="currency">{{__('register.Currency')}} <span style="color: red">*</span> </label>
                                     <select name="currency" id="currency" class="custom-select @error('currency') parsley-error @enderror" required>
                                         <option value="" selected>{{__('register.Select')}}</option>
-                                        <option {{(old('currency') == 1 ? 'selected' : '')}} value="1">Dollar ($)</option>
+                                        @foreach($currencies as $currency)
+                                            <option {{(old('currency') == $currency->id ? 'selected' : '')}} value="{{ $currency->id }}">{{ $currency->value }}</option>
+                                        @endforeach
                                     </select>
                                     @error('currency')
                                     <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required"> @foreach ($errors->get('currency') as $error) <li>{{ $error }}</li> @endforeach </li></ul>
@@ -282,6 +300,39 @@
             }
         });
     })
+
+    function password_show_hide() {
+        var x = document.getElementById("password");
+        var show_eye = document.getElementById("show_eye");
+        var hide_eye = document.getElementById("hide_eye");
+        hide_eye.classList.remove("d-none");
+        if (x.type === "password") {
+            x.type = "text";
+            show_eye.style.display = "none";
+            hide_eye.style.display = "block";
+        } else {
+            x.type = "password";
+            show_eye.style.display = "block";
+            hide_eye.style.display = "none";
+        }
+    }
+
+    function confirm_password_show_hide() {
+        var x = document.getElementById("password_confirmation");
+        var show_eye = document.getElementById("confirm_show_eye");
+        var hide_eye = document.getElementById("confirm_hide_eye");
+        hide_eye.classList.remove("d-none");
+        if (x.type === "password") {
+            x.type = "text";
+            show_eye.style.display = "none";
+            hide_eye.style.display = "block";
+        } else {
+            x.type = "password";
+            show_eye.style.display = "block";
+            hide_eye.style.display = "none";
+        }
+    }
+
 </script>
 
 </body>

@@ -28,6 +28,11 @@ Route::prefix('v1/ibr')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/register', [RegisterController::class, 'store']);
     Route::post('/forgot-password', [RegisterController::class, 'forgot_password']);
+
+    /* Currencies API */
+    Route::get('/currencies', function (){
+        return response()->json(['currencies' => DB::table('currencies')->get()]);
+    });
 });
 
 Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
@@ -40,32 +45,37 @@ Route::prefix('v1/ibr')->middleware(['auth:ibr_api'])->group(function ()
         Route::get('business-referrals', [IbrController::class, 'business_referrals']);
         Route::get('ibr-referrals', [IbrController::class, 'ibr_referrals']);
 
-        /* Profile Update Routes */
-        Route::post('profile/update/', [IbrController::class, 'profileUpdate']);
-        /* Profile Update Routes */
+        /* Bank Details API */
+        Route::get('bank-details', [IbrController::class, 'bank_details']);
+        Route::post('bank-detail-update', [IbrController::class, 'update_bank_details']);
+        /* Bank Details API */
 
-        /* Direct Commission Routes */
+        /* Profile Update API */
+        Route::post('profile/update/', [IbrController::class, 'profileUpdate']);
+        /* Profile Update API */
+
+        /* Direct Commission API */
         Route::get('direct-commissions', [IbrController::class, 'directCommissions']);
         /* Direct Commission Routes */
 
-        /* Indirect Commission Routes */
+        /* Indirect Commission API */
         Route::get('indirect-commissions', [IbrController::class, 'inDirectCommissions']);
         /* Indirect Commission Routes */
 
-        /* Dashboard related routes start */
+        /* Dashboard related APIs start */
 
-        /* My earnings Route */
+        /* My earnings API */
         Route::get('earnings', [IbrController::class, 'myEarnings']);
-        /* My earnings Route */
+        /* My earnings API */
 
-        /* My clients Route */
+        /* My clients API */
         Route::get('clients', [IbrController::class, 'myClients']);
-        /* My clients Route */
+        /* My clients API */
 
-        /* My network Route */
+        /* My network API */
         Route::get('network', [IbrController::class, 'myNetworks']);
-        /* My network Route */
+        /* My network API */
 
-        /* Dashboard related routes end */
+        /* Dashboard related APIs end */
     });
 });

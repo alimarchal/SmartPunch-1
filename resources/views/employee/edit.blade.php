@@ -83,9 +83,35 @@
                         <label for="pass1">{{__('portal.Permissions')}}</label>
                         <select class="custom-select js-example-basic-multiple" name="permissions[]" multiple data-placeholder="{{__('portal.Select')}}">
                             @foreach($permissions as $id => $permission)
-                                <option {{ (in_array($id, old('permissions', [])) || $employee->getAllPermissions()->pluck('id')->contains($id)) ? 'selected' : '' }} value="{{$id}}">{{ucfirst($permission)}}</option>
+                                <option {{ (in_array($id, old('permissions', [])) || $employee->getDirectPermissions()->pluck('id')->contains($id)) ? 'selected' : '' }} value="{{$id}}">{{ucfirst($permission)}}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attendance_from">{{__('portal.Attendance from')}}</label>
+
+                        <select id="attendance_from" class="custom-select" name="attendance_from">
+                            <option {{$employee->attendance_from == 0 ? 'selected' : ''}} value="0">{{__('portal.App')}}</option>
+                            <option {{$employee->attendance_from == 1 ? 'selected' : ''}} value="1">{{__('portal.Web')}}</option>
+                        </select>
+
+                        @error('attendance_from')
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('attendance_from') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="out_of_office">{{__('portal.Out of office attendance')}}</label>
+
+                        <select id="out_of_office" class="custom-select" name="out_of_office">
+                            <option {{$employee->out_of_office == 0 ? 'selected' : ''}} value="0">{{__('portal.No')}}</option>
+                            <option {{$employee->out_of_office == 1 ? 'selected' : ''}} value="1">{{__('portal.Yes')}}</option>
+                        </select>
+
+                        @error('out_of_office')
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('out_of_office') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
                     </div>
 
                     <div class="form-group text-right mb-0">

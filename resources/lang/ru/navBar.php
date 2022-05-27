@@ -24,6 +24,7 @@ return [
     'Employees' => 'Сотрудники',
     'Schedules' => 'Расписания',
     'Reports' => 'отчеты',
+    'Take attendance' => 'Take attendance',
     'Business' => 'Бизнес',
     'Businesses' => 'Предприятия',
     'Package' => 'Упаковка',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'Моя сеть',
     'Logout' => 'Выйти',
     'Profile' => 'Профиль',
+    'Bank Details' => 'Bank Details',
 
 ];

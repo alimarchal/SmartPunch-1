@@ -24,6 +24,7 @@ return [
     'Employees' => 'Çalışanlar',
     'Schedules' => 'Programları',
     'Reports' => 'Raporlar',
+    'Take attendance' => 'Take attendance',
     'Business' => 'İşletme',
     'Businesses' => 'işletmeler',
     'Package' => 'paket',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'ağım',
     'Logout' => 'Çıkış Yap',
     'Profile' => 'Profil',
+    'Bank Details' => 'Bank Details',
 
 ];

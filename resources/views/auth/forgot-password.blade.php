@@ -1,7 +1,13 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+{{--            <x-jet-authentication-card-logo />--}}
+            <div class="text-center">
+                <a href="{{route('home')}}" class="logo">
+                    <img src="{{url('logo.png')}}" alt="" height="60" width="60" class="logo-light mx-auto">
+                </a>
+                <p class="mt-2 mb-4 font-italic" style="font-size: 25px; color: #76ABDC;">{{__('register.SmartPunch')}}</p>
+            </div>
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">

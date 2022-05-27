@@ -18,14 +18,14 @@ class Business extends Model
     protected function countryName(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Country::where('id', $value)->first(['name'])
+            get: fn($value) => Country::where('id', $value)->first(['id', 'name'])
         );
     }
 
     protected function cityName(): Attribute
     {
         return new Attribute(
-            get: fn($value) => City::where('id', $value)->first(['name'])
+            get: fn($value) => City::where('id', $value)->first(['id', 'name'])
         );
     }
 

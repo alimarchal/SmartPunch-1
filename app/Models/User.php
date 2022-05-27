@@ -59,6 +59,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'language',
         'type',
         'terms',
+        'attendance_from',
+        'out_of_office',
         'status',
     ];
 

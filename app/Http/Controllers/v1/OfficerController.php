@@ -15,16 +15,16 @@ class OfficerController extends Controller
 {
     public function index(): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('view office'))
+        if (auth()->user()->hasDirectPermission('view office'))
         {
             if (auth()->user()->user_role == 2)     /* 2 for admin*/
             {
-                $business = Office::where('business_id', auth()->user()->business_id)->paginate(15);
+                $business = Office::with('officeSchedules', 'officeSchedules.schedule:id,name')->where('business_id', auth()->user()->business_id)->paginate(15);
                 return response()->json(['business' => $business]);
             }
             if (auth()->user()->user_role == 3)     /* 3 for Manager*/
             {
-                $business = Office::where(['business_id' => auth()->user()->business_id, 'id' => auth()->user()->office_id])->paginate(15);
+                $business = Office::with('officeSchedules', 'officeSchedules.schedule:id,name')->where(['business_id' => auth()->user()->business_id, 'id' => auth()->user()->office_id])->paginate(15);
                 return response()->json(['business' => $business]);
             }
         }
@@ -33,14 +33,15 @@ class OfficerController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('create office'))
+        if (auth()->user()->hasDirectPermission('create office'))
         {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required',
                 'address' => 'required',
                 'city' => 'required',
-                'coordinates' => 'required',
+                'inner_coordinates' => 'required',
+                'outer_coordinates' => 'required',
                 'phone' => 'required',
             ]);
 
@@ -50,6 +51,18 @@ class OfficerController extends Controller
             }
 
             $request->merge(['business_id' => auth()->user()->business_id]);
+
+            /* Validating other_city filed and replacing city dropdown value with city name entered in other city text field */
+            if ($request->city == 'other'){
+                $validator = Validator::make($request->all(), [
+                    'other_city' => ['required'],
+                ]);
+                if ($validator->fails())
+                {
+                    return response()->json(['errors' => $validator->errors()],422);
+                }
+                $request->merge(['city' => $request->other_city]);
+            }
 
             $office = Office::create($request->all());
 
@@ -78,7 +91,7 @@ class OfficerController extends Controller
 
     public function show($id): JsonResponse
     {
-        $office = Office::find($id);
+        $office = Office::with('officeSchedules', 'officeSchedules.schedule:id,name')->where(['id' => $id, 'business_id' => auth()->user()->business_id])->first();
         if (!empty($office)) {
             return response()->json(['office' => $office]);
         } else {
@@ -88,7 +101,7 @@ class OfficerController extends Controller
 
     public function update(Request $request, $id): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('update office'))
+        if (auth()->user()->hasDirectPermission('update office'))
         {
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:255'],
@@ -104,6 +117,18 @@ class OfficerController extends Controller
             }
 
             $office = Office::where('id', $id)->first();
+
+            /* Validating other_city filed and replacing city dropdown value with city name entered in other city text field */
+            if ($request->city == 'other'){
+                $validator = Validator::make($request->all(), [
+                    'other_city' => ['required'],
+                ]);
+                if ($validator->fails())
+                {
+                    return response()->json(['errors' => $validator->errors()],422);
+                }
+                $request->merge(['city' => $request->other_city]);
+            }
 
             $office->update($request->all());
             $office->save();
@@ -142,16 +167,21 @@ class OfficerController extends Controller
                 ],412);
             }
 
-            $office->officeSchedules()->whereNotIn('schedule_id', $request->schedules)->delete();
-            foreach($request->schedules as $scheduleID)
-            {
-                if ($office->officeSchedules->doesntContain('schedule_id', $scheduleID))
+            if (!is_null($request->schedules) || isset($request->schedules)){
+                $office->officeSchedules()->whereNotIn('schedule_id', $request->schedules)->delete();
+                foreach($request->schedules as $scheduleID)
                 {
-                    OfficeSchedule::create([
-                        'office_id' => $office->id,
-                        'schedule_id' => $scheduleID,
-                    ]);
+                    if ($office->officeSchedules->doesntContain('schedule_id', $scheduleID))
+                    {
+                        OfficeSchedule::create([
+                            'office_id' => $office->id,
+                            'schedule_id' => $scheduleID,
+                        ]);
+                    }
                 }
+            }
+            else{
+                $office->officeSchedules()->delete();
             }
 
             return response()->json(['message' => 'Office updated successfully!!']);
@@ -161,7 +191,7 @@ class OfficerController extends Controller
 
     public function delete($id): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('delete office'))
+        if (auth()->user()->hasDirectPermission('delete office'))
         {
             $office = Office::findOrFail($id);
 
@@ -179,7 +209,7 @@ class OfficerController extends Controller
 
     public function employees($id): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('view office'))
+        if (auth()->user()->hasDirectPermission('view office'))
         {
             $office = Office::with('employees', 'employees.userSchedule.schedule')->where('id', $id)->first();
             return response()->json(['office' => $office]);

@@ -204,13 +204,13 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                    @can('view business')
+                    @if(auth()->user()->hasDirectPermission('view business'))
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-briefcase"></i>
                             <span>{{__('navBar.Business')}}</span>
                         </a>
-                    @endcan
+                    @endif
 
                     @hasrole('admin')
                     <!-- item-->
@@ -279,7 +279,7 @@
                     <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
-                @can('view office')
+                @if(auth()->user()->hasDirectPermission('view office'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="fa fa-building"></i>{{__('navBar.Offices')}}
                             <div class="arrow-down"></div>
@@ -287,11 +287,11 @@
                         <ul class="submenu megamenu">
                             <li>
                                 <ul>
-                                    @can('create office')
+                                    @if(auth()->user()->hasDirectPermission('create office'))
                                         <li>
                                             <a href="{{route('officeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                         </li>
-                                    @endcan
+                                    @endif
                                     <li>
                                         <a href="{{route('officeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
                                     </li>
@@ -300,9 +300,9 @@
                             </li>
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view employee')
+                @if(auth()->user()->hasDirectPermission('view employee'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="mdi mdi-account-multiple"></i>{{__('navBar.Employees')}}
                             <div class="arrow-down"></div>
@@ -318,19 +318,19 @@
                             </li>
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view schedule')
+                @if(auth()->user()->hasDirectPermission('view schedule'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="mdi mdi-calendar-clock"></i>{{__('navBar.Schedules')}}
                             <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            @can('create schedule')
+                            @if(auth()->user()->hasDirectPermission('create schedule'))
                                 <li>
                                     <a href="{{route('scheduleCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
-                            @endcan
+                            @endif
 
                             @if(!auth()->user()->hasRole('employee'))
                             <li>
@@ -346,35 +346,41 @@
 
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view reports')
+                @if(auth()->user()->hasDirectPermission('view reports'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}
                             <div class="arrow-down"></div>
                         </a>
 
                         <ul class="submenu">
-                            @can('view reports by office')
+                            @if(auth()->user()->hasDirectPermission('view reports by office'))
                                 <li>
                                     <a href="{{route('byOffice')}}"><i class="fa fa-building"></i> {{__('navBar.By office')}}</a>
                                 </li>
-                            @endcan
+                            @endif
 
-                            @can('view reports by employee business ID')
+                            @if(auth()->user()->hasDirectPermission('view reports by employee business ID'))
                                 <li>
                                     <a href="{{route('byEmployeeBusiness')}}"><i class="fa fa-key"></i> {{__('navBar.By employee business ID')}}</a>
                                 </li>
-                            @endcan
+                            @endif
 
-                            @can('view reports by my team')
+                            @if(auth()->user()->hasDirectPermission('view reports by my team'))
                                 <li>
                                     <a href="{{route('reportByTeam')}}"><i class="fa fa-user-friends"></i> {{__('navBar.By my team')}}</a>
                                 </li>
-                            @endcan
+                            @endif
                         </ul>
                     </li>
-                @endcan
+                @endif
+
+                @if( !auth()->user()->hasRole('admin') && auth()->user()->attendance_from == 1 )  {{-- 0 (Default) attendace from APP and 1 attendance from WEB --}}
+                    <li class="has-submenu">
+                        <a href="{{route('attendance.create')}}"><i class="mdi mdi-timer-outline"></i>{{__('navBar.Take attendance')}}</a>
+                    </li>
+                @endif
 
             </ul>
             <!-- End navigation menu -->

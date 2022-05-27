@@ -24,6 +24,7 @@ return [
     'Employees' => 'Mga empleyado',
     'Schedules' => 'Mga iskedyul',
     'Reports' => 'Mga ulat',
+    'Take attendance' => 'Take attendance',
     'Business' => 'negosyo',
     'Businesses' => 'Mga negosyo',
     'Package' => 'Package',
@@ -36,5 +37,6 @@ return [
     'My referred IBRs' => 'Network ko',
     'Logout' => 'Mag-logout',
     'Profile' => 'Profile',
+    'Bank Details' => 'Bank Details',
 
 ];
