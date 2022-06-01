@@ -15,7 +15,7 @@
 <!-- Dashboard init js-->
 <script src="{{url('Horizontal/dist/assets/js/pages/dashboard.init.js')}}"></script>
 
-
+<script src="{{url('Horizontal/dist/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <!-- third party js -->
 <script src="{{url('Horizontal/dist/assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{url('Horizontal/dist/assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>

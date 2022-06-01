@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR yok',
     'Enter Business Details to proceed' => 'Devam etmek için İşletme Ayrıntılarını girin',
     'Select' => 'Seçme',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Göndermek',

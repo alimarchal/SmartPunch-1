@@ -124,12 +124,116 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function show($id): View
+    public function show($id, Request $request): View
     {
         $employee = User::with('office', 'userSchedule.schedule')->findOrFail(decrypt($id));
         $userSchedule = $employee->userSchedule()->firstWhere('status', 1);
         $permissions = Permission::get()->pluck( 'name', 'id');
-        return view('employee.show', compact('employee', 'permissions', 'userSchedule'));
+
+        $date = null;
+        /* default current month is shown */
+        if (!$request->date){
+            $punchedAttendancesGroupByDate = PunchTable::where('user_id', $employee->id)
+                ->select(['id', 'created_at'])
+                ->whereMonth('created_at', Carbon::now())
+                ->get()
+                ->groupBy(function ($reports) {
+                    return Carbon::parse($reports->created_at)->format('Y-m-d');
+                });
+
+            $daysOfMonth = Carbon::now()->month(Carbon::now()->month)->daysInMonth;
+
+            $dateString = array();
+            for($i = 1; $i <= $daysOfMonth; $i++){
+                $dateString[] = Carbon::now()->month(Carbon::now()->month)->day($i)->format('Y-m-d');
+            }
+
+            $daysCount = [];
+            $data = [];
+
+            foreach ($punchedAttendancesGroupByDate as $key => $value) {
+                $daysCount[$key] = $key;
+            }
+
+            /* Assigning 0 to keys of array where there is no attendance value present */
+            foreach($dateString as $key => $value){
+                if(in_array($value, $daysCount)){
+
+                    $time = Carbon::create();
+                    $punchedAttendances = PunchTable::where('user_id', $employee->id)
+                        ->whereDate('created_at', $value)
+                        ->get()->toArray();
+
+                    /* Calculating and replacing values for that particular date */
+                    for ($i = 0; $i< (count($punchedAttendances) - 1); $i++){
+                        if ($punchedAttendances[$i]['in_out_status'] == 1 && $punchedAttendances[$i+1]['in_out_status'] == 0){
+                            $first = Carbon::parse($punchedAttendances[$i]['time']);
+                            $second = Carbon::parse($punchedAttendances[$i+1]['time']);
+
+                            $time = $time->add($first->diff(Carbon::parse($second)));
+                        }
+                    }
+
+                    $data[$key+1] = $time->format('H:i:s');
+//                $data[$key+1] = $time->toTimeString();
+                }else{
+                    $data[$key+1] = 0;
+                }
+            }
+        }
+        else{
+            $punchedAttendancesGroupByDate = PunchTable::where('user_id', $employee->id)
+                ->select(['id', 'created_at'])
+                ->whereMonth('created_at', Carbon::parse($request->date)->format('m'))
+                ->get()
+                ->groupBy(function ($reports) {
+                    return Carbon::parse($reports->created_at)->format('Y-m-d');
+                });
+
+            $daysOfMonth = Carbon::parse($request->date)->daysInMonth;
+
+            $dateString = array();
+            for($i = 1; $i <= $daysOfMonth; $i++){
+                $dateString[] = Carbon::parse($request->date)->day($i)->format('Y-m-d');
+            }
+
+            $daysCount = [];
+            $data = [];
+
+            foreach ($punchedAttendancesGroupByDate as $key => $value) {
+                $daysCount[$key] = $key;
+            }
+
+            /* Assigning 0 to keys of array where there is no attendance value present */
+            foreach($dateString as $key => $value){
+                if(in_array($value, $daysCount)){
+
+                    $time = Carbon::create();
+                    $punchedAttendances = PunchTable::where('user_id', $employee->id)
+                        ->whereDate('created_at', $value)
+                        ->get()->toArray();
+
+                    /* Calculating and replacing values for that particular date */
+                    for ($i = 0; $i< (count($punchedAttendances) - 1); $i++){
+                        if ($punchedAttendances[$i]['in_out_status'] == 1 && $punchedAttendances[$i+1]['in_out_status'] == 0){
+                            $first = Carbon::parse($punchedAttendances[$i]['time']);
+                            $second = Carbon::parse($punchedAttendances[$i+1]['time']);
+
+                            $time = $time->add($first->diff(Carbon::parse($second)));
+                        }
+                    }
+
+                    $data[$key+1] = $time->format('H:i:s');
+                }else{
+                    $data[$key+1] = 0;
+                }
+            }
+
+            /* Assigning date variable inorder to display in calendar in view */
+            $date = $request->date;
+        }
+
+        return view('employee.show', compact('employee', 'permissions', 'userSchedule', 'data', 'date'));
     }
 
     public function edit($id): View|RedirectResponse

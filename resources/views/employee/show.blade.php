@@ -2,6 +2,38 @@
 
 @section('body')
 
+    <div class="row justify-content-center mt-3">
+        <div class="form-group text-center col-sm-3">
+            <form action="{{route('employeeAttendanceShowByMonth', encrypt($employee->id))}}" method="GET">
+                <label for="datepicker">{{__('portal.Select Month')}}</label>
+                <div class="input-group">
+                    @if(isset($date))
+                        <input type="text" class="form-control" name="date" style="cursor: pointer" placeholder="M-yyyy" value="{{$date}}" id="datepicker" readonly>
+                    @else
+                        <input type="text" class="form-control" name="date" style="cursor: pointer" placeholder="M-yyyy" id="datepicker" readonly>
+                    @endif
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                    </div>
+                </div><!-- input-group -->
+                <button class="btn btn-primary btn-rounded mt-2 waves-effect waves-light" type="submit">{{__('portal.Submit')}}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-xl-12 text-center">
+            <div class="card-box">
+                @if(isset($date))
+                    <h4 class="header-title mt-0">{{ \Carbon\Carbon::parse($date)->monthName . ' ' . __('portal.Monthly attendance')}}</h4>
+                @else
+                    <h4 class="header-title mt-0">{{ \Carbon\Carbon::now()->monthName . ' ' . __('portal.Monthly attendance')}}</h4>
+                @endif
+                <div id="monthly-attendance-morris-bar" dir="ltr" style="height: 280px;" class="morris-chart"></div>
+            </div>
+        </div><!-- end col -->
+    </div>
+
     <div class="row">
         <div class="col-xl-6 mx-auto">
             @can('update employee')
@@ -76,9 +108,51 @@
                         <input class="form-control" id="attendanceType" disabled value="WEB">
                     @endif
                 </div>
+
+                <div class="form-group">
+                    <label for="out_of_office">{{__('portal.Out of office attendance')}}</label>
+
+                    @if($employee->out_of_office == 0) {{-- Default 0 for No and 1 for Yes --}}
+                        <input class="form-control" id="out_of_office" disabled value="{{__('portal.No')}}">
+                    @else
+                        <input class="form-control" id="out_of_office" disabled value="{{__('portal.Yes')}}">
+                    @endif
+                </div>
+
             </div>
         </div>
     </div>
+
+@endsection
+
+@section('scripts')
+
+    <script>
+        $("#datepicker").datepicker({
+            format: 'M-yyyy',
+            startView: "months",
+            minViewMode: "months"
+        });
+    </script>
+
+    <script>
+        /* Bar chart for Direct Income */
+        Morris.Bar({
+            element: 'monthly-attendance-morris-bar',
+            data: [
+                    @foreach($data as $key => $value)
+                        {
+                        x: '{{$key}}',
+
+                        Hrs: '{{\Carbon\Carbon::parse($value)->format('H:i:s')}}',
+                        },
+                    @endforeach
+            ],
+            xkey: 'x',
+            ykeys: ['Hrs'],
+            labels: ['Number of hours worked'],
+        })
+    </script>
 
 @endsection
 

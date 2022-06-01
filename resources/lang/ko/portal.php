@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR 번호',
     'Enter Business Details to proceed' => '계속하려면 비즈니스 세부정보를 입력하세요.',
     'Select' => '고르다',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => '제출하다',

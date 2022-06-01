@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR no',
     'Enter Business Details to proceed' => 'Ipasok ang Mga Detalye ng Negosyo upang magpatuloy',
     'Select' => 'Pumili',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Ipasa',

@@ -21,6 +21,7 @@ return [
     'IBR no' => 'ИБР нет',
     'Enter Business Details to proceed' => 'Введите сведения о компании, чтобы продолжить',
     'Select' => 'Выбирать',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Представлять на рассмотрение',

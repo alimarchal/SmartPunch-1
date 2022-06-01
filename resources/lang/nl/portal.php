@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR-nr',
     'Enter Business Details to proceed' => 'Voer bedrijfsgegevens in om door te gaan',
     'Select' => 'Selecteer',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Indienen',

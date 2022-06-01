@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR 沒有',
     'Enter Business Details to proceed' => '輸入業務詳細信息以繼續',
     'Select' => '選擇',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => '提交',

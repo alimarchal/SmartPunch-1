@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ScheduleController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -66,23 +66,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'polic
 
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
     Route::middleware(['businessCheck', 'package_expired'])->group(function () {
-        Route::get('/dashboard', function () {
-            $employees = collect();
-            if (\auth()->user()->user_role == 2) /* 2 => Admin */
-            {
-                $employees = User::where('business_id', auth()->user()->business_id)->orderByDesc('created_at')->get()->except([auth()->id()]);
-            }
-            if (\auth()->user()->user_role == 3) /* 3 => Manager */
-            {
-                $employees = User::where('business_id', auth()->user()->business_id)->where('user_role', '!=', 2)->orderByDesc('created_at')->get()->except([auth()->id()]);
-            }
-            if (\auth()->user()->user_role == 4) /* 4 => Supervisor */
-            {
-                $userRoles = [2,3];
-                $employees = User::where('business_id', auth()->user()->business_id)->whereNotIn('user_role', $userRoles)->orderByDesc('created_at')->get()->except([auth()->id()]);
-            }
-            return view('dashboard', compact('employees'));
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         /* Business Routes Start */
         Route::prefix('business')->group(function () {
@@ -114,6 +98,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'polic
             Route::get('show/{userID}', [EmployeeController::class, 'show'])->name('employeeShow');
             Route::get('delete/{userID}', [EmployeeController::class, 'delete'])->name('employeeDelete');
             Route::post('permissions-search', [EmployeeController::class, 'permissions'])->name('permissionsSearch');
+            Route::get('show/{userID}/attendance', [EmployeeController::class, 'show'])->name('employeeAttendanceShowByMonth');
         });
         /* Employee Routes End */
 

@@ -21,6 +21,7 @@ return [
     'IBR no' => 'شماره IBR',
     'Enter Business Details to proceed' => 'برای ادامه، جزئیات کسب و کار را وارد کنید',
     'Select' => 'انتخاب کنید',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'ارسال',

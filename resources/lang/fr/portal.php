@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR non',
     'Enter Business Details to proceed' => 'Entrez les détails de l\'entreprise pour continuer',
     'Select' => 'Sélectionner',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Nous faire parvenir',

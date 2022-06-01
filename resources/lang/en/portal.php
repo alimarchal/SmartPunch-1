@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR no',
     'Enter Business Details to proceed' => 'Enter Business Details to proceed',
     'Select' => 'Select',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Submit',
@@ -167,5 +168,9 @@ return [
     'Paid' => 'Paid',
     'Client name' => 'Client name',
     'Welcome' => 'Welcome',
+    'Present employees' => 'Present employees',
+    'Absent employees' => 'Absent employees',
+    'Attendance insight' => 'Attendance insight',
+    'Monthly attendance' => 'Monthly attendance',
 
 ];

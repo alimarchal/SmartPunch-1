@@ -148,13 +148,13 @@ class EmployeeController extends Controller
                 'office_id' => ['required'],
                 'status' => ['required'],
                 'schedule_id' => ['required'],
-                'attendance_from' => ['required'],
-                'out_of_office' => ['required']
+//                'attendance_from' => ['required'],
+//                'out_of_office' => ['required']
             ],[
                 'office_id.required' => __('validation.custom.office_id.required'),
                 'schedule_id.required' => __('validation.custom.schedule.required'),
-                'attendance_from.required' => 'Please select any value',
-                'out_of_office.required' => 'Please select any value'
+//                'attendance_from.required' => 'Please select any value',
+//                'out_of_office.required' => 'Please select any value'
             ])->validate();
 
             $user = User::findOrFail($id);
@@ -162,8 +162,8 @@ class EmployeeController extends Controller
             $user->update([
                 'office_id' => $request->office_id,
                 'schedule_id' => $request->schedule_id,
-                'attendance_from' => $request->attendance_from,
-                'out_of_office' => $request->out_of_office,
+//                'attendance_from' => $request->attendance_from,
+//                'out_of_office' => $request->out_of_office,
                 'status' => $request->status,
             ]);
             $user->save();

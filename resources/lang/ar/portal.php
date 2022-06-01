@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR الرقم',
     'Enter Business Details to proceed' => 'أدخل تفاصيل العمل للمتابعة',
     'Select' => 'يختار',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'يقدم',
