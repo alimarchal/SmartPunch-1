@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBRいいえ',
     'Enter Business Details to proceed' => '続行するには、ビジネスの詳細を入力してください',
     'Select' => '選択する',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => '送信',

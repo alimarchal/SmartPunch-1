@@ -21,6 +21,7 @@ return [
     'IBR no' => 'IBR n',
     'Enter Business Details to proceed' => 'Inserisci i dettagli dell\'attività per procedere',
     'Select' => 'Selezionare',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Invia',

@@ -21,6 +21,7 @@ return [
     'IBR no' => 'Nambari ya IBR',
     'Enter Business Details to proceed' => 'Weka Maelezo ya Biashara ili kuendelea',
     'Select' => 'Chagua',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'Wasilisha',

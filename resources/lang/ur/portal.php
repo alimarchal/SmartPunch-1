@@ -21,6 +21,7 @@ return [
     'IBR no' => 'آئی بی آر نمبر',
     'Enter Business Details to proceed' => 'آگے بڑھنے کے لیے کاروباری تفصیلات درج کریں۔',
     'Select' => 'منتخب کریں',
+    'Select Month' => 'Select Month',
     'Other' => 'Other',
     'Other City' => 'Other City',
     'Submit' => 'جمع کریں',

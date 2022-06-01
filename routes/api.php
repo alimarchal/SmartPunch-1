@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\v1\BusinessController;
 use App\Http\Controllers\v1\EmployeeController;
+use App\Http\Controllers\v1\MessageController;
 use App\Http\Controllers\v1\OfficerController;
 use App\Http\Controllers\v1\PackageController;
 use App\Http\Controllers\v1\PunchController;
@@ -113,6 +114,12 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
             Route::get('/show', [ScheduleController::class, 'show']);
             Route::post('/approve/{id}', [ScheduleController::class, 'approve']);
             Route::resource('/', ScheduleController::class);
+        });
+
+        // Messages
+        Route::prefix('message')->group(function (){
+            Route::get('/unread', [MessageController::class, 'unread']);
+            Route::post('/send', [MessageController::class, 'send']);
         });
 
     });

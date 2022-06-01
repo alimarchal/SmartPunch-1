@@ -25,6 +25,7 @@
     <link href="{{url('Horizontal/dist/assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <!-- third party css end -->
 
+    <link href="{{url('Horizontal/dist/assets/libs/bootstrap-datepicker/bootstrap-datepicker.css')}}" rel="stylesheet">
     <!-- Bootstrap Css -->
     <link href="{{url('Horizontal/dist/assets/css/bootstrap-dark.min.css')}}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css"/>
     <!-- Icons Css -->
