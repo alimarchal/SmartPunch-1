@@ -17,7 +17,7 @@
 
             @php $locale = session()->get('locale'); @endphp
             <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     @switch($locale)
                         @case('ar')
                             <img src="{{asset('flags/ar.png')}}" width="30px" height="20x"> Arabic
@@ -254,7 +254,7 @@
                     @php $role = \Spatie\Permission\Models\Role::where('id', auth()->user()->user_role)->pluck('name')->first(); @endphp
                     <span class="ml-1 text-white">{{ucfirst($role)}}</span>
                 </span>
-                <span class="logo-sm">
+                <span class="logo-sm" style="width: 0px;">
                     @if(isset(auth()->user()->business->company_logo))
                         <img src="{{ Storage::url( auth()->user()->business->company_logo) }}" alt="{{auth()->user()->business->company_name}}" style="border-radius: 50%;" height="44" width="50">
                     @else
