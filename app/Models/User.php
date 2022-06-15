@@ -139,10 +139,4 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Message::class,'user_id_from', 'id');
     }
 
-/*    public function unReadMessages()
-    {
-//        return $this->hasMany(Message::class,'user_id_from', 'id')->where('read_at', '=', null);
-        return Message::where('user_id_from', auth()->id())->where('read_at', '=', null)->get();
-    }*/
-
 }

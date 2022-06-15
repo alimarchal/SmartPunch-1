@@ -13,27 +13,6 @@ class MessageController extends Controller
 {
     public function previous()
     {
-        /*$message = User::with(['receiver' => function($query){
-            $query->select(['id', 'user_id_from', 'user_id_to', 'message', 'read_at', 'created_at'])
-                ->where('user_id_from', auth()->id());
-        }])
-            ->select(['id', 'name'])
-            ->where('parent_id', auth()->id())->get();
-        return response()->json(['messages' => $message]);*/
-
-        /*$user = User::select(['id', 'name'])->where('parent_id', auth()->id())->orWhere('id', auth()->id())->get()->pluck('id');
-        $previousMessageUserIDs = Message::whereIn('user_id_to', $user)->get()->unique('user_id_to')->pluck('user_id_to');
-        $usersWithPreviousMessages = User::with(['receiver' => function ($query) {
-            $query->select(['id', 'user_id_from', 'user_id_to', 'message', 'read_at', 'created_at'])
-                ->where(function ($query){
-                    $query->where('user_id_from', auth()->id());
-                    $query->orWhere('user_id_to', auth()->id());
-                })
-            ;
-        }])
-            ->select(['id', 'name'])
-            ->whereIn('id', $previousMessageUserIDs)->get();*/
-
         $user = User::select(['id', 'name'])->where('parent_id', auth()->id())->orWhere('id', auth()->id())->get()->pluck('id');
         $previousMessageUserIDs = Message::whereIn('user_id_to', $user)->get()->unique('user_id_to')->pluck('user_id_to');
         $usersWithPreviousMessages = User::with(['receiver' => function ($query) {
