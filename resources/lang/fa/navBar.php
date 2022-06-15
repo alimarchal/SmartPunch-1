@@ -20,6 +20,8 @@ return [
     'By my team' => 'توسط تیم من',
     'By user ID' => 'با شناسه کاربری',
     'View' => 'چشم انداز',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'برنامه من',
     'Employees' => 'کارمندان',
     'Schedules' => 'برنامه',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'خروج',
     'Profile' => 'مشخصات',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

@@ -82,4 +82,20 @@
     </script>
 @endif
 
+<script src="https://js.pusher.com/7.1/pusher.min.js"></script>
+<script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('60efdced5fba5c21fd72', {
+        cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('new-message');
+    channel.bind('new-message', function(data) {
+        alert(JSON.stringify(data));
+    });
+</script>
+
 @yield('scripts')

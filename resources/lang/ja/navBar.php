@@ -20,6 +20,8 @@ return [
     'By my team' => '私のチームによって',
     'By user ID' => 'ユーザーID別',
     'View' => '意見',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => '私のスケジュール',
     'Employees' => '従業員',
     'Schedules' => 'スケジュール',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'ログアウト',
     'Profile' => 'プロフィール',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

@@ -20,6 +20,8 @@ return [
     'By my team' => '由我的團隊',
     'By user ID' => '按用戶 ID',
     'View' => '看法',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => '我的時間表',
     'Employees' => '僱員',
     'Schedules' => '時間表',
@@ -38,5 +40,8 @@ return [
     'Logout' => '登出',
     'Profile' => '輪廓',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

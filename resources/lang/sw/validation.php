@@ -198,6 +198,12 @@ return [
         'mobile_number' => [
             'required' => 'Nambari ya simu inahitajika',
         ],
+        'employeeIDs' => [
+            'required' => 'Please select Employees to send the message to',
+        ],
+        'teamIDs' => [
+            'required' => 'Please select Teams to send the message to',
+        ],
         /* Add IBRs validation errors end */
     ],
 

@@ -198,6 +198,12 @@ return [
         'mobile_number' => [
             'required' => '휴대폰 번호는 필수 항목입니다.',
         ],
+        'employeeIDs' => [
+            'required' => 'Please select Employees to send the message to',
+        ],
+        'teamIDs' => [
+            'required' => 'Please select Teams to send the message to',
+        ],
         /* Add IBRs validation errors end */
     ],
 

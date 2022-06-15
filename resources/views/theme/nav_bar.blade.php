@@ -314,8 +314,14 @@
                                 </li>
                             @endcan
                             <li>
-                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View all employees')}}</a>
                             </li>
+
+                            @if(auth()->user()->hasRole('admin'))
+                                <li>
+                                    <a href="{{route('employeeTeams')}}"><i class="fa fa-eye"></i> {{__('navBar.View teams')}}</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endif
@@ -381,6 +387,21 @@
                         <a href="{{route('attendance.create')}}"><i class="mdi mdi-timer-outline"></i>{{__('navBar.Take attendance')}}</a>
                     </li>
                 @endif
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)"> <i class="mdi mdi-message"></i>{{__('navBar.Communicate')}}
+                        <div class="arrow-down"></div>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="{{route('message.toTeams')}}"><i class="mdi mdi-account-multiple"></i> {{__('navBar.With Teams')}}</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('message.toEmployee')}}"><i class="mdi mdi-account"></i> {{__('navBar.With Employee')}}</a>
+                        </li>
+                    </ul>
+                </li>
 
             </ul>
             <!-- End navigation menu -->

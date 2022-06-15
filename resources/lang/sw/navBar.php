@@ -20,6 +20,8 @@ return [
     'By my team' => 'Kwa timu yangu',
     'By user ID' => 'Kwa kitambulisho cha mtumiaji',
     'View' => 'Tazama',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'Ratiba yangu',
     'Employees' => 'Wafanyakazi',
     'Schedules' => 'Ratiba',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'Ondoka',
     'Profile' => 'Wasifu',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

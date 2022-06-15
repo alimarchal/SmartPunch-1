@@ -198,6 +198,12 @@ return [
         'mobile_number' => [
             'required' => 'Mobiel nummer is vereist',
         ],
+        'employeeIDs' => [
+            'required' => 'Please select Employees to send the message to',
+        ],
+        'teamIDs' => [
+            'required' => 'Please select Teams to send the message to',
+        ],
         /* Add IBRs validation errors end */
     ],
 

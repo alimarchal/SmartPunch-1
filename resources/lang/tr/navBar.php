@@ -20,6 +20,8 @@ return [
     'By my team' => 'ekibim tarafından',
     'By user ID' => 'kullanıcı kimliğine göre',
     'View' => 'Görünüm',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'Benim program',
     'Employees' => 'Çalışanlar',
     'Schedules' => 'Programları',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'Çıkış Yap',
     'Profile' => 'Profil',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

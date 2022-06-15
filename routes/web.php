@@ -4,6 +4,7 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReportController;
@@ -38,6 +39,11 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
+
+/* Policy Terms and conditions view */
+Route::get('/policy-terms-and-conditions', function () {
+    return view('terms');
+})->name('TermsAndPolicy');
 
 /* For redirecting employees to policy and procedure view after they verify their email ID */
 Route::get('/terms-policy-and-procedure', function () {
@@ -96,11 +102,24 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'polic
             Route::get('edit/{userID}', [EmployeeController::class, 'edit'])->name('employeeEdit')->middleware('permission:update employee');
             Route::post('edit/{userID}', [EmployeeController::class, 'update']);
             Route::get('show/{userID}', [EmployeeController::class, 'show'])->name('employeeShow');
+            Route::get('teams', [EmployeeController::class, 'teams'])->name('employeeTeams');
+            Route::get('teams/employees/{id}', [EmployeeController::class, 'teamEmployeesView'])->name('teamEmployeesView');
             Route::get('delete/{userID}', [EmployeeController::class, 'delete'])->name('employeeDelete');
             Route::post('permissions-search', [EmployeeController::class, 'permissions'])->name('permissionsSearch');
             Route::get('show/{userID}/attendance', [EmployeeController::class, 'show'])->name('employeeAttendanceShowByMonth');
         });
         /* Employee Routes End */
+
+        /* Messages Controller Start*/
+        Route::prefix('message')->group(function () {
+            Route::get('/to/employee', [MessageController::class, 'toEmployee'])->name('message.toEmployee');
+            Route::post('/to/employee', [MessageController::class, 'sendMessageToEmployee']);
+            Route::get('/to/teams', [MessageController::class, 'toTeams'])->name('message.toTeams');
+            Route::post('/by/teams/', [MessageController::class, 'byTeams'])->name('message.byTeams');
+            Route::post('/to/teams', [MessageController::class, 'sendMessageToTeams']);
+            Route::get('/employees/present/in/team/{id}', [MessageController::class, 'teamEmployeesView'])->name('message.teamEmployeesView');
+        });
+        /* Messages Controller End*/
 
         /* Profile Update Routes */
         Route::get('profile/update/', [EmployeeController::class, 'profileEdit'])->name('userProfileEdit');
