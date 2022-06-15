@@ -20,6 +20,8 @@ return [
     'By my team' => 'Door mijn team',
     'By user ID' => 'Op gebruikers-ID',
     'View' => 'Visie',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'Mijn rooster',
     'Employees' => 'Medewerkers',
     'Schedules' => 'schema\'s',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'Uitloggen',
     'Profile' => 'Profiel',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

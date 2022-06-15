@@ -20,6 +20,8 @@ return [
     'By my team' => 'Моя команда',
     'By user ID' => 'По идентификатору пользователя',
     'View' => 'Вид',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'Мой график',
     'Employees' => 'Сотрудники',
     'Schedules' => 'Расписания',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'Выйти',
     'Profile' => 'Профиль',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

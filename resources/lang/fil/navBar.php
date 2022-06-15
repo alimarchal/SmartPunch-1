@@ -20,6 +20,8 @@ return [
     'By my team' => 'Sa pamamagitan ng aking koponan',
     'By user ID' => 'Sa pamamagitan ng user ID',
     'View' => 'Tingnan',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'Ang schedule ko',
     'Employees' => 'Mga empleyado',
     'Schedules' => 'Mga iskedyul',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'Mag-logout',
     'Profile' => 'Profile',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

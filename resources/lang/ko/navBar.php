@@ -20,6 +20,8 @@ return [
     'By my team' => '내 팀에 의해',
     'By user ID' => '사용자 ID로',
     'View' => '보다',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => '내 일정',
     'Employees' => '직원',
     'Schedules' => '일정',
@@ -38,5 +40,8 @@ return [
     'Logout' => '로그 아웃',
     'Profile' => '프로필',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

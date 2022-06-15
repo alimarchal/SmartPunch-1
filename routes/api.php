@@ -118,8 +118,24 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Messages
         Route::prefix('message')->group(function (){
-            Route::get('/unread', [MessageController::class, 'unread']);
-            Route::post('/send', [MessageController::class, 'send']);
+            Route::get('/', [MessageController::class, 'previous']);                            /* previous messages to employees */
+            /* List of user to send new messages */
+            Route::get('/to/new/users', [MessageController::class, 'newUserMessage']);          /* New messages of users*/
+
+            ######################### Messages sent to Employees Start #########################
+            Route::get('/list/of/employees', [MessageController::class, 'listOfEmployees']);    /* list of employees*/
+            Route::get('/{id}', [MessageController::class, 'toUser']);                          /* Messages to a user*/
+            /* Authenticated user unread messages */
+            Route::get('/unread', [MessageController::class, 'unread']);                        /* authenticated users unread messages */
+            /* Messages to selected employees */
+            Route::post('/send', [MessageController::class, 'send']);                           /* message send to employees */
+            ######################### Messages sent to Employees End #########################
+
+            ######################### Messages sent to Teams Start #########################
+            Route::get('/team/{id}', [MessageController::class, 'toTeam']);                     /* Messages of a team */
+            Route::get('/list/of/teams', [MessageController::class, 'listOfTeams']);            /* List of teams*/
+            Route::get('/sent/to/teams', [MessageController::class, 'sentToTeams']);            /* Message sent to teams */
+            ######################### Messages sent to Teams End #########################
         });
 
     });

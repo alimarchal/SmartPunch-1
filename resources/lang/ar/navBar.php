@@ -20,6 +20,8 @@ return [
     'By my team' => 'بواسطة فريقي',
     'By user ID' => 'بواسطة معرف المستخدم',
     'View' => 'رأي',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
     'My schedule' => 'جدولي',
     'Employees' => 'الموظفين',
     'Schedules' => 'جداول',
@@ -38,5 +40,8 @@ return [
     'Logout' => 'تسجيل خروج',
     'Profile' => 'حساب تعريفي',
     'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

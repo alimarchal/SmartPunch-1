@@ -138,7 +138,7 @@
                     <div class="d-flex align-items-center mb-5">
                         <div><img class="img-fluid" src="{{url('applab/public/assets/img/illustrations/covid-2.png')}}" width="190" alt="" /></div>
                         <div class="px-4">
-                            <h5 class="fw-bold">Covid complaint</h5>
+                            <h5 class="fw-bold">Covid compliant</h5>
                             <p>One of the most powerful features of this App is the ability to take attendance from one's personal smartphone. This provides the basic requirement of no sharing of physical resources.</p>
                         </div>
                     </div>

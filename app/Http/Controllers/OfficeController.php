@@ -236,6 +236,8 @@ class OfficeController extends Controller
         }
         $schedules = Schedule::whereIn('id', $scheduleIDs)->where('status', 1)->get();
 
-        return response()->json(['schedules' => $schedules]);
+        $officeEmployees = User::where('office_id', $request->office_id)->get();
+
+        return response()->json(['schedules' => $schedules, 'officeEmployees' => $officeEmployees]);
     }
 }

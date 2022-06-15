@@ -62,14 +62,16 @@ class EmployeeController extends Controller
             /* If user is admin(2) */
             if (auth()->user()->user_role == 2) {
                 $roles = Role::with('permissions')->get()->except(['id' => 1]);
+                $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
                 /* Same lines of code so combined it in extracted function */
-                return $this->extracted($roles);
+                return $this->extracted($roles, $offices);
             }
             /* If user is manager(3) */
             if (auth()->user()->user_role == 3) {
                 $roles = Role::with('permissions')->whereNotIn('id', [1,2,3])->get();
+                $offices = Office::with('business')->where(['business_id' => auth()->user()->business_id, 'id' => \auth()->user()->office_id])->get();
                 /* Same lines of code so combined it in extracted function */
-                return $this->extracted($roles);
+                return $this->extracted($roles, $offices);
             }
         }
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
@@ -330,6 +332,24 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
     }
 
+    public function teams()
+    {
+        if (\auth()->user()->hasRole('admin')){
+            $employees = User::with('office')->where('business_id' , \auth()->user()->business_id)->where('parent_id', '!=', 0)->get()->unique('parent_id');
+            return view('employee.teams', compact('employees'));
+        }
+        return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
+    }
+
+    public function teamEmployeesView($id)
+    {
+        if (\auth()->user()->hasRole('admin')){
+            $employees = User::with('office')->where(['business_id' => \auth()->user()->business_id, 'parent_id' => $id])->orWhere('id', $id)->get()->except(['id' => \auth()->id()]);
+            return view('employee.teamEmployees', compact('employees'));
+        }
+        return redirect()->route('dashboard')->with('error', __('portal.You do not have permission for this action.'));
+    }
+
     /* Attendance from web */
     public function attendance()
     {
@@ -442,7 +462,7 @@ class EmployeeController extends Controller
     }
 
     /* Same lines of code present in create function so extracted it in a function */
-    public function extracted($roles): View
+    public function extracted($roles, $offices): View
     {
         $users = User::where('parent_id', auth()->id())->get();
         $authenticatedUser = User::where('id', \auth()->id())->get();
@@ -452,7 +472,6 @@ class EmployeeController extends Controller
         else {
             $employees = $authenticatedUser;
         }
-        $offices = Office::with('business')->where('business_id', auth()->user()->business_id)->get();
         return view('employee.create', compact('roles', 'employees', 'offices'));
     }
 }

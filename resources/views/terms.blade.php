@@ -13,6 +13,8 @@
 </x-guest-layout>--}}
 
 <html lang="" style="background-color:#313844; font-family: sans-serif; color: whitesmoke">
+    <title>SmartPunch | Policy and Terms</title>
+    <link rel="shortcut icon" href="{{url('logo.png')}}">
     <body style="padding: 20px;">
         <h1>Privacy Policy and Terms & Conditions of SmartPunch</h1>
         <p>In order to receive information about your Personal Data, the purposes, and the parties the Data is shared with, contact the Account Admin (the relevant company that purchased the package.</p>

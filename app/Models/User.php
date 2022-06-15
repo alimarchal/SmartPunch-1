@@ -129,4 +129,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserOffice::class);
     }
 
+    public function receiver(): HasMany
+    {
+        return $this->hasMany(Message::class,'user_id_to', 'id');
+    }
+
+    public function sender(): HasMany
+    {
+        return $this->hasMany(Message::class,'user_id_from', 'id');
+    }
+
+/*    public function unReadMessages()
+    {
+//        return $this->hasMany(Message::class,'user_id_from', 'id')->where('read_at', '=', null);
+        return Message::where('user_id_from', auth()->id())->where('read_at', '=', null)->get();
+    }*/
+
 }
