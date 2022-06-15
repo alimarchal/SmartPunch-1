@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\TeamMessage;
@@ -80,7 +81,8 @@ class MessageController extends Controller
                 'message' => $request->message,
             ];
 
-            Message::create($data);
+            $message = Message::create($data);
+            event(new NewMessage($message->user_id_from, $message->message));
         }
         return response()->json(['success' => 'Message send.']);
     }
