@@ -41,7 +41,12 @@ class MessageController extends Controller
 
 //            Message::create($data);
             $message = Message::create($data);
-            event(new NewMessage($message->user_id_from, $message->message));
+            $userReceived = $message->userReceived->only(['id', 'name', 'profile_photo_path']);
+            event(new NewMessage($message->user_id_from, $message->user_id_to,
+                $message->business_id, $message->office_id, $message->message,
+                $message->read_at, $message->created_at, $message->updated_at,
+                $userReceived
+            ));
         }
         return to_route('message.toEmployee')->with(['success' => 'Message send successfully!!!']);
     }

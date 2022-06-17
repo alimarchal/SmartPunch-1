@@ -16,23 +16,16 @@ class MessageController extends Controller
     {
         $user = User::select(['id', 'name'])->where('parent_id', auth()->id())->orWhere('id', auth()->id())->get()->pluck('id');
         $previousMessageUserIDs = Message::whereIn('user_id_to', $user)->get()->unique('user_id_to')->pluck('user_id_to');
-        $usersWithPreviousMessages = User::with(['receiver' => function ($query) {
-            $query->select(['id', 'user_id_from', 'user_id_to', 'message', 'read_at', 'created_at']);
-        }, 'sender' => function ($query) {
-            $query->select(['id', 'user_id_from', 'user_id_to', 'message', 'read_at', 'created_at']);
-        }])
-            ->select(['id', 'name'])
+        $usersWithPreviousMessages = User::select(['id', 'name'])
             ->whereIn('id', $previousMessageUserIDs)
             ->get();
+        $receiver = collect();
         $sender = collect();
         foreach ($usersWithPreviousMessages as $usersWithPreviousMessage) {
             /* Setting pagination for related relationships */
-            foreach ($usersWithPreviousMessage->receiver as $receiver){
-                $sender[] = $receiver->userSend->only(['id', 'name', 'profile_photo_url']);
-            }
-            $usersWithPreviousMessage['senderUsers'] = $sender->unique(['id']);
-            $usersWithPreviousMessage->setRelation('receiver', $usersWithPreviousMessage->receiver()->paginate(10));
-            $usersWithPreviousMessage->setRelation('sender', $usersWithPreviousMessage->sender()->paginate(10));
+            $receiver[] = $usersWithPreviousMessage->receiver()->with('userSend:id,name')->orderByDesc('created_at')->get()->unique('user_id_from');
+            $sender[] = $usersWithPreviousMessage->sender()->with('userReceived:id,name')->orderByDesc('created_at')->get()->unique('user_id_to');
+            $usersWithPreviousMessage['users'] = $receiver->merge($sender);
         }
         return response()->json(['messages' => $usersWithPreviousMessages]);
     }
@@ -54,7 +47,7 @@ class MessageController extends Controller
     ###################### Messages sent to Employees Start ######################
     public function toUser($id)
     {
-        $messages = Message::where(['user_id_to' => $id, 'read_at' => null])->paginate(10);
+        $messages = Message::with('userReceived:id,name')->where(['user_id_to' => $id])->orWhere(['user_id_from' => $id])->orderByDesc('created_at')->paginate(10);
         return response()->json(['messages' => $messages]);
     }
 
@@ -82,7 +75,12 @@ class MessageController extends Controller
             ];
 
             $message = Message::create($data);
-            event(new NewMessage($message->user_id_from, $message->message));
+            $userReceived = $message->userReceived->only(['id', 'name', 'profile_photo_path']);
+            event(new NewMessage($message->user_id_from, $message->user_id_to,
+                $message->business_id, $message->office_id, $message->message,
+                $message->read_at, $message->created_at, $message->updated_at,
+                $userReceived
+            ));
         }
         return response()->json(['success' => 'Message send.']);
     }
