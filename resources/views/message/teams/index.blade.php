@@ -51,6 +51,7 @@
     </form>
     <br><br>
 
+    @if($employees->count() > 0)
     <form action="{{ route('message.byTeams', encrypt($employee->parent_id))  }}" method="POST">
         @csrf
         <div class="row">
@@ -79,7 +80,7 @@
             </div>
         </div>
     </form>
-
+    @endif
 
 @endsection
 
