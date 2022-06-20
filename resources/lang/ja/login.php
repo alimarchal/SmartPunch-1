@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Japanese login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => '電子メールアドレス',
+    'Enter your email' => 'メールアドレスを入力',
+    'Password' => 'パスワード',
+    'Enter your password' => 'パスワードを入力してください',
+    'Sign Up' => 'サインアップ',
+    'Sign In' => 'サインイン',
+    'Remember me' => '私を覚えてますか',
+    'Log In' => 'ログインする',
+    'Forgot your password?' => 'パスワードをお忘れですか？',
+    'Don\'t have an account?' => 'アカウントをお持ちではありませんか？',
 
 ];

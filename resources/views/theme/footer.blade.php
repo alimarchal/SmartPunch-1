@@ -6,9 +6,9 @@
             </div>
             <div class="col-md-6">
                 <div class="text-md-right footer-links d-none d-sm-block">
-                    <a href="javascript:void(0);">{{__('portal.About Us')}}</a>
-                    <a href="javascript:void(0);">{{__('portal.Help')}}</a>
-                    <a href="javascript:void(0);">{{__('portal.Contact Us')}}</a>
+{{--                    <a href="javascript:void(0);">{{__('portal.About Us')}}</a>--}}
+{{--                    <a href="javascript:void(0);">{{__('portal.Help')}}</a>--}}
+{{--                    <a href="javascript:void(0);">{{__('portal.Contact Us')}}</a>--}}
                 </div>
             </div>
         </div>

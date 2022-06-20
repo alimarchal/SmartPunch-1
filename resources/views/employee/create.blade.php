@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="form-group col-sm-12">
-                            <label for="office_id">{{__('portal.Office')}} *</label>
+                            <label for="office">{{__('portal.Office')}} *</label>
 
                             <select class="custom-select" name="office_id" id="office" required>
                                 <option value="" selected>{{__('portal.Select')}}</option>
@@ -64,7 +64,7 @@
 
                     <div class="form-group">
                         <label for="name">{{__('portal.Name')}} *</label>
-                        <input type="text" name="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}" required>
+                        <input type="text" name="name" id="name" parsley-trigger="change" placeholder="{{__('portal.Enter employee name')}}" class="form-control @error('name') parsley-error @enderror" value="{{old('name')}}" required>
 
                         @error('name')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('name') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -73,7 +73,7 @@
 
                     <div class="form-group">
                         <label for="email">{{__('portal.Email')}} *</label>
-                        <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter employee email')}}" class="form-control @error('email') parsley-error @enderror" id="userName" value="{{old('email')}}" required>
+                        <input type="email" name="email" parsley-trigger="change" placeholder="{{__('portal.Enter employee email')}}" class="form-control @error('email') parsley-error @enderror" id="email" value="{{old('email')}}" required>
 
                         @error('email')
                             <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('email') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="phone">{{__('portal.Phone')}}</label>
-                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="phone" value="{{old('phone')}}" required>
+                        <input type="tel" name="phone" parsley-trigger="change" placeholder="{{__('portal.Enter employee phone')}}" class="form-control @error('phone') parsley-error @enderror" id="phone" value="{{old('phone')}}">
 
                         @error('phone')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('phone') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
@@ -101,8 +101,11 @@
                     <div class="form-group">
                         <label for="parent_id">{{__('portal.Immediate boss')}}</label>
 
-                        <select id="parent_id" class="children custom-select" name="parent_id">
+                        <select id="parent_id" class="custom-select" name="parent_id">
                             <option value="">{{__('portal.Select')}}</option>
+                            @foreach($employees as $employee)
+                                <option value="{{$employee->id}}">{{$employee->name}}</option>
+                            @endforeach
                         </select>
 
                         @error('parent_id')
@@ -141,6 +144,7 @@
         $(document).ready(function() {
             $('.select2').select2();
             $("#schedules").prop("disabled", true);
+            $("#parent_id").prop("disabled", true);
         });
 
         $("#office").change(function (e) {
@@ -160,6 +164,14 @@
                     result.schedules.forEach(function (schedule) {
                         option = "<option value='" + schedule.id + "'>" + schedule.name + "</option>"
                         $('#schedules').append(option);
+                    });
+
+                    $('#parent_id').prop('disabled', false);
+                    $('#parent_id').empty();
+                    $('#parent_id').select2({ placeholder: 'Select schedules' });
+                    result.officeEmployees.forEach(function (parent_id) {
+                        option = "<option value='" + parent_id.id + "'>" + parent_id.name + "</option>"
+                        $('#parent_id').append(option);
                     });
                 },
                 error: function(result){

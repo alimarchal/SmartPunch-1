@@ -73,14 +73,14 @@ class RegisterController extends Controller
 
     public function forgot_password(Request $request): JsonResponse
     {
-        $ibr = Ibr::firstWhere('email', $request->email);
+        $ibr = Ibr::firstWhere('ibr_no', $request->ibr_no);
         if (!$ibr)
         {
             return response()->json(['error' => 'Record Not Found'],404);
         }
         $password = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
         $ibr->update(['password' => Hash::make($password)]);
-        Mail::to($ibr->email)->send(new forgotPassword($password));
+        Mail::to($ibr->email)->send(new forgotPassword($password, $ibr->ibr_no));
 
         return response()->json(['success' => 'New password is sent to your registered email.']);
     }

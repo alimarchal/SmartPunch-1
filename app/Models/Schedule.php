@@ -18,28 +18,28 @@ class Schedule extends Model
     protected function startTime(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Carbon::parse($value)->format('H:i A'),
+            get: fn($value) => Carbon::parse($value)->format('g:i A'),
             set: fn($value) => Carbon::parse($value)->format('H:i:s'),
         );
     }
     protected function endTime(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Carbon::parse($value)->format('H:i A'),
+            get: fn($value) => Carbon::parse($value)->format('g:i A'),
             set: fn($value) => Carbon::parse($value)->format('H:i:s'),
         );
     }
     protected function breakStart(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Carbon::parse($value)->format('H:i A'),
+            get: fn($value) => Carbon::parse($value)->format('g:i A'),
             set: fn($value) => Carbon::parse($value)->format('H:i:s'),
         );
     }
     protected function breakEnd(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Carbon::parse($value)->format('H:i A'),
+            get: fn($value) => Carbon::parse($value)->format('g:i A'),
             set: fn($value) => Carbon::parse($value)->format('H:i:s'),
         );
     }

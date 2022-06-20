@@ -15,7 +15,7 @@
 <!-- Dashboard init js-->
 <script src="{{url('Horizontal/dist/assets/js/pages/dashboard.init.js')}}"></script>
 
-
+<script src="{{url('Horizontal/dist/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <!-- third party js -->
 <script src="{{url('Horizontal/dist/assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{url('Horizontal/dist/assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -35,8 +35,9 @@
 {{-- Select2 --}}
 <script src="{{url('Horizontal/dist/assets/libs/select2/select2.min.js')}}"></script>
 
+{{-- Commented below inorder to set dynamic language for datatables --}}
 <!-- Datatables init -->
-<script src="{{url('Horizontal/dist/assets/js/pages/datatables.init.js')}}"></script>
+{{--<script src="{{url('Horizontal/dist/assets/js/pages/datatables.init.js')}}"></script>--}}
 
 <!-- App js -->
 <script src="{{url('Horizontal/dist/assets/js/app.min.js')}}"></script>
@@ -80,5 +81,21 @@
         toastr.error("{{ session('error') }}");
     </script>
 @endif
+
+<script src="https://js.pusher.com/7.1/pusher.min.js"></script>
+<script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('60efdced5fba5c21fd72', {
+        cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('new-message');
+    channel.bind('new-message', function(data) {
+        alert(JSON.stringify(data));
+    });
+</script>
 
 @yield('scripts')

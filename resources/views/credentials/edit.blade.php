@@ -18,7 +18,7 @@
 
                     <div class="form-group">
                         <label for="password">{{__('register.Current Password')}}</label>
-                        <input class="form-control @error('current_password') parsley-error @enderror" type="password" name="current_password" placeholder="{{__('register.Enter your current password')}}" required>
+                        <input class="form-control @error('current_password') parsley-error @enderror" type="password" name="current_password" placeholder="{{__('register.Enter your current password')}}">
 
                         @error('current_password')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false">
@@ -27,8 +27,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">{{__('register.Password')}}</label>
-                        <input class="form-control @error('password') parsley-error @enderror" type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}" required>
+                        <label for="password">{{__('register.New Password')}}</label>
+                        <input class="form-control @error('password') parsley-error @enderror" type="password" name="password" id="password" placeholder="{{__('register.Enter your password')}}">
 
                         @error('password')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false">
@@ -37,8 +37,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">{{__('register.Confirm Password')}}</label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password" placeholder="{{__('register.Confirm Password')}}" required>
+                        <label for="password">{{__('register.Confirm new password')}}</label>
+                        <input class="form-control" type="password" name="password_confirmation" id="password" placeholder="{{__('register.Confirm Password')}}">
                     </div>
 
                     @if(!auth()->user()->hasRole('employee'))

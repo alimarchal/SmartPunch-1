@@ -56,7 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'device_name',
         'profile_photo_path',
         'rtl',
+        'language',
         'type',
+        'terms',
+        'attendance_from',
+        'out_of_office',
         'status',
     ];
 
@@ -88,6 +92,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(User::class, 'parent_id')->orderBy('name');
     }
 
+    public function child(): HasMany
+    {
+        // This relationship will only return one level of child items
+        return $this->hasMany(User::class,'parent_id','id');
+    }
+
+    public function multipleChild(): HasMany
+    {
+        // This is method where we implement recursive relationship
+        return $this->child()->with('multipleChild');
+    }
+
     public function business(): HasOne
     {
         return $this->hasOne(Business::class, 'id','business_id');
@@ -111,6 +127,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userOffice(): HasOne
     {
         return $this->hasOne(UserOffice::class);
+    }
+
+    public function receiver(): HasMany
+    {
+        return $this->hasMany(Message::class,'user_id_to', 'id');
+    }
+
+    public function sender(): HasMany
+    {
+        return $this->hasMany(Message::class,'user_id_from', 'id');
     }
 
 }

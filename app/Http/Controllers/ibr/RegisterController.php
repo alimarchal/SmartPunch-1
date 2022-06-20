@@ -21,7 +21,8 @@ class RegisterController extends Controller
     public function register(): View
     {
         $countries = \DB::table('countries')->get();
-        return view('ibr.auth.register', compact('countries'));
+        $currencies = \DB::table('currencies')->get();
+        return view('ibr.auth.register', compact('countries', 'currencies'));
     }
 
     public function store(IbrStoreRequest $request): RedirectResponse

@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Swahili login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => 'Barua pepe',
+    'Enter your email' => 'Weka barua pepe yako',
+    'Password' => 'Nenosiri',
+    'Enter your password' => 'Weka nenosiri lako',
+    'Sign Up' => 'Jisajili',
+    'Sign In' => 'Weka sahihi',
+    'Remember me' => 'Nikumbuke',
+    'Log In' => 'Ingia',
+    'Forgot your password?' => 'Umesahau nenosiri yako?',
+    'Don\'t have an account?' => 'Je, huna akaunti?',
 
 ];

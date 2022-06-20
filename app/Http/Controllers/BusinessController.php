@@ -9,13 +9,15 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('view business'))
+        if (auth()->user()->hasDirectPermission('view business'))
         {
             $business = Business::where('user_id', auth()->id())->first();
 
@@ -62,7 +64,7 @@ class BusinessController extends Controller
 
     public function edit($businessID): View|RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update business'))
+        if (auth()->user()->hasDirectPermission('update business'))
         {
             $countries = Country::get();
             $business = Business::firstWhere('id', decrypt($businessID));
@@ -74,7 +76,7 @@ class BusinessController extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        if (auth()->user()->hasPermissionTo('update business'))
+        if (auth()->user()->hasDirectPermission('update business'))
         {
             Validator::make($request->all(), [
                 'company_name' => ['required', 'string', 'max:255'],
@@ -94,6 +96,12 @@ class BusinessController extends Controller
 
             if ($request->hasFile('logo'))
             {
+                if (isset(auth()->user()->business->company_logo)){
+                    $image = public_path('storage/'.auth()->user()->business->company_logo);
+                    if(File::exists($image)){
+                        unlink($image);
+                    }
+                }
                 $path = $request->file('logo')->store('', 'public');
                 Business::where('id', decrypt($id))->update(['company_logo' => $path]);
             }

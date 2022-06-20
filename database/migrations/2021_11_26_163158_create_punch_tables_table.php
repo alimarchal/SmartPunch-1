@@ -20,7 +20,9 @@ class CreatePunchTablesTable extends Migration
             $table->string('business_id');
             $table->string('mac_address');
             $table->dateTime('time');
-            $table->tinyInteger('in_out_status');
+            $table->tinyInteger('in_out_status');               /* 1 for in and 0 for out */
+            $table->string('punched_from')->default('APP');
+            $table->text('coordinates');
             $table->timestamps();
         });
 

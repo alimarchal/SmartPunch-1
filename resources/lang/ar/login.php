@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the arabic login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'كلمه السر',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
+    'Email address' => 'عنوان بريد الكتروني',
+    'Enter your email' => 'أدخل بريدك الإلكتروني',
+    'Password' => 'كلمة المرور',
+    'Enter your password' => 'ادخل رقمك السري',
+    'Sign Up' => 'اشتراك',
     'Sign In' => 'تسجيل الدخول',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Remember me' => 'تذكرنى',
+    'Log In' => 'تسجيل دخول',
+    'Forgot your password?' => 'نسيت رقمك السري؟',
+    'Don\'t have an account?' => 'ليس لديك حساب؟',
 
 ];

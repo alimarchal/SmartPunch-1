@@ -32,8 +32,12 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->integer('rtl')->default(1);
+            $table->integer('rtl')->default(0);                             /* 0 for non RTL and 1 for RTL */
+            $table->string('language')->default('en');
             $table->integer('type')->default(1);
+            $table->integer('terms')->default(0);                           /* Default 0 for employees (Admin is excluded)  */
+            $table->tinyInteger('attendance_from')->default(0);             /* Default 0 for APP and 1 for Web  */
+            $table->tinyInteger('out_of_office')->default(0);             /* Default 0 for NO and 1 for YES  */
             $table->integer('status')->default(1);                          /* 0 for Not-active/suspended, 1 for active  */
             $table->rememberToken();
             $table->timestamps();

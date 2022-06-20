@@ -14,7 +14,7 @@ class PunchTable extends Model
 
 //    public $timestamps = false;
 
-    protected $fillable = ['user_id', 'office_id', 'business_id', 'mac_address', 'time', 'in_out_status'];
+    protected $fillable = ['user_id', 'office_id', 'business_id', 'mac_address', 'time', 'in_out_status', 'punched_from', 'coordinates'];
 
     public function business(): BelongsTo
     {
@@ -26,8 +26,13 @@ class PunchTable extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function offices(): BelongsTo
+    public function office(): BelongsTo
     {
         return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
+
+    public function schedule(): HasOne
+    {
+        return $this->hasOne(UserHasSchedule::class, 'user_id','user_id')->where('status', 1);
     }
 }

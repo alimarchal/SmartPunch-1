@@ -7,19 +7,20 @@ use App\Models\Office;
 use App\Models\OfficeSchedule;
 use App\Models\Schedule;
 use App\Models\UserHasSchedule;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index():View
     {
         $schedules = Schedule::with('officeSchedules.office')->where('business_id', auth()->user()->business_id)->get();
         return view('schedule.index', compact('schedules'));
     }
 
-    public function create()
+    public function create(): View
     {
         $offices = Office::where('business_id', auth()->user()->business_id)->get();
         return view('schedule.create', compact('offices'));
@@ -27,7 +28,7 @@ class ScheduleController extends Controller
 
     public function store(StoreSchedule $request): RedirectResponse
     {
-        if(auth()->user()->hasPermissionTo('create schedule'))
+        if(auth()->user()->hasDirectPermission('create schedule'))
         {
             $data = [
                 'business_id' => auth()->user()->business_id,
@@ -39,15 +40,8 @@ class ScheduleController extends Controller
             ];
             if (auth()->user()->hasRole('admin'))
             {
-                $data = [
-                    'business_id' => auth()->user()->business_id,
-                    'name' => $request->name,
-                    'start_time' => $request->start_time,
-                    'end_time' => $request->end_time,
-                    'break_start' => $request->break_start,
-                    'break_end' => $request->break_end,
-                    'status' => 1,
-                ];
+                /* By Default schedule status is 1 if user role is admin  */
+                $data['status'] = 1;
             }
             $schedule = Schedule::create($data);
             if (!is_null($request->offices))
@@ -66,7 +60,7 @@ class ScheduleController extends Controller
         return redirect()->back()->with('error', __('portal.You do not have permission for this action.'));
     }
 
-    public function show()
+    public function show(): View
     {
         $userSchedule = UserHasSchedule::with('schedule')->firstWhere('user_id', auth()->id());
         return view('schedule.show', compact('userSchedule'));

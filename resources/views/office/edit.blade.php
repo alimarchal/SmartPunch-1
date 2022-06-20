@@ -39,15 +39,27 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pass1">{{__('portal.City Name')}} *</label>
+                        <label for="city">{{__('portal.City Name')}} *</label>
 
-                        <select class="custom-select" name="city" required>
+                        <select class="custom-select" name="city" id="city" required>
                             <option value="" selected>{{__('portal.Select')}}</option>
-                            <option {{$office->city == 1 ? 'selected' : ''}} value="1">Riyadh</option>
+                            @foreach($cities as $city)
+                                <option {{$office->city == $city->name ? 'selected' : ''}} value="{{$city->name}}">{{$city->name}}</option>
+                            @endforeach
+                                <option {{$cities->doesntContain($office->city) ? 'selected' : ''}} value="other">{{__('portal.Other')}}</option>
                         </select>
 
                         @error('city')
                         <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('city') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group d-none" id="other-city">
+                        <label for="other_city">{{__('portal.Other City')}} *</label> <br>
+                        <input class="form-control" type="text" id="other_city" name="other_city" placeholder="{{__('portal.Enter city name')}}">
+
+                        @error('other_city')
+                        <ul class="parsley-errors-list filled" id="parsley-id-7" aria-hidden="false"><li class="parsley-required">@foreach ($errors->get('other_city') as $error) <li>{{ $error }}</li> @endforeach</li></ul>
                         @enderror
                     </div>
 
@@ -61,8 +73,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="passWord2">{{__('portal.Coordinates')}}</label>
-                        <input type="text" name="coordinates" class="form-control" id="passWord2" value="{{$office->coordinates}}">
+                        <label for="inner_coordinates">{{__('portal.Inner coordinates')}}</label>
+                        <textarea name="inner_coordinates" class="form-control" rows="3" id="inner_coordinates" placeholder="{{__('portal.Enter inner coordinates')}}">{{$office->inner_coordinates}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="outer_coordinates">{{__('portal.Outer coordinates')}}</label>
+                        <textarea name="outer_coordinates" class="form-control" rows="3" id="outer_coordinates" placeholder="{{__('portal.Enter outer coordinates')}}">{{$office->outer_coordinates}}</textarea>
                     </div>
 
                     <div class="form-group">
@@ -96,6 +113,30 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+            $('#city').select2();
+
+            $('#city').change(function(){
+                if($(this).val() == "other")
+                {
+                    $('#other-city').removeClass("d-none");
+                }
+                else
+                {
+                    $('#other-city').addClass("d-none");
+                }
+
+            });
+
+{{--            var cities  = {!! $citiesJson->toJson() !!};--}}
+            // if ($.inArray($('#city').val(), cities) != -1)
+            if ($.inArray($('#city').val(), '{{$citiesJson}}') != -1)
+            {
+                $('#other-city').addClass("d-none");
+            }
+            else {
+                $('#other-city').removeClass("d-none");
+                $('#other_city').val('{{$office->city}}');
+            }
         });
     </script>
 @endsection

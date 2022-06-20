@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the Urdu login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => 'ای میل اڈریس',
+    'Enter your email' => 'اپنا ای میل درج کریں۔',
+    'Password' => 'پاس ورڈ',
+    'Enter your password' => 'اپنا پاس ورڈ درج کریں',
+    'Sign Up' => 'سائن اپ',
+    'Sign In' => 'سائن ان',
+    'Remember me' => 'مجھے پہچانتے ہو',
+    'Log In' => 'لاگ ان کریں',
+    'Forgot your password?' => 'اپنا پاس ورڈ بھول گئے؟',
+    'Don\'t have an account?' => 'کیا آپ کا اکاؤنٹ نہیں ہے؟',
 
 ];

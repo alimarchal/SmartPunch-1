@@ -148,10 +148,10 @@ return [
             'required' => 'End time is required',
         ],
         'break_start' => [
-            'required' => 'Break start is required',
+            'required' => 'Break start time is required',
         ],
         'break_end' => [
-            'required' => 'Break end is required',
+            'required' => 'Break end time is required',
         ],
         /* Schedule validation errors end */
 
@@ -175,7 +175,7 @@ return [
             'required' => 'Please select your date of birth',
         ],
         'dob.date' => [
-            'date' => 'Date of birth must be a validate date',
+            'date' => 'Date of birth must be a valid date',
         ],
         'country_of_business' => [
             'required' => 'Please select country of business',
@@ -187,16 +187,22 @@ return [
             'required' => 'Please select country of bank',
         ],
         'bank' => [
-            'required' => 'Please select a bank',
+            'required' => 'Please enter bank name',
         ],
         'iban' => [
-            'required' => 'Please enter a IBAN number',
+            'required' => 'Please enter an IBAN number',
         ],
         'currency' => [
             'required' => 'Please select currency',
         ],
         'mobile_number' => [
             'required' => 'Mobile number is required',
+        ],
+        'employeeIDs' => [
+            'required' => 'Please select Employees to send the message to',
+        ],
+        'teamIDs' => [
+            'required' => 'Please select Teams to send the message to',
         ],
         /* Add IBRs validation errors end */
     ],

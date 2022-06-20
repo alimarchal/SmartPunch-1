@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,20 @@ class Business extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'company_name', 'country_name', 'company_logo', 'country_code', 'city_name', 'ibr'];
+
+    protected function countryName(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => Country::where('id', $value)->first(['id', 'name'])
+        );
+    }
+
+    protected function cityName(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => City::where('id', $value)->first(['id', 'name'])
+        );
+    }
 
     public function user(): BelongsTo
     {
@@ -52,6 +67,11 @@ class Business extends Model
     public function directCommissions(): HasOne
     {
         return $this->hasOne(IbrDirectCommission::class);
+    }
+
+    public function ibr(): HasOne
+    {
+        return $this->hasOne(Ibr::class,'ibr_no','ibr');
     }
 
 }

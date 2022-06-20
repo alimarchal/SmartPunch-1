@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\UpdateEmailVerificationColumn;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Foundation\Console\QueuedCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +16,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+//        QueuedCommand::class,
+//        UpdateEmailVerificationColumn::class
     ];
 
     /**
@@ -25,6 +29,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+//        $schedule->command('queue:work --tries=3')->cron('*');
+//        $schedule->command('queue:work --tries=3')->everyMinute();
+//        $schedule->command('updateEmailVerificationColumn:cron')->everyMinute();
     }
 
     /**

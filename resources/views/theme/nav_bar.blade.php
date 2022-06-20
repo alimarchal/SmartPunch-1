@@ -15,6 +15,81 @@
                 <!-- End mobile menu toggle-->
             </li>
 
+            @php $locale = session()->get('locale'); @endphp
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    @switch($locale)
+                        @case('ar')
+                            <img src="{{asset('flags/ar.png')}}" width="30px" height="20x"> Arabic
+                        @break
+                        @case('ur')
+                            <img src="{{asset('flags/ur.png')}}" width="30px" height="20x"> Urdu
+                        @break
+                        @case('ru')
+                            <img src="{{asset('flags/ru.png')}}" width="30px" height="20x"> Russian
+                        @break
+                        @case('fr')
+                            <img src="{{asset('flags/fr.png')}}" width="30px" height="20x"> French
+                        @break
+                        @case('es')
+                            <img src="{{asset('flags/es.png')}}" width="30px" height="20x"> Spanish
+                        @break
+                        @case('de')
+                            <img src="{{asset('flags/de.png')}}" width="30px" height="20x"> German
+                        @break
+                        @case('it')
+                            <img src="{{asset('flags/it.png')}}" width="30px" height="20x"> Italian
+                        @break
+                        @case('ja')
+                            <img src="{{asset('flags/ja.png')}}" width="30px" height="20x"> Japanese
+                        @break
+                        @case('ko')
+                            <img src="{{asset('flags/ko.png')}}" width="30px" height="20x"> Korean
+                        @break
+                        @case('zh')
+                            <img src="{{asset('flags/zh.png')}}" width="30px" height="20x"> Chinese
+                        @break
+                        @case('nl')
+                            <img src="{{asset('flags/nl.png')}}" width="30px" height="20x"> Dutch
+                        @break
+                        @case('sw')
+                            <img src="{{asset('flags/sw.png')}}" width="30px" height="20x"> Swahili
+                        @break
+                        @case('fil')
+                            <img src="{{asset('flags/fil.png')}}" width="30px" height="20x"> Filipino
+                        @break
+                        @case('fa')
+                            <img src="{{asset('flags/fa.png')}}" width="30px" height="20x"> Persian
+                        @break
+                        @case('tr')
+                            <img src="{{asset('flags/tr.png')}}" width="30px" height="20x"> Turkish
+                        @break
+                        @default
+                            <img src="{{asset('flags/us.png')}}" width="30px" height="20x"> English
+                    @endswitch
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url('lang/en')}}"><img src="{{asset('flags/us.png')}}" width="30px" height="20x"> English</a>
+                    <a class="dropdown-item" href="{{url('lang/ar')}}"><img src="{{asset('flags/ar.png')}}" width="30px" height="20x"> Arabic</a>
+                    <a class="dropdown-item" href="{{url('lang/ur')}}"><img src="{{asset('flags/ur.png')}}" width="30px" height="20x"> Urdu</a>
+                    <a class="dropdown-item" href="{{url('lang/ru')}}"><img src="{{asset('flags/ru.png')}}" width="30px" height="20x"> Russian</a>
+                    <a class="dropdown-item" href="{{url('lang/fr')}}"><img src="{{asset('flags/fr.png')}}" width="30px" height="20x"> French</a>
+                    <a class="dropdown-item" href="{{url('lang/es')}}"><img src="{{asset('flags/es.png')}}" width="30px" height="20x"> Spanish</a>
+                    <a class="dropdown-item" href="{{url('lang/de')}}"><img src="{{asset('flags/de.png')}}" width="30px" height="20x"> German</a>
+                    <a class="dropdown-item" href="{{url('lang/it')}}"><img src="{{asset('flags/it.png')}}" width="30px" height="20x"> Italian</a>
+                    <a class="dropdown-item" href="{{url('lang/ja')}}"><img src="{{asset('flags/ja.png')}}" width="30px" height="20x"> Japanese</a>
+                    <a class="dropdown-item" href="{{url('lang/ko')}}"><img src="{{asset('flags/ko.png')}}" width="30px" height="20x"> Korean</a>
+                    <a class="dropdown-item" href="{{url('lang/zh')}}"><img src="{{asset('flags/zh.png')}}" width="30px" height="20x"> Chinese</a>
+                    <a class="dropdown-item" href="{{url('lang/nl')}}"><img src="{{asset('flags/nl.png')}}" width="30px" height="20x"> Dutch</a>
+                    <a class="dropdown-item" href="{{url('lang/sw')}}"><img src="{{asset('flags/sw.png')}}" width="30px" height="20x"> Swahili</a>
+                    <a class="dropdown-item" href="{{url('lang/fil')}}"><img src="{{asset('flags/fil.png')}}" width="30px" height="20x"> Filipino</a>
+                    <a class="dropdown-item" href="{{url('lang/fa')}}"><img src="{{asset('flags/fa.png')}}" width="30px" height="20x"> Persian</a>
+                    <a class="dropdown-item" href="{{url('lang/tr')}}"><img src="{{asset('flags/tr.png')}}" width="30px" height="20x"> Turkish</a>
+                </div>
+            </li>
+
+
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
@@ -108,8 +183,10 @@
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                    @if (!isset(auth()->user()->profile_photo_path))
                         <img src="{{ Auth::user()->profile_photo_url }}" alt="user-image" class="rounded-circle">
+                    @else
+                        <img src="{{ Storage::url( auth()->user()->profile_photo_path ) }}" alt="{{ auth()->user()->name }}" class="rounded-circle">
                     @endif
                     <span class="pro-user-name ml-1">
                          {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i>
@@ -118,7 +195,7 @@
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                     <!-- item-->
                     <div class="dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
+                        <h6 class="text-overflow m-0">{{__('portal.Welcome')}} !</h6>
                     </div>
 
                     <!-- item-->
@@ -127,13 +204,13 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
-                    @can('view business')
+                    @if(auth()->user()->hasDirectPermission('view business'))
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-briefcase"></i>
                             <span>{{__('navBar.Business')}}</span>
                         </a>
-                    @endcan
+                    @endif
 
                     @hasrole('admin')
                     <!-- item-->
@@ -167,12 +244,22 @@
         <div class="logo-box">
             <a href="{{route('dashboard')}}" class="logo logo-light">
                 <span class="logo-lg">
-                    <img src="{{url('logo.png')}}" alt="" height="44">
+                    @if(isset(auth()->user()->business->company_logo))
+                        <img src="{{ Storage::url( auth()->user()->business->company_logo) }}" alt="{{auth()->user()->business->company_name}}" style="border-radius: 50%;" height="44" width="50">
+                    @elseif(!isset(auth()->user()->business->company_logo) && is_null(auth()->user()->business->company_logo))
+                        <img src="{{url('no-image.png')}}" alt="" height="44">
+                    @else
+                        <img src="{{url('logo.png')}}" alt="" height="44">
+                    @endif
                     @php $role = \Spatie\Permission\Models\Role::where('id', auth()->user()->user_role)->pluck('name')->first(); @endphp
                     <span class="ml-1 text-white">{{ucfirst($role)}}</span>
                 </span>
-                <span class="logo-sm">
-                    <img src="{{url('logo.png')}}" alt="" height="44">
+                <span class="logo-sm" style="width: 0px;">
+                    @if(isset(auth()->user()->business->company_logo))
+                        <img src="{{ Storage::url( auth()->user()->business->company_logo) }}" alt="{{auth()->user()->business->company_name}}" style="border-radius: 50%;" height="44" width="50">
+                    @else
+                        <img src="{{url('logo.png')}}" alt="" height="44">
+                    @endif
                 </span>
             </a>
         </div>
@@ -192,7 +279,7 @@
                     <a href="{{route('dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
                 </li>
 
-                @can('view office')
+                @if(auth()->user()->hasDirectPermission('view office'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="fa fa-building"></i>{{__('navBar.Offices')}}
                             <div class="arrow-down"></div>
@@ -200,11 +287,11 @@
                         <ul class="submenu megamenu">
                             <li>
                                 <ul>
-                                    @can('create office')
+                                    @if(auth()->user()->hasDirectPermission('create office'))
                                         <li>
                                             <a href="{{route('officeCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                         </li>
-                                    @endcan
+                                    @endif
                                     <li>
                                         <a href="{{route('officeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
                                     </li>
@@ -213,9 +300,9 @@
                             </li>
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view employee')
+                @if(auth()->user()->hasDirectPermission('view employee'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="mdi mdi-account-multiple"></i>{{__('navBar.Employees')}}
                             <div class="arrow-down"></div>
@@ -227,23 +314,29 @@
                                 </li>
                             @endcan
                             <li>
-                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View')}}</a>
+                                <a href="{{route('employeeIndex')}}"><i class="fa fa-eye"></i> {{__('navBar.View all employees')}}</a>
                             </li>
+
+                            @if(auth()->user()->hasRole('admin'))
+                                <li>
+                                    <a href="{{route('employeeTeams')}}"><i class="fa fa-eye"></i> {{__('navBar.View teams')}}</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view schedule')
+                @if(auth()->user()->hasDirectPermission('view schedule'))
                     <li class="has-submenu">
                         <a href="javascript:void(0)"> <i class="mdi mdi-calendar-clock"></i>{{__('navBar.Schedules')}}
                             <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            @can('create schedule')
+                            @if(auth()->user()->hasDirectPermission('create schedule'))
                                 <li>
                                     <a href="{{route('scheduleCreate')}}"><i class="fa fa-plus-circle"></i> {{__('navBar.Add')}}</a>
                                 </li>
-                            @endcan
+                            @endif
 
                             @if(!auth()->user()->hasRole('employee'))
                             <li>
@@ -259,13 +352,56 @@
 
                         </ul>
                     </li>
-                @endcan
+                @endif
 
-                @can('view reports')
+                @if(auth()->user()->hasDirectPermission('view reports'))
                     <li class="has-submenu">
-                        <a href="{{route('report.index')}}"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}</a>
+                        <a href="javascript:void(0)"><i class="mdi mdi-file-multiple"></i>{{__('navBar.Reports')}}
+                            <div class="arrow-down"></div>
+                        </a>
+
+                        <ul class="submenu">
+                            @if(auth()->user()->hasDirectPermission('view reports by office'))
+                                <li>
+                                    <a href="{{route('byOffice')}}"><i class="fa fa-building"></i> {{__('navBar.By office')}}</a>
+                                </li>
+                            @endif
+
+                            @if(auth()->user()->hasDirectPermission('view reports by employee business ID'))
+                                <li>
+                                    <a href="{{route('byEmployeeBusiness')}}"><i class="fa fa-key"></i> {{__('navBar.By employee business ID')}}</a>
+                                </li>
+                            @endif
+
+                            @if(auth()->user()->hasDirectPermission('view reports by my team'))
+                                <li>
+                                    <a href="{{route('reportByTeam')}}"><i class="fa fa-user-friends"></i> {{__('navBar.By my team')}}</a>
+                                </li>
+                            @endif
+                        </ul>
                     </li>
-                @endcan
+                @endif
+
+                @if( !auth()->user()->hasRole('admin') && auth()->user()->attendance_from == 1 )  {{-- 0 (Default) attendace from APP and 1 attendance from WEB --}}
+                    <li class="has-submenu">
+                        <a href="{{route('attendance.create')}}"><i class="mdi mdi-timer-outline"></i>{{__('navBar.Take attendance')}}</a>
+                    </li>
+                @endif
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)"> <i class="mdi mdi-message"></i>{{__('navBar.Communicate')}}
+                        <div class="arrow-down"></div>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="{{route('message.toTeams')}}"><i class="mdi mdi-account-multiple"></i> {{__('navBar.With Teams')}}</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('message.toEmployee')}}"><i class="mdi mdi-account"></i> {{__('navBar.With Employee')}}</a>
+                        </li>
+                    </ul>
+                </li>
 
             </ul>
             <!-- End navigation menu -->

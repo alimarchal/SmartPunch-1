@@ -7,19 +7,19 @@ return [
     | Login page Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the login page.
+    | The following language lines are used by the german login page.
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
+    'Email address' => 'E-Mail-Addresse',
+    'Enter your email' => 'Geben sie ihre E-Mail Adresse ein',
     'Password' => 'Passwort',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Einloggen',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Enter your password' => 'Geben Sie Ihr Passwort ein',
+    'Sign Up' => 'Anmeldung',
+    'Sign In' => 'Anmelden',
+    'Remember me' => 'Erinnere dich an mich',
+    'Log In' => 'Einloggen',
+    'Forgot your password?' => 'Haben Sie Ihr Passwort vergessen?',
+    'Don\'t have an account?' => 'Sie haben kein Konto?',
 
 ];
