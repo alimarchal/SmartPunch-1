@@ -14,20 +14,43 @@ class MessageController extends Controller
 {
     public function previous()
     {
+
+//        $user_id =  auth()->id();
+        $user_id = auth()->id();
+
+        // get user_id_to
+
+        $user_id_to = Message::where('user_id_to',$user_id)->get()->pluck('user_id_from')->toArray();
+
+        $user_id_from = Message::where('user_id_from',$user_id)->get()->pluck('user_id_to')->toArray();
+
+        $array = array_unique(array_merge($user_id_to, $user_id_from));
+        sort($array);
+
+
+        $user_list = User::whereIn('id', $array)->get();
+
+//        return $user_list;
+        return response()->json(['messages' => $user_list]);
+
+
+        /*
         $user = User::select(['id', 'name'])->where('parent_id', auth()->id())->orWhere('id', auth()->id())->get()->pluck('id');
+
         $previousMessageUserIDs = Message::whereIn('user_id_to', $user)->get()->unique('user_id_to')->pluck('user_id_to');
         $usersWithPreviousMessages = User::select(['id', 'name'])
             ->whereIn('id', $previousMessageUserIDs)
             ->get();
         $receiver = collect();
         $sender = collect();
-        foreach ($usersWithPreviousMessages as $usersWithPreviousMessage) {
-            /* Setting pagination for related relationships */
-            $receiver[] = $usersWithPreviousMessage->receiver()->with('userSend:id,name')->orderByDesc('created_at')->get()->unique('user_id_from');
-            $sender[] = $usersWithPreviousMessage->sender()->with('userReceived:id,name')->orderByDesc('created_at')->get()->unique('user_id_to');
-            $usersWithPreviousMessage['users'] = $receiver->merge($sender);
-        }
-        return response()->json(['messages' => $usersWithPreviousMessages]);
+        */
+//        foreach ($usersWithPreviousMessages as $usersWithPreviousMessage) {
+//            /* Setting pagination for related relationships */
+//            $receiver[] = $usersWithPreviousMessage->receiver()->with('userSend:id,name')->orderByDesc('created_at')->get()->unique('user_id_from');
+//            $sender[] = $usersWithPreviousMessage->sender()->with('userReceived:id,name')->orderByDesc('created_at')->get()->unique('user_id_to');
+//            $usersWithPreviousMessage['users'] = $receiver->merge($sender);
+//        }
+//        return response()->json(['messages' => $usersWithPreviousMessages]);
     }
 
     public function listOfEmployees()
