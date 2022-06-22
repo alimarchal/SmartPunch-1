@@ -118,7 +118,9 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Messages
         Route::prefix('message')->group(function (){
+
             Route::get('/', [MessageController::class, 'previous']);                            /* previous messages to employees */
+
             /* List of user to send new messages */
             Route::get('/to/new/users', [MessageController::class, 'newUserMessage']);          /* New messages of users*/
 
