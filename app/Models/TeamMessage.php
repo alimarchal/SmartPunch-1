@@ -14,12 +14,12 @@ class TeamMessage extends Model
 
     public function userSend(): BelongsTo
     {
-        return $this->belongsTo(User::class,'user_id_from','id');
+        return $this->belongsTo(User::class, 'user_id_from', 'id');
     }
 
     public function userReceived(): BelongsTo
     {
-        return $this->belongsTo(User::class,'user_id_to','id');
+        return $this->belongsTo(User::class, 'user_id_to', 'id');
     }
 
     public function business(): BelongsTo
@@ -30,5 +30,14 @@ class TeamMessage extends Model
     public function officeID(): BelongsTo
     {
         return $this->belongsTo(Office::class);
+    }
+
+
+    protected $appends = ['user'];
+
+
+    public function getUserAttribute()
+    {
+        return User::find($this->user_id_from);
     }
 }

@@ -112,7 +112,7 @@ class MessageController extends Controller
     ####################### Messages sent to Teams Start #######################
     public function toTeam($id)
     {
-        $messages = TeamMessage::where(['team_id' => $id, 'read_at' => null])->paginate(10)->unique('message');
+        $messages = TeamMessage::where(['team_id' => $id])->paginate(10);
         return response()->json(['messages' => $messages]);
     }
 
