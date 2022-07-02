@@ -15,7 +15,10 @@ class OfficerController extends Controller
 {
     public function index(): JsonResponse
     {
-        if (auth()->user()->hasDirectPermission('view office'))
+
+//        dd((auth()->user()->can('permission')));
+
+        if (auth()->user()->can('view office'))
         {
             if (auth()->user()->user_role == 2)     /* 2 for admin*/
             {
