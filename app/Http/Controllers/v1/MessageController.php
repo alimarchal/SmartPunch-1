@@ -70,7 +70,7 @@ class MessageController extends Controller
     ###################### Messages sent to Employees Start ######################
     public function toUser($id)
     {
-        $messages = Message::with('userReceived:id,name')->where(['user_id_to' => $id])->orWhere(['user_id_from' => $id])->orderByDesc('created_at')->paginate(10);
+        $messages = Message::with('userSend:id,name',)->where(['user_id_to' => $id])->orWhere(['user_id_from' => $id])->orderByDesc('created_at')->paginate(10);
         return response()->json(['messages' => $messages]);
     }
 
@@ -126,10 +126,17 @@ class MessageController extends Controller
         return response()->json(['teams' => $teams]);
     }
 
-    public function sentToTeams()
+    public function sentToTeams(Request $request)
     {
-        $messages = TeamMessage::with('userReceived')->where('user_id_from', auth()->user()->id)->orderByDesc('created_at')->paginate(10)->unique('team_id');
-        return response()->json(['messages' => $messages]);
+        $messages = TeamMessage::create([
+            'team_id' => $request->team_id,
+            'user_id_from' => auth()->user()->id,
+            'business_id' => auth()->user()->business_id,
+            'office_id' => auth()->user()->office_id,
+            'message' => $request->message,
+        ]);
+//        $messages = TeamMessage::with('userReceived')->where('user_id_from', auth()->user()->id)->orderByDesc('created_at')->paginate(10)->unique('team_id');
+        return response()->json(['messages' => 'Message send successfully.'], 200);
     }
     ####################### Messages sent to Teams Start #######################
 }

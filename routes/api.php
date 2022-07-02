@@ -136,7 +136,7 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
             ######################### Messages sent to Teams Start #########################
             Route::get('/team/{id}', [MessageController::class, 'toTeam']);                     /* Messages of a team */
             Route::get('/list/of/teams', [MessageController::class, 'listOfTeams']);            /* List of teams*/
-            Route::get('/sent/to/teams', [MessageController::class, 'sentToTeams']);            /* Message sent to teams */
+            Route::post('/sent/to/teams', [MessageController::class, 'sentToTeams']);            /* Message sent to teams */
             ######################### Messages sent to Teams End #########################
         });
 
