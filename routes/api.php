@@ -143,6 +143,8 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Task Management
         Route::post('/task-management', [\App\Http\Controllers\v1\TaskManagmentController::class, 'store']);
+        // Rest Countries
+        Route::get('/listOfCountryWithBank', [\App\Http\Controllers\v1\CountriesController::class, 'listOfCountries']);
 
 
     });
