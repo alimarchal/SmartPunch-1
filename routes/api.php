@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function () {
 
     /* Countries and cities API */
     Route::get('/countries', function (){
-        return response()->json(['countries' => \App\Models\Country::all('id','name')]);
+        return response()->json(['countries' => \App\Models\Country::all()]);
     });
     Route::get('/cities/{country_id}', function ($country_id){
         $cities = \App\Models\City::where('country_id', $country_id)->select(['id', 'name'])->get();
@@ -143,8 +143,11 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
 
         // Task Management
         Route::post('/task-management', [\App\Http\Controllers\v1\TaskManagmentController::class, 'store']);
+        Route::get('/task-management/{id}', [\App\Http\Controllers\v1\TaskManagmentController::class, 'show']);
+        Route::get('/task-management', [\App\Http\Controllers\v1\TaskManagmentController::class, 'index']);
+        Route::put('/task-management/{taskManagment}', [\App\Http\Controllers\v1\TaskManagmentController::class, 'update']);
         // Rest Countries
-        Route::get('/listOfCountryWithBank', [\App\Http\Controllers\v1\CountriesController::class, 'listOfCountries']);
+//        Route::get('/listOfCountryWithBank', [\App\Http\Controllers\v1\CountriesController::class, 'listOfCountries']);
 
 
     });

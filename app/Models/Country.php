@@ -10,5 +10,5 @@ class Country extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['code', 'name'];
+    protected $fillable = ['code', 'name','bank_name'];
 }

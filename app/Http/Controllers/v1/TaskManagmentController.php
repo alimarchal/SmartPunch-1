@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class TaskManagmentController extends Controller
 {
-    //
 
     public function index(Request $request)
     {
@@ -16,22 +15,29 @@ class TaskManagmentController extends Controller
         return response()->json($task_management, 200);
     }
 
-
-
     public function store(Request $request)
     {
         $request->validate([
-            'task_name' => 'required',
-            'task_progress' => 'required',
             'business_id' => 'required',
             'office_id' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'assign_to' => 'required',
-            'assign_from' => 'required',
-            'comment' => 'required',
         ]);
         $task_management = TaskManagment::create($request->all());
         return response()->json($task_management, 200);
+    }
+
+    public function show($id)
+    {
+        $task_management = TaskManagment::find($id);
+        return response()->json($task_management, 200);
+    }
+
+    public function update(Request $request, TaskManagment $taskManagment)
+    {
+        $request->validate([
+            'business_id' => 'required',
+            'office_id' => 'required',
+        ]);
+        $taskManagment->update($request->all());
+        return response()->json($taskManagment, 200);
     }
 }

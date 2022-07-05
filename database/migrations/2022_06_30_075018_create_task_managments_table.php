@@ -15,15 +15,17 @@ return new class extends Migration
     {
         Schema::create('task_managments', function (Blueprint $table) {
             $table->id();
-            $table->string('task_name');
-            $table->string('task_progress');
+            $table->string('task_name')->nullable();
+            $table->string('task_progress')->nullable();
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->foreignId('office_id')->constrained()->onDelete('cascade');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->date('assign_to');
-            $table->date('assign_from');
-            $table->date('comment');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->date('actual_task_completion_date')->nullable();
+            $table->integer('assign_to')->nullable();
+            $table->integer('assign_from')->nullable();
+            $table->integer('from_the_assigner')->nullable();
+            $table->integer('from_the_assignee')->nullable();
             $table->timestamps();
         });
     }
