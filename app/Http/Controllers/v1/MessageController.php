@@ -55,8 +55,10 @@ class MessageController extends Controller
 
     public function listOfEmployees()
     {
-        $employees = User::where('parent_id', auth()->id())->paginate(10);
-        return response()->json(['employees' => $employees]);
+        $pid = auth()->user()->parent_id;
+        $employees = User::where('parent_id', auth()->id())->get();
+        $employees_parent = User::where('id', auth()->user()->parent_id)->get();
+        return response()->json(['employees' => $employees,'employees_parent' => $employees_parent]);
     }
 
     /* List of user to send new messages */

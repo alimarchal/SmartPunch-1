@@ -24,8 +24,8 @@ return new class extends Migration
             $table->date('actual_task_completion_date')->nullable();
             $table->integer('assign_to')->nullable();
             $table->integer('assign_from')->nullable();
-            $table->integer('from_the_assigner')->nullable();
-            $table->integer('from_the_assignee')->nullable();
+            $table->text('from_the_assigner')->nullable();
+            $table->text('from_the_assignee')->nullable();
             $table->timestamps();
         });
     }
