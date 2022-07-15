@@ -149,6 +149,5 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
         // Rest Countries
 //        Route::get('/listOfCountryWithBank', [\App\Http\Controllers\v1\CountriesController::class, 'listOfCountries']);
 
-
     });
 });

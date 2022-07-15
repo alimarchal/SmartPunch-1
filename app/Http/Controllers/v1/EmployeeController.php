@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
@@ -20,9 +21,11 @@ use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        if (auth()->user()->hasDirectPermission('view employee'))
+
+//        return \auth()->user()->can('view employee');
+        if (auth()->user()->can('view employee'))
         {
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
@@ -41,6 +44,8 @@ class EmployeeController extends Controller
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */
             {
+//                DB::enableQueryLog();
+//                return \auth()->user()->office_id;
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
                 }, 'userOffice.office' => function ($query) {
@@ -51,6 +56,8 @@ class EmployeeController extends Controller
                     ->orderByDesc('created_at')
                     ->get()
                     ->except([auth()->id()]);
+//                dd(DB::getQueryLog())
+
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
@@ -140,16 +147,19 @@ class EmployeeController extends Controller
         return response()->json(['employee' => $employee, 'userSchedule' => $userSchedule, 'permissions' => $permissions]);
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function update(Request $request, $id)
     {
-        if (auth()->user()->hasDirectPermission('update employee'))
+//        return auth()->user();
+        if (auth()->user()->can('update employee'))
         {
             Validator::make($request->all(), [
                 'office_id' => ['required'],
                 'status' => ['required'],
                 'schedule_id' => ['required'],
                 'attendance_from' => ['required'],
-                'out_of_office' => ['required']
+                'out_of_office' => ['required'],
+                'parent_id' => ['required'],
+                'role_id' => ['required']
             ],[
                 'office_id.required' => __('validation.custom.office_id.required'),
                 'schedule_id.required' => __('validation.custom.schedule.required'),
@@ -159,8 +169,17 @@ class EmployeeController extends Controller
 
             $user = User::findOrFail($id);
 
+            // remove previous role
+            $user->roles()->detach();
+            //find and assign new role
+            $role = Role::find($request->role_id);
+            $user->assignRole($role);
+
             $user->update([
                 'office_id' => $request->office_id,
+                'parent_id' => $request->parent_id,
+                'user_role' =>   $user->roles->first()->id,
+                'designation' =>   $user->roles->first()->name,
                 'schedule_id' => $request->schedule_id,
                 'attendance_from' => $request->attendance_from,
                 'out_of_office' => $request->out_of_office,
@@ -168,16 +187,21 @@ class EmployeeController extends Controller
             ]);
             $user->save();
 
+
             $permissions = $user->getAllPermissions();
+
             $user->revokePermissionTo($permissions);
             $user->syncPermissions($request->permissions);
+
+
+            \Artisan::call('permission:cache-reset');
 
             $previousAssignedSchedule = $user->userSchedule()->firstWhere('status', 1);
             $previousAssignedOffice = $user->userOffice()->firstWhere('status', 1);
 
+
             if ($previousAssignedSchedule->schedule_id != $request->schedule_id)
             {
-
                 /* Update previous employee schedule status */
                 $user->userSchedule()->firstWhere('status', 1)->update([
                     'status' => 0,

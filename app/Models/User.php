@@ -79,8 +79,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_url','parent_user'
     ];
+
+    public function getParentUserAttribute(){
+        return User::find($this->parent_id);
+    }
+
 
     public function children(): HasMany
     {
