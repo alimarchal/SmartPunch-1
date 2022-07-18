@@ -33,7 +33,7 @@ class ReportController extends Controller
     /* Particular user reports by User ID */
     public function reportByUser(Request $request): JsonResponse
     {
-        if (auth()->user()->hasDirectPermission('view reports by user ID'))
+        if (auth()->user()->can('view reports by user ID'))
         {
             $from = Carbon::parse($request->from)->format('Y-m-d');
             $to = Carbon::parse($request->to)->format('Y-m-d');
@@ -155,7 +155,7 @@ class ReportController extends Controller
     /* Report by office */
     public function reportByOffice(Request $request): JsonResponse
     {
-        if (auth()->user()->hasDirectPermission('view reports by office'))
+        if (auth()->user()->can('view reports by office'))
         {
             $from = Carbon::parse($request->from)->format('Y-m-d');
             $to = Carbon::parse($request->to)->format('Y-m-d');
@@ -344,7 +344,7 @@ class ReportController extends Controller
     /* Report by employee business ID */
     public function reportByEmployeeBusinessID(Request $request): JsonResponse
     {
-        if (auth()->user()->hasDirectPermission('view reports by employee business ID'))
+        if (auth()->user()->can('view reports by employee business ID'))
         {
             $from = Carbon::parse($request->from)->format('Y-m-d');
             $to = Carbon::parse($request->to)->format('Y-m-d');
@@ -488,7 +488,7 @@ class ReportController extends Controller
     /* Report by Team */
     public function reportByTeam(Request $request): JsonResponse
     {
-        if (auth()->user()->hasDirectPermission('view reports by my team'))
+        if (auth()->user()->can('view reports by my team'))
         {
             $from = Carbon::parse($request->from)->format('Y-m-d');
             $to = Carbon::parse($request->to)->format('Y-m-d');
