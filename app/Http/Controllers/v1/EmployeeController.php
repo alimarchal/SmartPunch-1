@@ -24,11 +24,15 @@ class EmployeeController extends Controller
     public function index()
     {
 
+//
 //        return \auth()->user()->can('view employee');
         if (auth()->user()->can('view employee'))
         {
+//        return \auth()->user()->user_role;
+
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
+//return auth()->user()->business_id;
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
                 }, 'userOffice.office', 'userSchedule.schedule:id,name'])
@@ -36,6 +40,7 @@ class EmployeeController extends Controller
                     ->orderByDesc('created_at')
                     ->get()
                     ->except([auth()->id()]);
+//                return $employees;
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
