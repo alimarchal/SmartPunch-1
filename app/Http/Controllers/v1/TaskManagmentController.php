@@ -17,6 +17,7 @@ class TaskManagmentController extends Controller
 
     public function store(Request $request)
     {
+
         $task_management = TaskManagment::create([
             'task_name' => $request->task_name,
             'task_progress' => $request->task_progress,
@@ -26,7 +27,7 @@ class TaskManagmentController extends Controller
             'end_date' => $request->end_date,
             'actual_task_completion_date' => $request->actual_task_completion_date,
             'assign_to' => $request->assign_to,
-            'assign_from' => $request->assign_from,
+            'assign_from' => auth()->user()->name,
             'from_the_assigner' => $request->from_the_assigner,
             'from_the_assignee' => $request->from_the_assignee,
         ]);
@@ -41,11 +42,7 @@ class TaskManagmentController extends Controller
 
     public function update(Request $request, TaskManagment $taskManagment)
     {
-        $request->validate([
-            'business_id' => 'required',
-            'office_id' => 'required',
-        ]);
-        $taskManagment->update($request->all());
+        $taskManagment->update();
         return response()->json($taskManagment, 200);
     }
 }
