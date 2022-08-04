@@ -24,6 +24,15 @@ use Spatie\Permission\Models\Role;
 |
 */
 
+//Route::get("/clear", function () {
+//    $role = Role::create(['name' => 'hr']);
+//    $permission = Permission::findById(18);
+//    $role->givePermissionTo($permission);
+//     Artisan::call('config:clear');
+//     Artisan::call('permission:cache-reset');
+//     echo "cleared...";
+// });
+
 Route::get('/', function () {
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
