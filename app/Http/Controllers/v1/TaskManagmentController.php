@@ -42,7 +42,7 @@ class TaskManagmentController extends Controller
 
     public function update(Request $request, TaskManagment $taskManagment)
     {
-        $taskManagment->update();
+        $taskManagment->update($request->all());
         return response()->json($taskManagment, 200);
     }
 }

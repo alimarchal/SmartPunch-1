@@ -22,4 +22,14 @@ class TaskManagment extends Model
         'from_the_assigner',
         'from_the_assignee',
     ];
+
+
+    protected $appends = [
+        'assign_to_user'
+    ];
+
+    public function getAssignToUserAttribute()
+    {
+        return User::find($this->assign_to);
+    }
 }

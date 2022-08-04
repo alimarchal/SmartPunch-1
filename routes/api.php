@@ -140,14 +140,12 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function ()
             ######################### Messages sent to Teams End #########################
         });
 
-
         // Task Management
         Route::post('/task-management', [\App\Http\Controllers\v1\TaskManagmentController::class, 'store']);
         Route::get('/task-management/{id}', [\App\Http\Controllers\v1\TaskManagmentController::class, 'show']);
         Route::get('/task-management', [\App\Http\Controllers\v1\TaskManagmentController::class, 'index']);
         Route::put('/task-management/{taskManagment}', [\App\Http\Controllers\v1\TaskManagmentController::class, 'update']);
         // Rest Countries
-//        Route::get('/listOfCountryWithBank', [\App\Http\Controllers\v1\CountriesController::class, 'listOfCountries']);
-
     });
 });
+
