@@ -36,7 +36,7 @@ class TaskManagmentController extends Controller
 
     public function show($id)
     {
-        $task_management = TaskManagment::find($id);
+        $task_management = TaskManagment::where('assign_to',$id)->get();
         return response()->json($task_management, 200);
     }
 
