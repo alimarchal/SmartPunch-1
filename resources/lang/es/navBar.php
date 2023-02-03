@@ -4,23 +4,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Portal Lines
+    | NavBar Words
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the Portal.
+    | The following language lines are used by the (Spanish) NavBar.
     |
     */
 
-    'Dashboard' => 'Dashboard',
+    'Dashboard' => 'Tablero',
+    'Super Admin' => 'Superadministrador',
     'Offices' => 'Oficinas',
-    'Add' => 'Add',
-    'View' => 'View',
+    'Add' => 'Agregar',
+    'By office' => 'por oficina',
+    'By employee business ID' => 'Por identificación comercial del empleado',
+    'By my team' => 'por mi equipo',
+    'By user ID' => 'Por ID de usuario',
+    'View' => 'Vista',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
+    'My schedule' => 'Mi horario',
     'Employees' => 'Empleados',
     'Schedules' => 'Horarios',
     'Reports' => 'Informes',
-    'Business' => 'Business',
-    'Businesses' => 'Businesses',
+    'Take attendance' => 'Take attendance',
+    'Business' => 'Negocio',
+    'Businesses' => 'Negocios',
+    'Package' => 'Paquete',
+    'Referrals' => 'Referencias',
+    'IBR' => 'IBR',
+    'My earnings' => 'Mis Ganancias',
+    'Direct earnings' => 'Ganancias directas',
+    'Indirect earnings' => 'Ganancias indirectas',
+    'My referred businesses' => 'Mis clientes',
+    'My referred IBRs' => 'Mi red',
     'Logout' => 'Cerrar sesión',
     'Profile' => 'Perfil',
+    'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

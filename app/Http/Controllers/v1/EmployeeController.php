@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
@@ -20,19 +21,26 @@ use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        if (auth()->user()->hasPermissionTo('view employee'))
+
+//
+//        return \auth()->user()->can('view employee');
+        if (auth()->user()->can('view employee'))
         {
+//        return \auth()->user()->user_role;
+
             if (\auth()->user()->user_role == 2) /* 2 => Admin */
             {
+//return auth()->user()->business_id;
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
-                }, 'userOffice.office'])
+                }, 'userOffice.office', 'userSchedule.schedule:id,name'])
                     ->where('business_id', auth()->user()->business_id)
                     ->orderByDesc('created_at')
                     ->get()
                     ->except([auth()->id()]);
+//                return $employees;
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
@@ -41,14 +49,20 @@ class EmployeeController extends Controller
             }
             if (\auth()->user()->user_role == 3) /* 3 => Manager */
             {
+//                DB::enableQueryLog();
+//                return \auth()->user()->office_id;
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
-                }])
-                    ->where('business_id', auth()->user()->business_id)
+                }, 'userOffice.office' => function ($query) {
+                    $query->where('id', \auth()->user()->office_id);
+                }, 'userSchedule.schedule:id,name'])
+                    ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->where('user_role', '!=', 2)
                     ->orderByDesc('created_at')
                     ->get()
                     ->except([auth()->id()]);
+//                dd(DB::getQueryLog())
+
                 if (!$employees)
                 {
                     return response()->json(['message' => 'No employees found'], 404);
@@ -60,8 +74,10 @@ class EmployeeController extends Controller
                 $userRoles = [2,3];
                 $employees = User::with(['userOffice' => function ($query) {
                     $query->where('status', 1);
-                }])
-                    ->where('business_id', auth()->user()->business_id)
+                }, 'userOffice.office' => function ($query) {
+                    $query->where('id', \auth()->user()->office_id);
+                }, 'userSchedule.schedule:id,name'])
+                    ->where(['business_id' => auth()->user()->business_id, 'office_id' => \auth()->user()->office_id])
                     ->whereNotIn('user_role', $userRoles)
                     ->orderByDesc('created_at')
                     ->get()
@@ -79,7 +95,7 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('create employee'))
+        if (auth()->user()->hasDirectPermission('create employee'))
         {
             $role = Role::with('permissions')->where('id', $request->role_id)->first();
             $permissions = $role->permissions->pluck('name');
@@ -109,6 +125,8 @@ class EmployeeController extends Controller
             ];
 
             $user = User::create($data)->assignRole($role)->syncPermissions($permissions);
+            $user->designation = $role->name;
+            $user->save();
             UserHasSchedule::create([
                 'schedule_id' => $request->schedule,
                 'user_id' => $user->id,
@@ -134,38 +152,61 @@ class EmployeeController extends Controller
         return response()->json(['employee' => $employee, 'userSchedule' => $userSchedule, 'permissions' => $permissions]);
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function update(Request $request, $id)
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+//        return auth()->user();
+        if (auth()->user()->can('update employee'))
         {
             Validator::make($request->all(), [
                 'office_id' => ['required'],
                 'status' => ['required'],
-                'schedule_id' => ['required']
+                'schedule_id' => ['required'],
+                'attendance_from' => ['required'],
+                'out_of_office' => ['required'],
+                'parent_id' => ['required'],
+                'role_id' => ['required']
             ],[
                 'office_id.required' => __('validation.custom.office_id.required'),
                 'schedule_id.required' => __('validation.custom.schedule.required'),
+                'attendance_from.required' => 'Please select any value',
+                'out_of_office.required' => 'Please select any value'
             ])->validate();
 
             $user = User::findOrFail($id);
 
+            // remove previous role
+            $user->roles()->detach();
+            //find and assign new role
+            $role = Role::find($request->role_id);
+            $user->assignRole($role);
+
             $user->update([
                 'office_id' => $request->office_id,
+                'parent_id' => $request->parent_id,
+                'user_role' =>   $user->roles->first()->id,
+                'designation' =>   $user->roles->first()->name,
                 'schedule_id' => $request->schedule_id,
+                'attendance_from' => $request->attendance_from,
+                'out_of_office' => $request->out_of_office,
                 'status' => $request->status,
             ]);
             $user->save();
 
+
             $permissions = $user->getAllPermissions();
+
             $user->revokePermissionTo($permissions);
             $user->syncPermissions($request->permissions);
+
+
+            \Artisan::call('permission:cache-reset');
 
             $previousAssignedSchedule = $user->userSchedule()->firstWhere('status', 1);
             $previousAssignedOffice = $user->userOffice()->firstWhere('status', 1);
 
+
             if ($previousAssignedSchedule->schedule_id != $request->schedule_id)
             {
-
                 /* Update previous employee schedule status */
                 $user->userSchedule()->firstWhere('status', 1)->update([
                     'status' => 0,
@@ -230,7 +271,7 @@ class EmployeeController extends Controller
 
     public function status($id, Request $request): JsonResponse
     {
-        if (auth()->user()->hasPermissionTo('update employee'))
+        if (auth()->user()->hasDirectPermission('update employee'))
         {
             $employee = User::findOrFail($id);
 
@@ -239,5 +280,26 @@ class EmployeeController extends Controller
         }
 
         return response()->json(['message' => 'Forbidden!'], 403);
+    }
+
+    /* user out of office status get */
+    public function outOfOfficeStatus($id)
+    {
+        $user = User::where('id', $id)->first(['out_of_office']);
+        if (! $user){
+            return response()->json(['Error' => 'No user found'], 404);
+        }
+        return response()->json(['Status' => $user]);
+    }
+
+    /* user out of office status update */
+    public function outOfOffice(Request $request, $id)
+    {
+        $user = User::firstWhere('id', $id);
+        if (! $user){
+            return response()->json(['Error' => 'No user found'], 404);
+        }
+        $user->update(['out_of_office' => $request->status]);
+        return response()->json(['Success' => 'Status updated successfully']);
     }
 }

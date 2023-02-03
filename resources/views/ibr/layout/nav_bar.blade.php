@@ -124,6 +124,12 @@
                         <span>{{__('navBar.Profile')}}</span>
                     </a>
 
+                    <!-- item-->
+                    <a href="{{route('ibr.bank-details')}}" class="dropdown-item notify-item">
+                        <i class="fe-briefcase"></i>
+                        <span>{{__('navBar.Bank Details')}}</span>
+                    </a>
+
                     @can('view business')
                     <!-- item-->
                         <a href="{{route('businessIndex')}}" class="dropdown-item notify-item">
@@ -178,6 +184,21 @@
 
                 <li class="has-submenu">
                     <a href="{{route('ibr.dashboard')}}"><i class="mdi mdi-view-dashboard"></i>{{__('navBar.Dashboard')}}</a>
+                </li>
+
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)"> <i class="mdi mdi-cash-multiple"></i>{{__('navBar.My earnings')}}
+                        <div class="arrow-down"></div>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="{{route('ibr.direct_earnings')}}"><i class="mdi mdi-cash"></i> {{__('navBar.Direct earnings')}}</a>
+                        </li>
+                        <li>
+                            <a href="{{route('ibr.in_direct_earnings')}}"><i class="mdi mdi-cash"></i> {{__('navBar.Indirect earnings')}}</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="has-submenu">

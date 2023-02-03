@@ -4,23 +4,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Portal Lines
+    | NavBar Words
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the Portal.
+    | The following language lines are used by the Russian NavBar.
     |
     */
 
-    'Dashboard' => 'Dashboard',
-    'Offices' => 'Offices',
-    'Add' => 'Add',
-    'View' => 'View',
-    'Employees' => 'Employees',
-    'Schedules' => 'Schedules',
-    'Reports' => 'Reports',
-    'Business' => 'Business',
-    'Businesses' => 'Businesses',
-    'Logout' => 'Logout',
-    'Profile' => 'Profile',
+    'Dashboard' => 'Панель приборов',
+    'Super Admin' => 'Супер администратор',
+    'Offices' => 'Офисы',
+    'Add' => 'Добавлять',
+    'By office' => 'По офису',
+    'By employee business ID' => 'По бизнес-идентификатору сотрудника',
+    'By my team' => 'Моя команда',
+    'By user ID' => 'По идентификатору пользователя',
+    'View' => 'Вид',
+    'View all employees' => 'View all employees',
+    'View teams' => 'View teams',
+    'My schedule' => 'Мой график',
+    'Employees' => 'Сотрудники',
+    'Schedules' => 'Расписания',
+    'Reports' => 'отчеты',
+    'Take attendance' => 'Take attendance',
+    'Business' => 'Бизнес',
+    'Businesses' => 'Предприятия',
+    'Package' => 'Упаковка',
+    'Referrals' => 'Рефералы',
+    'IBR' => 'ИБР',
+    'My earnings' => 'Мой заработок',
+    'Direct earnings' => 'Прямой заработок',
+    'Indirect earnings' => 'Косвенный заработок',
+    'My referred businesses' => 'Мои клиенты',
+    'My referred IBRs' => 'Моя сеть',
+    'Logout' => 'Выйти',
+    'Profile' => 'Профиль',
+    'Bank Details' => 'Bank Details',
+    'Communicate' => 'Communicate',
+    'With Teams' => 'With Teams',
+    'With Employee' => 'With Employee',
 
 ];

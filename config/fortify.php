@@ -142,4 +142,12 @@ return [
         ]),
     ],
 
+    'pipelines' => [
+        'login' => [
+            Laravel\Fortify\Actions\AttemptToAuthenticate::class,
+            Laravel\Fortify\Actions\PrepareAuthenticatedSession::class,
+            App\Actions\Fortify\LogoutOtherDevices::class,
+        ]
+    ]
+
 ];

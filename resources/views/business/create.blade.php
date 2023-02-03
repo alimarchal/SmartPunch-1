@@ -179,7 +179,10 @@
 
                                 <div class="form-group">
                                     <label for="passWord2">{{__('portal.IBR')}}</label>
-                                    <input type="text" name="ibr" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="passWord2">
+                                    <input type="text" name="ibr" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="referred_no">
+
+                                    <x-jet-label for="referred_no_response_found" id="referred_no_response" value="" class="mb-2" style="color: green"/>
+                                    <x-jet-label for="referred_no_response_not_found" id="referred_no_response_not_found" value="" class="mb-2 text-danger" style="color: red"/>
                                 </div>
 
                                 <div class="form-group text-right mb-0">
@@ -257,6 +260,24 @@
             }
         });
     });
+
+    $('#referred_no').on('keyup', function () {
+        let $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: "{{ route('ibr.search_ibr') }}",
+            data: {'referred_no': $value},
+            success: function (response) {
+                if (response.status === 0) {
+                    $('#referred_no_response').empty();
+                    $('#referred_no_response_not_found').html('Not record found');
+                } else {
+                    $('#referred_no_response_not_found').empty();
+                    $('#referred_no_response').html('Reference Verified: ' + response.data);
+                }
+            }
+        });
+    })
 </script>
 
 <!-- Vendor js -->

@@ -1,20 +1,12 @@
 @extends('theme.master')
 
-@section('header')
-    {{-- select2 scripts start --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    {{-- select2 scripts end --}}
-@endsection
-
 @section('body')
 
     <div class="row">
         <div class="col-xl-6 mx-auto">
             <div class="text-center">
                 <a class="logo">
-                    <img src="{{ $business->company_logo }}" alt="{{$business->company_name}}" height="64" class="logo-light mx-auto">
+                    <img src="{{ Storage::url( $business->company_logo ) }}" alt="{{$business->company_name}}"  class="logo-light mx-auto mt-2" style="border-radius: 50%;" height="100" width="100">
                 </a>
             </div>
             <div class="card-box mt-3">
@@ -39,7 +31,7 @@
                         <select class="custom-select" name="country_name" id="country_name">
                             <option value="" selected>{{__('portal.Select')}}</option>
                             @foreach($countries as $country)
-                                <option {{$business->country_name == $country->id ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
+                                <option {{$business->country_name['name'] == $country->name ? 'selected' : ''}} value="{{$country->id}}">{{$country->name}}</option>
                             @endforeach
                         </select>
 
@@ -53,9 +45,9 @@
 
                         <select class="custom-select" name="city_name" id="city_name" required>
                             <option value="" selected>{{__('portal.Select')}}</option>
-                            @php $cities = \App\Models\City::where('country_id', $business->country_name)->get(); @endphp
+                            @php $cities = \App\Models\City::where('country_id', $business->country_name['id'])->get(); @endphp
                             @foreach($cities as $city)
-                                <option {{$business->city_name == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name}}</option>
+                                <option {{$business->city_name['name'] == $city->name ? 'selected' : ''}} value="{{$city->id}}">{{$city->name}}</option>
                             @endforeach
                         </select>
 
@@ -84,8 +76,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="passWord2">{{__('portal.IBR')}}</label>
-                        <input type="text" name="ibr" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="passWord2" value="{{$business->ibr}}">
+                        <label for="ibr">{{__('portal.IBR')}}</label>
+                        <input type="text" placeholder="{{__('register.Enter IBR (if any)')}}" class="form-control" id="ibr" value="{{$business->ibr}}" disabled>
                     </div>
 
                     <div class="form-group text-right mb-0">
@@ -102,7 +94,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script>
 
         $(document).ready(function() {

@@ -7,10 +7,12 @@ use App\Models\Business;
 use App\Models\Ibr;
 use App\Models\IbrDirectCommission;
 use App\Models\IbrIndirectCommission;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,6 +37,27 @@ class IbrController extends Controller
         return response()->json([
             'ibr_referrals' => $ibr_referrals,
         ]);
+    }
+
+    public function bank_details()
+    {
+        $bankDetails = Ibr::where('id', \auth()->guard('ibr_api')->id())->first(['bank', 'iban', 'country_of_bank']);
+        return response()->json(['bankDetails' => $bankDetails]);
+    }
+
+    public function update_bank_details(Request $request)
+    {
+        $bankDetails = Ibr::firstWhere('id', auth()->id());
+        if (!isset($bankDetails)){
+            return response()->json(['error' => "Not Fount"], 404);
+        }
+        $bankDetails->update([
+            'bank' => $request->bank,
+            'iban' => $request->iban,
+            'country_of_bank' => $request->country_of_bank
+        ]);
+
+        return response()->json(['Success' => 'Updated successfully']);
     }
 
     public function profileUpdate(Request $request): JsonResponse
@@ -91,25 +114,42 @@ class IbrController extends Controller
     }
 
     /* Functions for dashboard start */
-    public function myEarnings(): JsonResponse
+    public function myEarnings(Request $request): JsonResponse
     {
-        $directCommissions = IbrDirectCommission::with('inDirectCommissions')
-            ->where('ibr_no' , 'IBR4')
-            ->whereYear('created_at', Carbon::now()->year)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->get();
+        if (isset($request->year) && !is_null($request->year)){
+            $currentYearCommissions = IbrDirectCommission::withSum('inDirectCommissions', 'amount')
+                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+                ->whereYear('created_at', $request->year)
+                ->get()
+                ->groupBy(function ($currentYearCommissions){
+                    return Carbon::parse($currentYearCommissions->created_at)->format('M');
+                });
 
-        $inDirectCommissions = $directCommissions->pluck('inDirectCommissions');
+//            $directCommissions = IbrDirectCommission::selectRaw('monthname(created_at) as month, sum(amount) as amount')
+//                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+//                ->groupBy('month')
+////                ->orderByRaw('min(created_at) desc')
+//                ->get();
+
+        }
+        else{
+            $currentYearCommissions = IbrDirectCommission::withSum('inDirectCommissions', 'amount')
+                ->where('ibr_no' , auth()->guard('ibr_api')->user()->ibr_no)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->get()
+                ->groupBy(function ($currentYearCommissions){
+                    return Carbon::parse($currentYearCommissions->created_at)->format('M');
+                });
+        }
 
         return response()->json([
-            'directCommissions' => $directCommissions,
-            'inDirectCommissions' => $inDirectCommissions,
+            'commissions' => $currentYearCommissions,
         ]);
     }
 
     public function myClients(): JsonResponse
     {
-        $clients = Business::with('businessPackages', 'coupon')
+        $clients = Business::with('businessPackages', 'businessPackages.package:id,name', 'coupon')
             ->withCount('activeUsers')
             ->where('ibr', auth()->guard('ibr_api')->user()->ibr_no)->get();
 
@@ -118,23 +158,15 @@ class IbrController extends Controller
 
     public function myNetworks(): JsonResponse
     {
-        $network['ibr'] = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)
-            ->withCount('ibrReferred')
-            ->get()
-            ->toArray();
+        $data = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)
+                    ->withCount('directReferrals')
+                    ->with('ibrReferred')
+                    ->withCount('directClients')
+                    ->withSum('directMonthlyIncome','amount')
+                    ->withSum('inDirectMonthlyIncome', 'amount')
+                    ->get();
 
-        $directIBRs['directIBRs'] = Ibr::where('referred_by', auth()->guard('ibr_api')->user()->ibr_no)->count();
-        $directClients['directClients'] = Business::where('ibr', auth()->guard('ibr_api')->user()->ibr_no)->count();
-        $directIncome['directIncome'] = IbrDirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)
-                                            ->whereMonth('created_at', Carbon::now()->month)
-                                            ->sum('amount');
-        $inDirectIncome['inDirectIncome'] = IbrIndirectCommission::where('ibr_no', auth()->guard('ibr_api')->user()->ibr_no)
-                                            ->whereMonth('created_at', Carbon::now()->month)
-                                            ->sum('amount');
-
-        $data = array_merge($network, $directIBRs, $directClients, $directIncome, $inDirectIncome);
-
-        return response()->json(['data' => $data]);
+        return response()->json(['myNetwork' => $data]);
     }
     /* Functions for dashboard start */
 

@@ -11,15 +11,15 @@ return [
     |
     */
 
-    'Email address' => 'Email address',
-    'Enter your email' => 'Enter your email',
-    'Password' => 'Password',
-    'Enter your password' => 'Enter your password',
-    'Sign Up' => 'Sign Up',
-    'Sign In' => 'Sign In',
-    'Remember me' => 'Remember me',
-    'Log In' => 'Log In',
-    'Forgot your password?' => 'Forgot your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
+    'Email address' => 'Adresse e-mail',
+    'Enter your email' => 'Entrer votre Email',
+    'Password' => 'Mot de passe',
+    'Enter your password' => 'Tapez votre mot de passe',
+    'Sign Up' => 'S\'inscrire',
+    'Sign In' => 'S\'identifier',
+    'Remember me' => 'Souviens-toi de moi',
+    'Log In' => 'Connexion',
+    'Forgot your password?' => 'Mot de passe oublié?',
+    'Don\'t have an account?' => 'Vous n\'avez pas de compte?',
 
 ];

@@ -18,31 +18,37 @@ class PunchController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'mac_address' => ['required', 'string', 'max:255'],
-            'time' => ['required'],
-            'in_out_status' => ['required'],
-        ],[
-            'mac_address.required' => 'Mac address is required',
-            'time.required' => 'Please select a time',
-        ]);
+        if (auth()->user()->attendance_from == 0) /* Default 0 for APP and 1 for WEB */{
+            $validator = Validator::make($request->all(), [
+                'mac_address' => ['required', 'string', 'max:255'],
+                'time' => ['required'],
+                'in_out_status' => ['required'],
+            ],[
+                'mac_address.required' => 'Mac address is required',
+                'time.required' => 'Please select a time',
+            ]);
 
-        if ($validator->fails())
-        {
-            return response()->json(['errors' => $validator->errors()],422);
+            if ($validator->fails())
+            {
+                return response()->json(['errors' => $validator->errors()],422);
+            }
+
+            $data = [
+                'user_id' => auth()->id(),
+                'office_id' => auth()->user()->office_id,
+                'business_id' => auth()->user()->business_id,
+                'mac_address' => $request->mac_address,
+                'time' => $request->time,
+                'in_out_status' => $request->in_out_status,
+            ];
+            if (auth()->user()->out_of_office == 1){
+                $data['coordinates'] = $request->coordinates;
+            }
+
+            $punched = PunchTable::create($data);
+
+            return response()->json(['message' => 'Data punched successfully!!!', 'punch_data' => $punched]);
         }
-
-        $data = [
-            'user_id' => auth()->id(),
-            'office_id' => auth()->user()->office_id,
-            'business_id' => auth()->user()->business_id,
-            'mac_address' => $request->mac_address,
-            'time' => $request->time,
-            'in_out_status' => $request->in_out_status,
-        ];
-
-        $punched = PunchTable::create($data);
-
-        return response()->json(['message' => 'Data punched successfully!!!', 'punch_data' => $punched]);
+        return response()->json(['message' => 'You do not have permission to punch attendance from APP.'],403);
     }
 }

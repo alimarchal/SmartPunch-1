@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageUpdate;
+use App\Http\Resources\BusinessResource;
 use App\Models\Business;
 use App\Models\BusinessPackages;
 use App\Models\Ibr;
@@ -22,67 +23,82 @@ class BusinessController extends Controller
 {
     public function index(): JsonResponse
     {
-        $business = Business::firstWhere('id', auth()->user()->business_id);
+        if (auth()->user()->hasDirectPermission('view business'))
+        {
+            $business = Business::with('ibr:ibr_no,email')->firstWhere('id', auth()->user()->business_id);
 
-        if (!empty($business)) {
-            return response()->json($business);
+            if (!empty($business)) {
+                return response()->json($business);
+//            return response()->json(new BusinessResource($business));
+            }
+            else {
+                return response()->json(['error' => 'Not Found!'], 404);
+            }
         }
-        else {
-            return response()->json(['error' => 'Not Found!'], 404);
-        }
+        return response()->json(['error' => 'Access forbidden!!!'], 403);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'company_name' => 'required',
-            'country_name' => 'required',
-            'country_code' => 'required',
-            'city_name' => 'required',
-            'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
-        ]);
-
-        if ($request->has('company_logo_url')) {
-            $path = $request->file('company_logo_url')->store('', 'public');
-            $request->merge(['company_logo' => $path]);
-        }
-
-        $data = [
-            'user_id' => auth()->id(),
-            'company_name' => $request->company_name,
-            'country_name' => $request->country_name,
-            'country_code' => $request->country_code,
-            'city_name' => $request->city_name,
-            'company_logo' => $request->company_logo,
-            'ibr' => $request->ibr,
-        ];
-        $business = \DB::transaction(function () use ($data){
-            $business = Business::create($data);
-            User::where('id', auth()->id())->update(['business_id' => $business->id]);
-            $transaction =  Transaction::create([
-                'business_id' => $business->id,
-                'package_id' => 9,
-                'amount' => 0,
-                'status' => 1,
+        if (auth()->user()->hasDirectPermission('update business'))
+        {
+            $request->validate([
+                'company_name' => 'required',
+                'country_name' => 'required',
+                'country_code' => 'required',
+                'city_name' => 'required',
+                'company_logo_url' => 'mimes:jpg,bmp,png,JPG,PNG,jpeg',
             ]);
 
-            $transaction->businessPackage()->create([
-                'business_id' => $transaction->business_id,
-                'transaction_id' => $transaction->id,
-                'package_id' => $transaction->package_id,
-                'package_amount' => $transaction->amount,
-                'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addMonthNoOverflow(3),
-            ]);
+            if (isset($request->ibr) && !is_null($request->ibr)){
+                $ibr = Ibr::firstWhere('ibr_no', $request->ibr);
+                if (!isset($ibr)){
+                    return response()->json(['error' => 'Ibr not found'],404);
+                }
+            }
 
-            return $business;
-        });
-        if ($business->wasRecentlyCreated) {
-            return response()->json($business, 201);
+            if ($request->has('company_logo_url')) {
+                $path = $request->file('company_logo_url')->store('', 'public');
+                $request->merge(['company_logo' => $path]);
+            }
+
+            $data = [
+                'user_id' => auth()->id(),
+                'company_name' => $request->company_name,
+                'country_name' => $request->country_name,
+                'country_code' => $request->country_code,
+                'city_name' => $request->city_name,
+                'company_logo' => $request->company_logo,
+                'ibr' => $request->ibr,
+            ];
+            $business = \DB::transaction(function () use ($data){
+                $business = Business::create($data);
+                User::where('id', auth()->id())->update(['business_id' => $business->id]);
+                $transaction =  Transaction::create([
+                    'business_id' => $business->id,
+                    'package_id' => 9,
+                    'amount' => 0,
+                ]);
+
+                $transaction->businessPackage()->create([
+                    'business_id' => $transaction->business_id,
+                    'transaction_id' => $transaction->id,
+                    'package_id' => $transaction->package_id,
+                    'package_amount' => $transaction->amount,
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addMonthNoOverflow(3),
+                ]);
+
+                return $business;
+            });
+            if ($business->wasRecentlyCreated) {
+                return response()->json($business, 201);
+            }
+            else {
+                return response()->json(['message' => 'There are some internal error to proceeding your request'], 500);
+            }
         }
-        else {
-            return response()->json(['message' => 'There are some internal error to proceeding your request'], 500);
-        }
+        return response()->json(['error' => 'Access forbidden!!!'], 403);
     }
 
     public function update(Request $request, $id): JsonResponse
@@ -142,7 +158,7 @@ class BusinessController extends Controller
             'bank_name' => $request->bank_name,
         ];
 
-        $businessPackage = DB::transaction(function () use ($data, $request, $previousBusinessPackage) {
+        $transaction = DB::transaction(function () use ($data, $request, $previousBusinessPackage) {
             $transaction = Transaction::create($data);
 
             if ($request->package_type == 1)    /* 1 => monthly */{
@@ -178,7 +194,7 @@ class BusinessController extends Controller
                 }
             }
 
-            $businessPackage = $previousBusinessPackage->update([
+            $previousBusinessPackage->update([
                 'transaction_id' => $transaction->id,
                 'package_id' => $transaction->package_id,
                 'package_type' => $request->package_type,
@@ -203,15 +219,12 @@ class BusinessController extends Controller
                 $this->getTopIBRParent($ibr, $amount, $businessID, $directCommission);
             }
 
-            return $businessPackage;
+            return $transaction;
         });
 
-        if ($businessPackage->wasRecentlyCreated) {
+        if ($transaction->wasRecentlyCreated) {
             /* status 201 => created */
-            return response()->json([
-                'success' => 'Business package updated successfully!',
-                'businessPackage' => $businessPackage
-            ], 201);
+            return response()->json(['success' => 'Business package updated successfully!'], 201);
         }
         else {
             return response()->json(['message' => 'There are some internal error to proceeding your request. Try again later'], 500);

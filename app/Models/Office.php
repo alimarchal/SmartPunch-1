@@ -11,7 +11,7 @@ class Office extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['business_id','parent_id','name','email','address','city','coordinates','phone','country'];
+    protected $fillable = ['business_id','parent_id','name','email','address','city','inner_coordinates','outer_coordinates','phone','country'];
 
     public function business(): HasOne
     {

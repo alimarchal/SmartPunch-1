@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReportController;
@@ -21,10 +24,20 @@ use Spatie\Permission\Models\Role;
 |
 */
 
+//Route::get("/clear", function () {
+//    $role = Role::create(['name' => 'hr']);
+//    $permission = Permission::findById(18);
+//    $role->givePermissionTo($permission);
+//     Artisan::call('config:clear');
+//     Artisan::call('permission:cache-reset');
+//     echo "cleared...";
+// });
+
 Route::get('/', function () {
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
 })->name('home');
+Route::get('lang/{locale}', [LocalizationController::class, 'index'])->name('localization.index');
 /*
 Route::get('/config-clear', function() {
     Artisan::call('config:clear');
@@ -35,7 +48,26 @@ Route::get('/config-clear', function() {
     // Do whatever you want either a print a message or exit
 });
 */
-Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function () {
+
+/* Policy Terms and conditions view */
+Route::get('/policy-terms-and-conditions', function () {
+    return view('terms');
+})->name('TermsAndPolicy');
+
+/* For redirecting employees to policy and procedure view after they verify their email ID */
+Route::get('/terms-policy-and-procedure', function () {
+    return view('confirmTermsAndPolicy');
+})->name('confirmTermsAndPolicy');
+
+/* For redirecting employees to dashboard after they accept policy and procedures */
+Route::get('/terms-policy-and-procedure-accept', function () {
+    if (!auth()->user()->hasRole('admin') && auth()->user()->terms == 0){
+        auth()->user()->update(['terms' => 1]);
+    }
+    return to_route('dashboard');
+})->name('termsAndPolicyAccepted');
+
+Route::middleware(['auth:sanctum', 'verified', 'accountStatus', 'locale', 'policyAndProcedureCheck'])->group(function () {
 
     /* Checking whether business details present or not previously (if Present will be redirected back) */
     Route::middleware(['businessCreateCheck'])->group(function () {
@@ -49,7 +81,7 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
 
     /* Checking whether business details present or not previously (if Present will be redirected to business Create function)*/
     Route::middleware(['businessCheck', 'package_expired'])->group(function () {
-        Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         /* Business Routes Start */
         Route::prefix('business')->group(function () {
@@ -79,15 +111,33 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             Route::get('edit/{userID}', [EmployeeController::class, 'edit'])->name('employeeEdit')->middleware('permission:update employee');
             Route::post('edit/{userID}', [EmployeeController::class, 'update']);
             Route::get('show/{userID}', [EmployeeController::class, 'show'])->name('employeeShow');
+            Route::get('teams', [EmployeeController::class, 'teams'])->name('employeeTeams');
+            Route::get('teams/employees/{id}', [EmployeeController::class, 'teamEmployeesView'])->name('teamEmployeesView');
             Route::get('delete/{userID}', [EmployeeController::class, 'delete'])->name('employeeDelete');
             Route::post('permissions-search', [EmployeeController::class, 'permissions'])->name('permissionsSearch');
+            Route::get('show/{userID}/attendance', [EmployeeController::class, 'show'])->name('employeeAttendanceShowByMonth');
         });
         /* Employee Routes End */
+
+        /* Messages Controller Start*/
+        Route::prefix('message')->group(function () {
+            Route::get('/to/employee', [MessageController::class, 'toEmployee'])->name('message.toEmployee');
+            Route::post('/to/employee', [MessageController::class, 'sendMessageToEmployee']);
+            Route::get('/to/teams', [MessageController::class, 'toTeams'])->name('message.toTeams');
+            Route::post('/by/teams/', [MessageController::class, 'byTeams'])->name('message.byTeams');
+            Route::post('/to/teams', [MessageController::class, 'sendMessageToTeams']);
+            Route::get('/employees/present/in/team/{id}', [MessageController::class, 'teamEmployeesView'])->name('message.teamEmployeesView');
+        });
+        /* Messages Controller End*/
 
         /* Profile Update Routes */
         Route::get('profile/update/', [EmployeeController::class, 'profileEdit'])->name('userProfileEdit');
         Route::post('profile/update/', [EmployeeController::class, 'profileUpdate']);
         /* Profile Update Routes */
+
+        /* Attendance from WEB */
+        Route::get('attendance', [EmployeeController::class, 'attendance'])->name('attendance.create');
+        Route::post('attendance/', [EmployeeController::class, 'saveAttendance']);
 
         /* Schedule Routes Start */
         Route::prefix('schedule')->middleware('permission:view schedule')->group(function () {
@@ -103,9 +153,18 @@ Route::middleware(['auth:sanctum', 'verified', 'accountStatus'])->group(function
             });
         });
         /* Schedule Routes End */
+
+        // Report
+        Route::prefix('reports')->middleware('permission:view reports')->group(function () {
+            Route::get('/', [ReportController::class, 'index'])->name('report.index');
+            Route::get('/by-office', [ReportController::class, 'byOfficeView'])->name('byOffice');
+            Route::get('/by-office-id', [ReportController::class, 'byOfficeID'])->name('byOfficeID');
+            Route::get('/by-employee', [ReportController::class, 'byEmployeeBusinessIDView'])->name('byEmployeeBusiness');
+            Route::get('/by-employee-id', [ReportController::class, 'byEmployeeBusinessID'])->name('byEmployeeBusinessID');
+            Route::get('/by-employee-id-show/{id}', [ReportController::class, 'byEmployeeBusinessIDShow'])->name('byEmployeeBusinessIDShow');
+            Route::get('/by-team', [ReportController::class, 'reportByTeam'])->name('reportByTeam');
+        });
     });
 
-// Report
-    Route::get('reports', [ReportController::class, 'index'])->name('report.index');
     Route::get('teamViewShow', [\App\Http\Controllers\TeamViewController::class, 'show'])->name('teamView.show');
 });

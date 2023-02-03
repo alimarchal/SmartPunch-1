@@ -8,9 +8,9 @@ use App\Http\Middleware\BusinessCheck;
 use App\Http\Middleware\BusinessCreateCheck;
 use App\Http\Middleware\emailVerified;
 use App\Http\Middleware\ibrAuthenticated;
-use App\Http\Middleware\IbrUsers;
-use App\Http\Middleware\PackageExpired;
-use App\Http\Middleware\SuperAdmin;
+use App\Http\Middleware\locale;
+use App\Http\Middleware\packageExpired;
+use App\Http\Middleware\PolicyAndProcedureCheck;
 use App\Http\Middleware\webUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
@@ -48,6 +48,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            /* Below middleware used for saving only session locale */
+//            \App\Http\Middleware\Localization::class,
         ],
 
         'api' => [
@@ -83,5 +85,7 @@ class Kernel extends HttpKernel
         'email_verified' => api_verfied_email::class,
         'package_expired' => packageExpired::class,
         'permission' => PermissionMiddleware::class,
+        'locale' => locale::class,
+        'policyAndProcedureCheck' => PolicyAndProcedureCheck::class,
     ];
 }
