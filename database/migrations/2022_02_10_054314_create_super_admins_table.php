@@ -26,17 +26,6 @@ class CreateSuperAdminsTable extends Migration
             $table->timestamps();
         });
 
-        $superAdminRole = Role::with('permissions')->where('name', 'super admin')->first();
-        $permission = Permission::where('name', 'suspend business')->first();;
-
-        SuperAdmin::create([
-            'name' => 'SmartPunch',
-            'email' => 'admin@smartpunch.app',
-            'password' => \Illuminate\Support\Facades\Hash::make(123456789),
-            'role' => 1,
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-        ])->assignRole($superAdminRole)->syncPermissions($permission);
     }
 
     /**

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\BusinessPackages;
 use App\Models\Country;
 use App\Models\Office;
+use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -58,6 +61,24 @@ class BusinessController extends Controller
         $business = Business::create($data);
 
         User::where('id', auth()->id())->update(['business_id' => $business->id]);
+
+        $transaction = Transaction::create([
+            'business_id' => $business->id,
+            'package_id' => 9,
+            'package_type' => 1,
+            'amount' => 0,
+        ]);
+
+        $business_packages = BusinessPackages::create([
+            'business_id' => $business->id,
+            'transaction_id' => $transaction->id,
+            'package_id' => 9,
+            'package_type' => 1,
+            'package_amount' => 0,
+            'start_date' => now(),
+            'end_date' => Carbon::now()->addMonth(1),
+            'status' => 1,
+        ]);
 
         return redirect()->route('dashboard')->with('success', 'Business details added successfully!');
     }

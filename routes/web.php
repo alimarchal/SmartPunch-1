@@ -34,6 +34,7 @@ use Spatie\Permission\Models\Role;
 // });
 
 Route::get('/', function () {
+
     $packages = \App\Models\Package::get()->take(8);
     return view('welcome', compact('packages'));
 })->name('home');
